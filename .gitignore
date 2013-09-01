@@ -1,1 +1,31 @@
+# Idea IntelliJ project settings
+*.iml
+.idea/
+.idea/**/*
+
+# Eclipse project settings
+.metadata
+.settings/
+.settings/**/*
+.classpath
+.project
+
+# Maven
 target/
+target/**/*
+overlays/
+overlays/**/*
+
+# Log files
+*.log
+
+# Operating system stuff
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
