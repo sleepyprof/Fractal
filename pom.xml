@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <fractal.version>0.1-SNAPSHOT</fractal.version>
+    </properties>
+
+    <groupId>de.gdietz.fractal</groupId>
+    <artifactId>fractal.buildhelper</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <name>fractal.buildhelper</name>
+
+    <packaging>pom</packaging>
+
+    <!-- local, non-Maven libraries -->
+
+    <repositories>
+        <repository>
+            <id>local-project-libraries</id>
+            <name>Local project libraries</name>
+            <url>file://${project.basedir}/lib</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <!-- ********** Modules ********** -->
+
+    <modules>
+        <module>Utilities</module>
+        <module>Fractal</module>
+        <module>FractalViews</module>
+        <module>Animation</module>
+        <module>Fractal3D</module>
+        <module>Precise</module>
+        <module>Newton</module>
+        <module>Braid</module>
+        <module>Main</module>
+    </modules>
+
+    <!-- ********** Dependencies ********** -->
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Own modules -->
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>utilities</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>fractal</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>fractal.views</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>animation</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>fractal3d</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>precise</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>newton</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>braid</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
+            <!-- Logging -->
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+            </dependency>
+
+            <!-- Java3D -->
+
+            <dependency>
+                <groupId>java3d</groupId>
+                <artifactId>j3d-core</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>java3d</groupId>
+                <artifactId>j3d-core-utils</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
