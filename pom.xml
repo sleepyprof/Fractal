@@ -24,6 +24,12 @@
             <url>file://${project.basedir}/lib</url>
             <layout>default</layout>
         </repository>
+        <repository>
+            <id>local-sub-project-libraries</id>
+            <name>Local sub-project libraries</name>
+            <url>file://${project.basedir}/../lib</url>
+            <layout>default</layout>
+        </repository>
     </repositories>
 
     <!-- ********** Modules ********** -->
