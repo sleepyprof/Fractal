@@ -1,6 +1,10 @@
 package de.gdietz.imageio;
 
-//import ch.randelshofer.media.quicktime.QuickTimeOutputStream;
+import org.monte.media.Format;
+import org.monte.media.FormatKeys;
+import org.monte.media.VideoFormatKeys;
+import org.monte.media.math.Rational;
+import org.monte.media.quicktime.QuickTimeWriter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,59 +27,64 @@ public class MovWriter {
     private class SaveTask extends SwingWorker<Void, Void> implements SaveTaskInterface {
 
         private void writeTo(File file) throws IOException {
-/*
             int frames = deliverer.getFrames();
             if (frames == 0)
                 return;
 
-            QuickTimeOutputStream.VideoFormat format = QuickTimeOutputStream.VideoFormat.PNG;
-            float quality = 1.0f;
-            int timeScale = 10;
-            QuickTimeOutputStream out = new QuickTimeOutputStream(file, format);
-            out.setVideoCompressionQuality(quality);
-            out.setTimeScale(timeScale);
+            BufferedImage image = deliverer.getImage(0);
+            int width = image.getWidth();
+            int height = image.getHeight();
 
-            BufferedImage image;
+            QuickTimeWriter out = null;
+            try {
+                out = new QuickTimeWriter(file);
+                Format format = new Format(VideoFormatKeys.EncodingKey, VideoFormatKeys.ENCODING_QUICKTIME_PNG, VideoFormatKeys.DepthKey, 24);
+                format = format.prepend(VideoFormatKeys.MediaTypeKey, FormatKeys.MediaType.VIDEO, VideoFormatKeys.FrameRateKey, new Rational(10, 1),
+                        VideoFormatKeys.WidthKey, width, VideoFormatKeys.HeightKey, height);
+                out.addTrack(format);
+                out.setVideoColorTable(0, image.getColorModel());
 
-            for (int frame = 0; frame < frames - 1; frame++) {
-                setFramesProgress(frame);
+                for (int frame = 0; frame < frames - 1; frame++) {
+                    setFramesProgress(frame);
+                    if (isCancelled()) {
+                        out.close();
+                        return;
+                    }
+                    image = deliverer.getImage(frame);
+                    out.write(0, image, 1);
+                }
+
+                setFramesProgress(frames - 1);
                 if (isCancelled()) {
                     out.close();
                     return;
                 }
-                image = deliverer.getImage(frame);
-                out.writeFrame(image, 1);
-            }
+                image = deliverer.getImage(frames - 1);
+                out.write(0, image, 20);
 
-            setFramesProgress(frames - 1);
-            if (isCancelled()) {
-                out.close();
-                return;
-            }
-            image = deliverer.getImage(frames - 1);
-            out.writeFrame(image, 20);
+                for (int frame = frames - 2; frame > 0; frame--) {
+                    setFramesProgress(2 * frames - frame - 2);
+                    if (isCancelled()) {
+                        out.close();
+                        return;
+                    }
+                    image = deliverer.getImage(frame);
+                    out.write(0, image, 1);
+                }
 
-            for (int frame = frames - 2; frame > 0; frame--) {
-                setFramesProgress(2 * frames - frame - 2);
+                setFramesProgress(2 * frames - 2);
                 if (isCancelled()) {
                     out.close();
                     return;
                 }
-                image = deliverer.getImage(frame);
-                out.writeFrame(image, 1);
-            }
+                image = deliverer.getImage(0);
+                out.write(0, image, 20);
 
-            setFramesProgress(2 * frames - 2);
-            if (isCancelled()) {
-                out.close();
-                return;
+                setFramesProgress(2 * frames - 1);
+            } finally {
+                if (out != null)
+                    out.close();
             }
-            image = deliverer.getImage(0);
-            out.writeFrame(image, 20);
-
-            setFramesProgress(2 * frames - 1);
-            out.close();
-*/
         }
 
         public int getMaximum() {
