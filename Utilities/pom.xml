@@ -19,6 +19,13 @@
 
     <dependencies>
 
+        <!-- Monte Media Library -->
+
+        <dependency>
+            <groupId>org.monte</groupId>
+            <artifactId>monte-cc</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
