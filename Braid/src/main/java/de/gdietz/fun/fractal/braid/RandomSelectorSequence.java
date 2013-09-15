@@ -23,7 +23,7 @@ public class RandomSelectorSequence implements SelectorSequence {
         this(number, false);
     }
 
-	private void createNewSelectors(int index) {
+	private synchronized void createNewSelectors(int index) {
 		while(selectors.size() <= index) {
 			int selector = random.nextInt(number) + 1;
             if (negative && random.nextInt(2) == 1)
