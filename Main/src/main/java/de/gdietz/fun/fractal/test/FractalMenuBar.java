@@ -1,6 +1,7 @@
 package de.gdietz.fun.fractal.test;
 
 import de.gdietz.fun.fractal.view.SaveableView;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,8 @@ public class FractalMenuBar extends JMenuBar implements ActionListener {
     private final FractalWindow window;
 
     private final FileSelector fileSelector;
+
+    private static Logger log = Logger.getLogger(FractalMenuBar.class);
 
     public FractalMenuBar(FractalWindow window) {
         this.window = window;
@@ -61,7 +64,7 @@ public class FractalMenuBar extends JMenuBar implements ActionListener {
             if (file != null)
                 view.writeTo(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Could not save to file", e);
         }
         window.setCursor(Cursor.getDefaultCursor());
     }

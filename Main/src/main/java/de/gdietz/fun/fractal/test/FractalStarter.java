@@ -153,8 +153,11 @@ public class FractalStarter implements ListSelectionListener {
 
     protected static void go(Type type, boolean endless, boolean resizeable) {
         if (type == Type.MANDEL3D || type == Type.JULIA3D) {
-            if (checkJava3D() == null)
+            if (checkJava3D() == null) {
                 JOptionPane.showMessageDialog(null, "Java 3D not properly installed!", "Java 3D Error", JOptionPane.ERROR_MESSAGE);
+                log.warn("Could not start Java3D environment. Exiting.");
+                return;
+            }
         }
 
         switch (type) {
@@ -262,7 +265,7 @@ public class FractalStarter implements ListSelectionListener {
         try {
             pathToJar = FractalStarter.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error("Could not find FractalStarter class", e);
         }
 
         String classPath;
@@ -281,7 +284,7 @@ public class FractalStarter implements ListSelectionListener {
                 log.info(info);
                 pb.start();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Could not start new FractalStarter process", e);
             }
         } else {
             log.error("Could not locate class. Fallback to normal start.");
@@ -305,7 +308,7 @@ public class FractalStarter implements ListSelectionListener {
             Map properties = VirtualUniverse.getProperties();
             return  properties.get("j3d.version").toString();
         } catch (Throwable e) {
-            e.printStackTrace();
+            log.warn("Could not get Java3D version", e);
             return null;
         }
     }
@@ -316,7 +319,7 @@ public class FractalStarter implements ListSelectionListener {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warn("Could not set look&feel", e);
         }
         System.setProperty("apple.laf.useScreenMenuBar", "true");
     }

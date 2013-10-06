@@ -1,5 +1,6 @@
 package de.gdietz.imageio;
 
+import org.apache.log4j.Logger;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
 import org.monte.media.VideoFormatKeys;
@@ -19,6 +20,8 @@ public class MovWriter {
     private final ImageDeliverer deliverer;
     private final File file;
     private final Component parent;
+
+    private static Logger log = Logger.getLogger(MovWriter.class);
 
     private interface SaveTaskInterface {
         public boolean cancel(boolean mayInterruptIfRunning);
@@ -107,7 +110,7 @@ public class MovWriter {
             try{
                 writeTo(file);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Could not write to file", e);
             }
             return null;
         }
