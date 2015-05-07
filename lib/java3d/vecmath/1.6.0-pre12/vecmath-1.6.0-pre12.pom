@@ -3,6 +3,6 @@
   <groupId>java3d</groupId>
   <artifactId>vecmath</artifactId>
   <name>vecmath</name>
-  <version>1.6.0-pre8</version>
+  <version>1.6.0-pre12</version>
   <url>http://jogamp.org/deployment/java3d/</url>
 </project>
