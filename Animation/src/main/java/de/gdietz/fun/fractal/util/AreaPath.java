@@ -27,8 +27,11 @@ public class AreaPath implements Path<Coordinate> {
         if (t < 0.0) t = 0.0;
         if (t >= 1.0) t = 1.0;
         Coordinate split = getSplit(t);
+        if (t <= 0.5)
+            return new Coordinate(from.getX() * (1.0 - split.getX()) + to.getX() * split.getX(),
+                    from.getY() * (1.0 - split.getY()) + to.getY() * split.getY());
         return new Coordinate(from.getX() * (1.0 - split.getX()) + to.getX() * split.getX(),
-                from.getY() * (1.0 - split.getY()) + to.getY() * split.getY());
+                from.getY() * split.getY() + to.getY() * (1.0 - split.getY()));
     }
 
 
