@@ -87,6 +87,11 @@
             <artifactId>braid</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>de.gdietz.fractal</groupId>
+            <artifactId>fractal.scala</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

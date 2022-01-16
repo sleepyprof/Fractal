@@ -46,7 +46,8 @@ public class FractalStarter implements ListSelectionListener {
         MANDEL_ZOOM("Mandelbrot Zoom Animation", true, false),
         JULIA_ZOOM("Julia Set Zoom Animation", true, false),
         MANDEL_SURFACE("Mandelbrot Set Surface", false, false),
-        JULIA_SURFACE("Julia Set Surface", false, false);
+        JULIA_SURFACE("Julia Set Surface", false, false),
+        SCALA("Scala Fractal", true, true);
 
         public final String description;
         public final boolean hasResizeable;
@@ -241,6 +242,9 @@ public class FractalStarter implements ListSelectionListener {
                 break;
             case JULIA_SURFACE:
                 new FractalViewsTest(FractalViewsGUI.ViewType.SURFACE, true, true);
+                break;
+            case SCALA:
+                new FractalScalaTest(endless, resizeable);
                 break;
             default:
                 throw new AssertionError("Unknown Selection");

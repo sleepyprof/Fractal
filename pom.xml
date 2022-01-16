@@ -6,6 +6,9 @@
 
     <properties>
         <fractal.version>0.1-SNAPSHOT</fractal.version>
+        <scala.version>2.13.7</scala.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <groupId>de.gdietz.fractal</groupId>
@@ -43,6 +46,7 @@
         <module>Precise</module>
         <module>Newton</module>
         <module>Braid</module>
+        <module>FractalScala</module>
         <module>Main</module>
     </modules>
 
@@ -101,6 +105,12 @@
                 <version>${fractal.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>de.gdietz.fractal</groupId>
+                <artifactId>fractal.scala</artifactId>
+                <version>${fractal.version}</version>
+            </dependency>
+
             <!-- Logging -->
 
             <dependency>
@@ -143,6 +153,20 @@
                 <groupId>org.jogamp.jogl</groupId>
                 <artifactId>jogl-all-main</artifactId>
                 <version>2.3.1</version>
+            </dependency>
+
+            <!-- Scala -->
+
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-compiler</artifactId>
+                <version>${scala.version}</version>
             </dependency>
 
         </dependencies>
