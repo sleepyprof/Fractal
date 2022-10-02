@@ -6,7 +6,7 @@
 
     <properties>
         <fractal.version>0.1-SNAPSHOT</fractal.version>
-        <scala.version>2.13.7</scala.version>
+        <scala.version>2.13.9</scala.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>

@@ -15,7 +15,7 @@ import java.util.Observable;
 
 public class FractalTilesSelector extends JPanel implements FractalView {
 
-    private final FractalTilesModel model;
+    private final FractalTilesModel<?> model;
     private final SizeTilesController controller;
 
     private final JNumberCachedTextField textTilesX;
@@ -30,7 +30,7 @@ public class FractalTilesSelector extends JPanel implements FractalView {
         }
     }
 
-    public FractalTilesSelector(FractalTilesModel model, FractalTilesController controller) {
+    public FractalTilesSelector(FractalTilesModel<?> model, FractalTilesController controller) {
         super(new GridBagLayout());
 
         JLabel labelTiles = new JLabel("Tiles:");

@@ -15,20 +15,20 @@ public class AffineOperator<T extends Tuple<T>, O extends LinearOperator<T, O>> 
     }
 
     public AffineOperator<T, O> compose(AffineOperator<T, O> aff) {
-        return new AffineOperator<T, O>(op.compose(aff.op), op.operate(aff.trans).add(trans));
+        return new AffineOperator<>(op.compose(aff.op), op.operate(aff.trans).add(trans));
     }
 
     public AffineOperator<T, O> add(AffineOperator<T, O> aff) {
-        return new AffineOperator<T, O>(op.add(aff.op), trans.add(aff.trans));
+        return new AffineOperator<>(op.add(aff.op), trans.add(aff.trans));
     }
 
     public AffineOperator<T, O> multiply(double r) {
-        return new AffineOperator<T, O>(op.multiply(r), trans.multiply(r));
+        return new AffineOperator<>(op.multiply(r), trans.multiply(r));
     }
 
     public AffineOperator<T, O> inverse() throws NonInvertibleOperatorException {
         O inv = op.inverse();
-        return new AffineOperator<T, O>(inv, inv.operate(trans).negate());
+        return new AffineOperator<>(inv, inv.operate(trans).negate());
     }
 
 }

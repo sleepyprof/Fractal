@@ -10,7 +10,7 @@ public class CalculationObservable extends Observable implements CalculationList
     private Vector<CalculationListener> listeners;
 
     public CalculationObservable() {
-    	listeners = new Vector<CalculationListener>();
+    	listeners = new Vector<>();
     }
 
     public synchronized void addCalculationListener(CalculationListener listener) {

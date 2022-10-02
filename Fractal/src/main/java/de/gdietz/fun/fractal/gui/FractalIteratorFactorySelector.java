@@ -13,7 +13,7 @@ import java.text.NumberFormat;
 
 public class FractalIteratorFactorySelector<T extends Tuple<T>> extends JPanel implements ActionListener {
 
-	private final JComboBox comboBoxFunc;
+	private final JComboBox<FractalIteratorData<T>> comboBoxFunc;
     private final JNumberCachedTextField textMaxiter;
 
     private final JButton setButton;
@@ -61,7 +61,7 @@ public class FractalIteratorFactorySelector<T extends Tuple<T>> extends JPanel i
 
         JLabel labelFunc = new JLabel("f:");
 
-		comboBoxFunc = new JComboBox();
+		comboBoxFunc = new JComboBox<>();
         comboBoxFunc.addActionListener(this);
 
         NumberFormat format = NumberFormat.getInstance();
@@ -102,7 +102,7 @@ public class FractalIteratorFactorySelector<T extends Tuple<T>> extends JPanel i
     }
 
 	public void addIteratorFactory(FractalIteratorFactory<T> iteratorFactory, int maxiter, String description) {
-		FractalIteratorData<T> iteratorData = new FractalIteratorData<T>(iteratorFactory, maxiter, description);
+		FractalIteratorData<T> iteratorData = new FractalIteratorData<>(iteratorFactory, maxiter, description);
 		addIteratorData(iteratorData);
 	}
 

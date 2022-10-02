@@ -29,7 +29,7 @@ public class FractalAnimCombinedPicture<D> implements FractalPicture<Coordinate>
                 model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_ARGB);
         for (int y = 0; y < model.getHeight(); y++) {
             for (int x = 0; x < model.getWidth(); x++) {
-                List<D> data = new ArrayList<D>();
+                List<D> data = new ArrayList<>();
                 for (int frame = 0; frame < model.getFrames(); frame++) {
                     D d = model.getData(x, y, frame);
                     data.add(d);

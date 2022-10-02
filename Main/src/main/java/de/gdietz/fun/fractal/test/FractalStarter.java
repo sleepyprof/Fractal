@@ -74,16 +74,16 @@ public class FractalStarter implements ListSelectionListener {
     private static final int[] HEAPSIZESMEGS = {256, 512, 768, 1024, 1536, 2048, 3072, 4096};
     private static final int MINHEAPINDEX = 2;
 
-    private final JList configList;
+    private final JList<Type> configList;
 
     private final JCheckBox endlessCB;
     private final JCheckBox resizeableCB;
 
-    private final JComboBox heapCombo;
+    private final JComboBox<String> heapCombo;
 
     private final ImageIcon icon;
     
-    private static Logger log = Logger.getLogger(FractalStarter.class);
+    private final static Logger log = Logger.getLogger(FractalStarter.class);
 
     private static class CloseDialogOnDoubleclickListener extends MouseAdapter {
 
@@ -104,11 +104,11 @@ public class FractalStarter implements ListSelectionListener {
     }
 
     public FractalStarter() {
-        configList = new JList(Type.values());
+        configList = new JList<>(Type.values());
         configList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         configList.setSelectedIndex(0);
 
-        Type type = (Type) configList.getSelectedValue();
+        Type type = configList.getSelectedValue();
 
         endlessCB = new JCheckBox((type.defaultEndless ? "" : "No " ) + "Endless Iteration", true);
         resizeableCB = new JCheckBox("Resizeable", true);
@@ -122,7 +122,7 @@ public class FractalStarter implements ListSelectionListener {
         for (int c = 0; c < HEAPSIZESMEGS.length; c++)
             heapSizeStrs[c + 1] = "heap size " + String.valueOf(HEAPSIZESMEGS[c]) + "MB";
 
-        heapCombo = new JComboBox(heapSizeStrs);
+        heapCombo = new JComboBox<>(heapSizeStrs);
         if (heapSizeMegs < HEAPSIZESMEGS[MINHEAPINDEX] - 20)
             heapCombo.setSelectedIndex(MINHEAPINDEX + 1);
 
@@ -140,7 +140,7 @@ public class FractalStarter implements ListSelectionListener {
         if (result == JOptionPane.CANCEL_OPTION)
             return;
 
-        Type type = (Type) configList.getSelectedValue();
+        Type type = configList.getSelectedValue();
         boolean endless = !type.defaultEndless ^ endlessCB.isSelected();
         boolean resizeable = resizeableCB.isSelected();
 
@@ -256,7 +256,7 @@ public class FractalStarter implements ListSelectionListener {
     }
 
     public void valueChanged(ListSelectionEvent e) {
-        Type type = (Type) configList.getSelectedValue();
+        Type type = configList.getSelectedValue();
 
         endlessCB.setText((type.defaultEndless ? "" : "No " ) + "Endless Iteration");
 
@@ -282,10 +282,10 @@ public class FractalStarter implements ListSelectionListener {
             try {
                 ProcessBuilder pb = new ProcessBuilder("java", "-Xms" + heapSizeMegs + "m", "-Xmx" + heapSizeMegs + "m", "-classpath", classPath,
                         FractalStarter.class.getName(), type.name(), String.valueOf(endless), String.valueOf(resizeable));
-                String info = "Starting:";
+                StringBuilder info = new StringBuilder("Starting:");
                 for (String cmd : pb.command())
-                    info += " " + cmd;
-                log.info(info);
+                    info.append(" ").append(cmd);
+                log.info(info.toString());
                 pb.start();
             } catch (IOException e) {
                 log.error("Could not start new FractalStarter process", e);
@@ -309,8 +309,8 @@ public class FractalStarter implements ListSelectionListener {
 
     public static String checkJava3D() {
         try {
-            Map properties = VirtualUniverse.getProperties();
-            return  properties.get("j3d.version").toString();
+            Map<?, ?> properties = VirtualUniverse.getProperties();
+            return properties.get("j3d.version").toString();
         } catch (Throwable e) {
             log.warn("Could not get Java3D version", e);
             return null;

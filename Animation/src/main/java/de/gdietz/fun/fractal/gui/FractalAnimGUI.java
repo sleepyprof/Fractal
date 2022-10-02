@@ -65,24 +65,24 @@ public class FractalAnimGUI extends JPanel implements PaletteView, FractalIterat
 
         ColorStrategy<Integer> coloring = new SimpleColorStrategy(palette, false);
 
-        FractalAnimPicture<Coordinate> animLeft = new FractalAnimPictureImpl<Integer>(modelLeft, coloring);
-		animViewLeft = resizeable ? new FractalAnimScaledPictureView<Coordinate>(animLeft, pairedControllerLeft) :
-                new FractalAnimPictureView<Coordinate>(animLeft, pairedControllerLeft);
+        FractalAnimPicture<Coordinate> animLeft = new FractalAnimPictureImpl<>(modelLeft, coloring);
+		animViewLeft = resizeable ? new FractalAnimScaledPictureView<>(animLeft, pairedControllerLeft) :
+                new FractalAnimPictureView<>(animLeft, pairedControllerLeft);
 		JComponent controlViewLeft = new FractalAnimEditView(modelLeft, controllerLeft);
 		JPanel panelLeft = getPanel(animViewLeft, controlViewLeft);
 
         FractalPictureViewBase<Coordinate> pictureViewSecond = null;
 		JPanel panelRight = null;
         if (modelRight != null) {
-            FractalPicture<Coordinate> pictureRight = new FractalPictureImpl<Integer>(modelRight, coloring);
-            pictureViewSecond =  resizeable ? new FractalScaledPictureView<Coordinate>(pictureRight, pairedControllerRight) :
-                    new FractalPictureView<Coordinate>(pictureRight, pairedControllerRight);
+            FractalPicture<Coordinate> pictureRight = new FractalPictureImpl<>(modelRight, coloring);
+            pictureViewSecond =  resizeable ? new FractalScaledPictureView<>(pictureRight, pairedControllerRight) :
+                    new FractalPictureView<>(pictureRight, pairedControllerRight);
             JComponent controlViewRight = new FractalEditView(modelRight, controllerRight);
             panelRight = getPanel(pictureViewSecond, controlViewRight);
         }
         pictureViewRight = pictureViewSecond;
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

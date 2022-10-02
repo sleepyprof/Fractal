@@ -10,7 +10,7 @@ public class Calculator<X extends Normed> {
     private final Stack<X> stack;
 
     public Calculator() {
-        stack = new Stack<X>();
+        stack = new Stack<>();
     }
 
     public void reset() {

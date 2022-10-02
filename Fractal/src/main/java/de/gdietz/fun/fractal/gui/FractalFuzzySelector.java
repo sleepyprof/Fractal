@@ -31,7 +31,7 @@ public class FractalFuzzySelector extends JPanel implements FractalView {
 		}
 	}
 
-	public FractalFuzzySelector(FractalModel model, FractalFuzzyController controller, boolean showEpsilon) {
+	public FractalFuzzySelector(FractalModel<?> model, FractalFuzzyController controller, boolean showEpsilon) {
 		super(new GridBagLayout());
 
         labelLambda = new JLabel("\u03bb:");
@@ -67,7 +67,7 @@ public class FractalFuzzySelector extends JPanel implements FractalView {
 		update();
 	}
 
-    public FractalFuzzySelector(FractalModel model, FractalFuzzyController controller) {
+    public FractalFuzzySelector(FractalModel<?> model, FractalFuzzyController controller) {
         this(model, controller, false);
     }
 

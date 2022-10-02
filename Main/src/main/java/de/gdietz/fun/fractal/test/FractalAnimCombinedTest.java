@@ -40,16 +40,16 @@ public class FractalAnimCombinedTest extends FractalWindow {
         Coordinate from = new Coordinate(-delta, -delta);
         Coordinate to = new Coordinate(delta, delta);
 
-        Path<Coordinate> paramPath = new CachedPath<Coordinate>(new AreaPath(new Coordinate(-1.0, -1.0), new Coordinate(1.0, 1.0)));
+        Path<Coordinate> paramPath = new CachedPath<>(new AreaPath(new Coordinate(-1.0, -1.0), new Coordinate(1.0, 1.0)));
 
         gui = new FractalAnimCombinedGUI(defaultIteratorFactory, maxiter, width, height, frames, from, to, paramPath, julia, resizeable);
 
         AdvancedFractalIteratorFactorySelector<Coordinate> iteratorSelector = gui.getIteratorSelector();
 
-        List<IteratorFactoryCollection> collections = new ArrayList<IteratorFactoryCollection>();
-        collections.add(new IteratorFactoryFunctionCollection<Complex>(new ComplexFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Quaternion>(new QuaternionFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Vector3D>(new Vector3DFunctionCollection(), bound));
+        List<IteratorFactoryCollection> collections = new ArrayList<>();
+        collections.add(new IteratorFactoryFunctionCollection<>(new ComplexFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new QuaternionFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new Vector3DFunctionCollection(), bound));
         collections.add(new RealBraidIteratorFactoryCollection());
         collections.add(new ComplexBraidIteratorFactoryCollection());
 

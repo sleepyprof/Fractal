@@ -18,15 +18,15 @@ public class ComplexBraidIteratorFactoryCollection implements IteratorFactoryCol
     }
 
     public FractalIteratorFactory<Coordinate> getComplexBraidIteratorFactory(SelectorSequence seq) {
-        return new BraidIteratorFactory<Complex, Coordinate>(new ComplexIntersecDataCoordMapper(), seq);
+        return new BraidIteratorFactory<>(new ComplexIntersecDataCoordMapper(), seq);
     }
 
     public FractalIteratorFactory<Coordinate> getComplexBraidIteratorFactory(SmartSelectorSequence<IntersecData<Complex>> seq) {
-        return new BraidIteratorFactory<Complex, Coordinate>(new ComplexIntersecDataCoordMapper(), seq);
+        return new BraidIteratorFactory<>(new ComplexIntersecDataCoordMapper(), seq);
     }
 
     public List<FractalIteratorFactory<Coordinate>> getCollection() {
-        List<FractalIteratorFactory<Coordinate>> iteratorFactories = new ArrayList<FractalIteratorFactory<Coordinate>>();
+        List<FractalIteratorFactory<Coordinate>> iteratorFactories = new ArrayList<>();
 
         for(SelectorSequence seq : seqs)
             iteratorFactories.add(getComplexBraidIteratorFactory(seq));
@@ -35,7 +35,7 @@ public class ComplexBraidIteratorFactoryCollection implements IteratorFactoryCol
     }
 
     public List<FractalIteratorFactory<Coordinate3D>> getCollection3D() {
-        return new ArrayList<FractalIteratorFactory<Coordinate3D>>();
+        return new ArrayList<>();
     }
 
     public String getName() {

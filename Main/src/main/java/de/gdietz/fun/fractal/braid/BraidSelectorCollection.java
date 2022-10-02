@@ -6,7 +6,7 @@ import java.util.List;
 public class BraidSelectorCollection {
 
     public List<SelectorSequence> getSelectorSequenceCollection() {
-        List<SelectorSequence> seqs = new ArrayList<SelectorSequence>();
+        List<SelectorSequence> seqs = new ArrayList<>();
 
         seqs.add(new RandomSelectorSequence(2));
 

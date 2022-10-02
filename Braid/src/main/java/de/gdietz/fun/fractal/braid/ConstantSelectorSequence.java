@@ -13,7 +13,7 @@ public class ConstantSelectorSequence implements SelectorSequence {
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for(int selector : selectors) {
             sb.append(selector);
             sb.append(" ");

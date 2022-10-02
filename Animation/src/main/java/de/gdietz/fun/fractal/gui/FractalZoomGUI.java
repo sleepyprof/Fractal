@@ -39,13 +39,13 @@ public class FractalZoomGUI extends JPanel implements PaletteView, FractalIterat
 
         ColorStrategy<Integer> coloring = new SimpleColorStrategy(palette, false);
 
-        FractalAnimPicture<Coordinate> anim = new FractalZoomPictureImpl<Integer>(model, coloring);
-        animView = resizeable ? new FractalAnimScaledPictureView<Coordinate>(anim, pairedController) :
-                new FractalAnimPictureView<Coordinate>(anim, pairedController);
+        FractalAnimPicture<Coordinate> anim = new FractalZoomPictureImpl<>(model, coloring);
+        animView = resizeable ? new FractalAnimScaledPictureView<>(anim, pairedController) :
+                new FractalAnimPictureView<>(anim, pairedController);
         JComponent controlView = new FractalZoomEditView(model, controller);
         JPanel panel = getPanel(animView, controlView);
 
-        iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+        iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
         iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

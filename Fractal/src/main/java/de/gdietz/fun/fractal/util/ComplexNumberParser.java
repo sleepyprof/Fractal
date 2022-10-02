@@ -59,7 +59,7 @@ public class ComplexNumberParser {
     }
 
     private static List<ParsedInfo> parse(String source) {
-        List<ParsedInfo> result = new ArrayList<ParsedInfo>();
+        List<ParsedInfo> result = new ArrayList<>();
         String str = source.trim();
         while(!str.isEmpty()) {
             ParsedInfo info = parseSingle(str);

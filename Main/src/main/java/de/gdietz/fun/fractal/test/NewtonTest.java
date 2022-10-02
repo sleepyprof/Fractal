@@ -27,8 +27,8 @@ public class NewtonTest extends FractalWindow {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         FractalIteratorFactory<Coordinate> defaultIteratorFactory =
-                new ApfelIteratorFactory<Complex, Coordinate>(new ComplexCoordMapper(),
-                        new NewtonFunction<Complex>(new ApfelFunctionPow<Complex>(3)), new ClosedEyesTest<Complex>());
+                new ApfelIteratorFactory<>(new ComplexCoordMapper(),
+                        new NewtonFunction<>(new ApfelFunctionPow<Complex>(3)), new ClosedEyesTest<>());
 		int maxiter = 100;
         double bound = 100.0;
 
@@ -44,12 +44,12 @@ public class NewtonTest extends FractalWindow {
 
 		AdvancedFractalIteratorFactorySelector<Coordinate> iteratorSelector = gui.getIteratorSelector();
 
-        List<IteratorFactoryCollection> collections = new ArrayList<IteratorFactoryCollection>();
+        List<IteratorFactoryCollection> collections = new ArrayList<>();
         collections.add(new NewtonIteratorFactoryCollection());
         collections.add(new RealNewtonIteratorFactoryCollection());
-        collections.add(new IteratorFactoryFunctionCollection<Complex>(new ComplexFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Quaternion>(new QuaternionFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Vector3D>(new Vector3DFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new ComplexFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new QuaternionFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new Vector3DFunctionCollection(), bound));
         collections.add(new RealBraidIteratorFactoryCollection());
         collections.add(new ComplexBraidIteratorFactoryCollection());
 

@@ -14,19 +14,19 @@ public class GridPath implements Path<Coordinate> {
         if (n == 1) {
             double midX = (from.getX() + to.getX()) / 2;
             double midY = (from.getY() + to.getY()) / 2;
-            paths[0] = new LinePath<Coordinate>(new Coordinate(from.getX(), midY), new Coordinate(to.getX(), midY));
-            paths[1] = new LinePath<Coordinate>(new Coordinate(midX, from.getY()), new Coordinate(midX, to.getY()));
+            paths[0] = new LinePath<>(new Coordinate(from.getX(), midY), new Coordinate(to.getX(), midY));
+            paths[1] = new LinePath<>(new Coordinate(midX, from.getY()), new Coordinate(midX, to.getY()));
         } else {
             for (int cy = 0; cy < n; cy++) {
                 double y = ((n - 1 - cy) * from.getY() + cy * to.getY()) / (n - 1);
-                paths[cy] = new LinePath<Coordinate>(new Coordinate(from.getX(), y), new Coordinate(to.getX(), y));
+                paths[cy] = new LinePath<>(new Coordinate(from.getX(), y), new Coordinate(to.getX(), y));
             }
             for (int cx = 0; cx < n; cx++) {
                 double x = ((n - 1 - cx) * from.getX() + cx * to.getX()) / (n - 1);
-                paths[cx + n] = new LinePath<Coordinate>(new Coordinate(x, from.getY()), new Coordinate(x, to.getY()));
+                paths[cx + n] = new LinePath<>(new Coordinate(x, from.getY()), new Coordinate(x, to.getY()));
             }
         }
-        delegate = new LinkedPath<Coordinate>(paths, new CoordinateAffineTransformFactory());
+        delegate = new LinkedPath<>(paths, new CoordinateAffineTransformFactory());
     }
 
     public void setLimits(Coordinate from, Coordinate to) {

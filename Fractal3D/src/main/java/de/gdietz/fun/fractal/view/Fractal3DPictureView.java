@@ -144,7 +144,7 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
     }
 
     private List<Light> getLights() {
-        List<Light> lights = new ArrayList<Light>();
+        List<Light> lights = new ArrayList<>();
 
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
 
@@ -204,7 +204,7 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
     public BranchGroup createSceneGraph() {
         log.info("Calculating surfaces...");
 
-        points = new ArrayList<Point3f>();
+        points = new ArrayList<>();
 
         int size = model.getSize();
         for(int x=0; x <= size; x++) {
@@ -264,8 +264,8 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
         Transform3D inverseTransform = new Transform3D(currentTransform);
         inverseTransform.invert();
 
-        List<Point3d> intersections = new ArrayList<Point3d>();
-        List<Double> dists = new ArrayList<Double>();
+        List<Point3d> intersections = new ArrayList<>();
+        List<Double> dists = new ArrayList<>();
         for(int count=0; count<points.size(); count+=4) {
             Point3d p1 = new Point3d(points.get(count));
             Point3d p2 = new Point3d(points.get(count+1));

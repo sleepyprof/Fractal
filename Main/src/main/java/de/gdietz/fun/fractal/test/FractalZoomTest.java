@@ -42,17 +42,17 @@ public class FractalZoomTest extends FractalWindow {
 
         double alpha = 5;
 
-        Path<Coordinate> fromPath = new LogPath<Coordinate>(fromStart, fromEnd, alpha);
-        Path<Coordinate> toPath = new LogPath<Coordinate>(toStart, toEnd, alpha);
+        Path<Coordinate> fromPath = new LogPath<>(fromStart, fromEnd, alpha);
+        Path<Coordinate> toPath = new LogPath<>(toStart, toEnd, alpha);
 
         gui = new FractalZoomGUI(defaultIteratorFactory, maxiter, width, height, frames, fromPath, toPath, julia, resizeable);
 
         AdvancedFractalIteratorFactorySelector<Coordinate> iteratorSelector = gui.getIteratorSelector();
 
-        List<IteratorFactoryCollection> collections = new ArrayList<IteratorFactoryCollection>();
-        collections.add(new IteratorFactoryFunctionCollection<Complex>(new ComplexFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Quaternion>(new QuaternionFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Vector3D>(new Vector3DFunctionCollection(), bound));
+        List<IteratorFactoryCollection> collections = new ArrayList<>();
+        collections.add(new IteratorFactoryFunctionCollection<>(new ComplexFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new QuaternionFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new Vector3DFunctionCollection(), bound));
         collections.add(new RealBraidIteratorFactoryCollection());
         collections.add(new ComplexBraidIteratorFactoryCollection());
 

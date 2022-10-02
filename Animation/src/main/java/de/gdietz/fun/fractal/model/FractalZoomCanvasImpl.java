@@ -20,7 +20,7 @@ public class FractalZoomCanvasImpl implements FractalZoomCanvas {
 		this.width = width;
 		this.height = height;
         this.frames = frames;
-        pathPair = new ZoomPathPair<Coordinate>(fromPath, toPath);
+        pathPair = new ZoomPathPair<>(fromPath, toPath);
         calculateRatios();
         parameter = Coordinate.ORIGIN;
 	}

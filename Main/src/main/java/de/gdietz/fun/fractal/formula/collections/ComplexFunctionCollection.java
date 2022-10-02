@@ -15,28 +15,28 @@ public class ComplexFunctionCollection implements FunctionCollection<Complex> {
     public static final ParamCoordMapper<Complex, Complex, Coordinate3D> mapper3D = new ComplexCoord3DMapper();
     
     public FractalIteratorFactory<Coordinate> getApfelIteratorFactory(ApfelFunction<Complex> function, double bound) {
-        return new ApfelIteratorFactory<Complex, Coordinate>(mapper, function, new BoundaryTest<Complex>(bound));
+        return new ApfelIteratorFactory<>(mapper, function, new BoundaryTest<>(bound));
     }
 
     public FractalIteratorFactory<Coordinate3D> getApfel3DIteratorFactory(ApfelFunction<Complex> function, double bound) {
-        return new ApfelIteratorFactory<Complex, Coordinate3D>(mapper3D, function, new BoundaryTest<Complex>(bound));
+        return new ApfelIteratorFactory<>(mapper3D, function, new BoundaryTest<>(bound));
     }
 
     public List<ApfelFunction<Complex>> getCollection() {
-        List<ApfelFunction<Complex>> functions = new ArrayList<ApfelFunction<Complex>>();
+        List<ApfelFunction<Complex>> functions = new ArrayList<>();
 
         for (int n = 2; n <= 8; n++)
-            functions.add(new ApfelFunctionPow<Complex>(n));
+            functions.add(new ApfelFunctionPow<>(n));
 
         for (int n = 2; n <= 6; n++)
             for (int m = 1; m < n; m++)
-                functions.add(new ApfelFunctionPowSum<Complex>(n, m));
+                functions.add(new ApfelFunctionPowSum<>(n, m));
 
         for (int n = 1; n <= 5; n++)
             for (int m = 1; m <= 5; m++)
                 if (n != m) {
-                    functions.add(new ApfelFunctionMixedPow<Complex>(n, Complex.MINUS_ONE, m));
-                    functions.add(new ApfelFunctionMixedPow<Complex>(n, Complex.I, m));
+                    functions.add(new ApfelFunctionMixedPow<>(n, Complex.MINUS_ONE, m));
+                    functions.add(new ApfelFunctionMixedPow<>(n, Complex.I, m));
                 }
 
         for (int m = 1; m <= 4; m++)
@@ -52,7 +52,7 @@ public class ComplexFunctionCollection implements FunctionCollection<Complex> {
         functions.add(new ApfelFunctionExp());
 
         for (int n = 2; n <= 5; n++)
-            functions.add(new ApfelFunctionPow<Complex>(-n));
+            functions.add(new ApfelFunctionPow<>(-n));
 
         for (int n = 2; n <= 5; n++) {
             functions.add(new ApfelFunctionSinPow(n));
@@ -103,9 +103,9 @@ public class ComplexFunctionCollection implements FunctionCollection<Complex> {
                 functions.add(new ApfelFunctionLogTrigonHyperbolPow(n, func));
 
         for (int n = 2; n <= 5; n++) {
-            functions.add(new ApfelFunctionBubblePow<Complex>(-n, Complex.ZERO));
-            functions.add(new ApfelFunctionBubblePow<Complex>(-n, Complex.ONE));
-            functions.add(new ApfelFunctionBubblePow<Complex>(-n, Complex.I));
+            functions.add(new ApfelFunctionBubblePow<>(-n, Complex.ZERO));
+            functions.add(new ApfelFunctionBubblePow<>(-n, Complex.ONE));
+            functions.add(new ApfelFunctionBubblePow<>(-n, Complex.I));
         }
 
         return functions;

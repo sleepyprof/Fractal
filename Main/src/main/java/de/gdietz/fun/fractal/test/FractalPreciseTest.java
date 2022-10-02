@@ -45,8 +45,8 @@ public class FractalPreciseTest extends FractalWindow {
 
         AdvancedFractalPreciseIteratorFactorySelector<BigCoordinate> iteratorSelector = gui.getIteratorSelector();
 
-        List<PreciseIteratorFactoryCollection> collections = new ArrayList<PreciseIteratorFactoryCollection>();
-        collections.add(new PreciseIteratorFactoryFunctionCollection<BigComplex>(new BigComplexFunctionCollection(), bound, maxScale));
+        List<PreciseIteratorFactoryCollection> collections = new ArrayList<>();
+        collections.add(new PreciseIteratorFactoryFunctionCollection<>(new BigComplexFunctionCollection(), bound, maxScale));
 
         for(PreciseIteratorFactoryCollection collection : collections) {
             String collectionName = collection.getName();

@@ -42,18 +42,18 @@ public class FractalAnimCombinedGUI extends JPanel implements PaletteView, Fract
 
         ColorStrategy<Integer> coloring = new SimpleColorStrategy(palette, false);
 
-        FractalAnimPicture<Coordinate> anim = new FractalAnimPictureImpl<Integer>(model, coloring);
-		animView = resizeable ? new FractalAnimScaledPictureView<Coordinate>(anim, pairedControllerLeft) :
-                new FractalAnimPictureView<Coordinate>(anim, pairedControllerLeft);
+        FractalAnimPicture<Coordinate> anim = new FractalAnimPictureImpl<>(model, coloring);
+		animView = resizeable ? new FractalAnimScaledPictureView<>(anim, pairedControllerLeft) :
+                new FractalAnimPictureView<>(anim, pairedControllerLeft);
 
-        FractalPicture<Coordinate> picture = new FractalAnimCombinedPicture<Integer>(model, new IntegerCombiner(), coloring);
-        pictureView = resizeable ? new FractalScaledPictureView<Coordinate>(picture, pairedControllerRight) :
-                new FractalPictureView<Coordinate>(picture, pairedControllerRight);
+        FractalPicture<Coordinate> picture = new FractalAnimCombinedPicture<>(model, new IntegerCombiner(), coloring);
+        pictureView = resizeable ? new FractalScaledPictureView<>(picture, pairedControllerRight) :
+                new FractalPictureView<>(picture, pairedControllerRight);
 
         JComponent controlView = new FractalAnimEditView(model, controller);
 		JPanel panel = getPanel(animView, pictureView, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

@@ -50,25 +50,25 @@ public class FractalViewsGUI extends JPanel implements PaletteView, FractalItera
         FractalPicture<Coordinate> pictureLeft;
         switch(type) {
             case SURFACE:
-                pictureLeft = new FractalSurfacePicture<Integer>(model, heightStrategy, coloring);
+                pictureLeft = new FractalSurfacePicture<>(model, heightStrategy, coloring);
                 break;
             default:
                 throw new AssertionError("Unknown FractalGUI configuration.");
         }
 
-        pictureViewLeft = new FractalScaledPictureView<Coordinate>(pictureLeft, pairedControllerLeft);
+        pictureViewLeft = new FractalScaledPictureView<>(pictureLeft, pairedControllerLeft);
 
         FractalPictureViewBase<Coordinate> pictureViewSecond = null;
         if (second) {
-            FractalPicture<Coordinate> pictureRight = new FractalPictureImpl<Integer>(model, coloring);
-			pictureViewSecond =  new FractalScaledPictureView<Coordinate>(pictureRight, pairedControllerRight);
+            FractalPicture<Coordinate> pictureRight = new FractalPictureImpl<>(model, coloring);
+			pictureViewSecond = new FractalScaledPictureView<>(pictureRight, pairedControllerRight);
         }
         pictureViewRight = pictureViewSecond;
 
         JComponent controlView = new FractalEditView(model, controller);
         JPanel panel = getPanel(pictureViewLeft, pictureViewRight, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

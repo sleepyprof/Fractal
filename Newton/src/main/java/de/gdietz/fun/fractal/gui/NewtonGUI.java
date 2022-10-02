@@ -29,9 +29,9 @@ public class NewtonGUI extends JPanel implements PaletteView, FractalIteratorMan
 	                 Coordinate from, Coordinate to, boolean julia, boolean resizeable) {
 		super(new GridBagLayout());
 
-        IterateInfoProvider<Coordinate, FractalIterator<Coordinate>> infoProvider = new CoordinateInfoProvider();
+        IterateInfoProvider<Coordinate, Coordinate, FractalIterator<Coordinate>> infoProvider = new CoordinateInfoProvider();
 
-        FractalIterateModel<IterateInfo<Coordinate>> model = new FractalIterateInfoModel<Coordinate>(infoProvider, width, height, from, to, iteratorFactory, maxiter, julia);
+        FractalIterateModel<IterateInfo<Coordinate>> model = new FractalIterateInfoModel<>(infoProvider, width, height, from, to, iteratorFactory, maxiter, julia);
         model.setParameter(Complex.ONE);
 
 		controller = new FractalSimpleController(model);
@@ -45,14 +45,14 @@ public class NewtonGUI extends JPanel implements PaletteView, FractalIteratorMan
 
         ColorStrategy<IterateInfo<Coordinate>> coloring = new CoordinateColorStrategy(palette, 1.0);
 
-        FractalPicture<Coordinate> picture = new FractalPictureImpl<IterateInfo<Coordinate>>(model, coloring);
-        pictureView = resizeable ? new FractalScaledPictureView<Coordinate>(picture, pairedController) :
-                new FractalPictureView<Coordinate>(picture, pairedController);
+        FractalPicture<Coordinate> picture = new FractalPictureImpl<>(model, coloring);
+        pictureView = resizeable ? new FractalScaledPictureView<>(picture, pairedController) :
+				new FractalPictureView<>(picture, pairedController);
 
         JComponent controlView = new FractalEditView(model, controller);
 		JPanel panel = getPanel(pictureView, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

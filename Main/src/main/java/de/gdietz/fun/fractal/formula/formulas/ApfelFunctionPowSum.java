@@ -29,9 +29,9 @@ public class ApfelFunctionPowSum<X extends NormedSemiNumber<X>> implements Apfel
     public String toString() {
         if (exponents.length == 0)
             return "c";
-        String str = PowerUtils.powerString("z", exponents[0]);
+        StringBuilder str = new StringBuilder(PowerUtils.powerString("z", exponents[0]));
         for(int i = 1; i < exponents.length; i++)
-            str += " + " + PowerUtils.powerString("z", exponents[i]);
+            str.append(" + ").append(PowerUtils.powerString("z", exponents[i]));
         return str + " + c";
     }
 

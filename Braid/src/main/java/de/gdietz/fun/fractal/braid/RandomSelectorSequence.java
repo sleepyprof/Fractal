@@ -16,7 +16,7 @@ public class RandomSelectorSequence implements SelectorSequence {
 	public RandomSelectorSequence(int number, boolean negative) {
 		this.number = number;
         this.negative = negative;
-		selectors = new ArrayList<Integer>();
+		selectors = new ArrayList<>();
 	}
 
     public RandomSelectorSequence(int number) {

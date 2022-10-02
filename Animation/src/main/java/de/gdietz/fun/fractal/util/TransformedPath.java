@@ -9,7 +9,7 @@ public abstract class TransformedPath<T extends Tuple<T>> implements Path<T> {
     }
 
     public TransformedPath(T from, T to) {
-        this(new LinePath<T>(from, to));
+        this(new LinePath<>(from, to));
     }
 
     public void setLimits(T from, T to) {

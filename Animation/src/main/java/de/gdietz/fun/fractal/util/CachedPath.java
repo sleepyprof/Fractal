@@ -10,12 +10,12 @@ public class CachedPath<T extends Tuple<T>> implements Path<T> {
 
     public CachedPath(Path<T> path) {
         delegate = path;
-        cache = new Hashtable<Double, T>();
+        cache = new Hashtable<>();
     }
 
     public void setLimits(T from, T to) {
         delegate.setLimits(from, to);
-        cache = new Hashtable<Double, T>();
+        cache = new Hashtable<>();
     }
 
     public T getFrom() {

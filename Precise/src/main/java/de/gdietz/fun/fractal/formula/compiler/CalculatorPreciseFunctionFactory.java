@@ -62,11 +62,11 @@ public class CalculatorPreciseFunctionFactory<X extends BigNormed<X>> implements
     }
 
     public ApfelFunction<X> get() {
-        return new CalculatorPreciseFunction(new Calculator<X>());
+        return new CalculatorPreciseFunction(new Calculator<>());
     }
 
     public ApfelFunction<X> get(X p) {
-        return new ParamCalculatorPreciseFunction(new Calculator<X>(), p);
+        return new ParamCalculatorPreciseFunction(new Calculator<>(), p);
     }
 
     public int getMaxScale() {
@@ -74,13 +74,13 @@ public class CalculatorPreciseFunctionFactory<X extends BigNormed<X>> implements
     }
 
     public String toString() {
-        String str = "calculator: ";
+        StringBuilder str = new StringBuilder("calculator: ");
         for(int i = 0; i < algorithm.size(); i++) {
-            str += algorithm.get(i);
+            str.append(algorithm.get(i));
             if (i < algorithm.size() - 1)
-                str += ",";
+                str.append(",");
         }
-        return str;
+        return str.toString();
     }
 
 }
