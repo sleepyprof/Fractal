@@ -11,10 +11,11 @@ case class FractalScalaIteratorFactory(code: String) extends FractalIteratorFact
 
   def compile(): FractalIteratorDefinition = {
     val fullCode =
-      s"""import _root_.de.gdietz.fun.fractal.scala.util.Complex
-         |import _root_.de.gdietz.fun.fractal.util.Coordinate
-         |import _root_.de.gdietz.fun.fractal.scala.FractalIteratorDefinition
+      s"""import _root_.de.gdietz.fun.fractal.scala.FractalIteratorDefinition
+         |import _root_.de.gdietz.fun.fractal.scala.util._
          |import _root_.de.gdietz.fun.fractal.scala.util.Complex.i
+         |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
+         |import _root_.de.gdietz.fun.fractal.util.Coordinate
          |{
          |$code
          |}: FractalIteratorDefinition

@@ -5,70 +5,89 @@ import de.gdietz.fun.fractal.util.{ComplexNumberFormatter, Coordinate, Complex =
 import java.text.NumberFormat
 import scala.language.implicitConversions
 
-case class Complex(x: Double, y: Double = 0.0) {
+sealed trait OptComplex
+  extends OptHigherNumber[OptComplex, Complex]
+    with Product with Serializable {
 
-  def isZero: Boolean = x == 0.0 && y == 0.0
+  override val none: OptComplex = NoComplex
+  override val zero: Complex = Complex.zero
+  override val unit: Complex = Complex.one
 
-  def isUnit: Boolean = x == 1.0 && y == 0.0
+}
 
-  def normSqr: Double = x * x + y * y
+object OptComplex {
 
-  def norm: Double = Math.sqrt(normSqr)
+  def apply(x: Double, y: Double = 0.0): OptComplex =
+    Complex(x, y)
+
+  val none: OptComplex = NoComplex
+
+
+  implicit def doubleToOptComplex(x: Double): OptComplex =
+    Complex(x)
+
+  implicit def coordinateToOptComplex(c: Coordinate): OptComplex =
+    Complex(c.getX, c.getY)
+
+}
+
+
+case class Complex(x: Double, y: Double = 0.0)
+  extends OptComplex
+    with SomeHigherNumber[OptComplex, Complex] {
+
+  override def isZero: Boolean = x == 0.0 && y == 0.0
+
+  override def isUnit: Boolean = x == 1.0 && y == 0.0
+
+  override def normSqr: Double = x * x + y * y
+
+  override def norm: Double = Math.sqrt(normSqr)
 
   def arg: Double = {
     if (x == 0.0 && y == 0.0) return 0.0
     Math.atan2(y, x)
   }
 
-  def unary_- : Complex = Complex(-x, -y)
+  override def unary_- : Complex = Complex(-x, -y)
 
-  def +(r: Double): Complex = Complex(x + r, y)
+  override def +(r: Double): Complex = Complex(x + r, y)
 
-  def +(c: Complex): Complex = Complex(x + c.x, y + c.y)
+  override def +(c: Complex): Complex = Complex(x + c.x, y + c.y)
 
-  def -(r: Double): Complex = Complex(x - r, y)
+  override def -(r: Double): Complex = Complex(x - r, y)
 
-  def -(c: Complex): Complex = Complex(x - c.x, y - c.y)
+  override def -:(r: Double): Complex = Complex(r - x, -y)
 
-  def *(r: Double): Complex = Complex(r * x, r * y)
+  override def -(c: Complex): Complex = Complex(x - c.x, y - c.y)
 
-  def *(c: Complex): Complex = Complex(x * c.x - y * c.y, x * c.y + y * c.x)
+  override def *(r: Double): Complex = Complex(r * x, r * y)
 
-  def sqr: Complex = {
-    val h = x * y
-    Complex(x * x - y * y, h + h)
-  }
+  override def *(c: Complex): Complex = Complex(x * c.x - y * c.y, x * c.y + y * c.x)
 
-  def cube: Complex = {
-    val x2 = x * x
-    val y2 = y * y
-    Complex(x * (x2 - 3.0 * y2), (3.0 * x2 - y2) * y)
-  }
-
-  def inverse: Complex = {
+  override def inverse: Complex = {
     val den = normSqr
     Complex(x / den, -y / den)
   }
 
-  def /(r: Double): Complex = Complex(x / r, y / r)
+  override def /(r: Double): Complex = Complex(x / r, y / r)
 
-  def /(c: Complex): Complex = {
+  override def /(c: Complex): Complex = {
     val den = c.normSqr
     Complex((x * c.x + y * c.y) / den, (y * c.x - x * c.y) / den)
   }
 
-  def conjugate: Complex = Complex(x, -y)
+  override def conjugate: Complex = Complex(x, -y)
 
-  def pow(n: Int): Complex = n match {
-    case 2 => sqr
-    case 3 => cube
-    case -1 => inverse
-    case 1 => this
-    case 0 => Complex.one
-    case n if n < 0 => inverse.pow(-n)
-    case n if n % 3 == 0 => cube.pow(n / 3)
-    case n if n % 2 == 0 => sqr.pow(n / 2)
-    case _ => this * sqr.pow((n - 1) / 2)
+  override def sqr: Complex = {
+    val h = x * y
+    Complex(x * x - y * y, h + h)
+  }
+
+  override def cube: Complex = {
+    val x2 = x * x
+    val y2 = y * y
+    Complex(x * (x2 - 3.0 * y2), (3.0 * x2 - y2) * y)
   }
 
   def exp: Complex = {
@@ -89,8 +108,6 @@ case class Complex(x: Double, y: Double = 0.0) {
     val pa = d * arg
     Complex(pr * Math.cos(pa), pr * Math.sin(pa))
   }
-
-  @inline def **(n: Int): Complex = pow(n)
 
   @inline def **(c: Complex): Complex = pow(c)
 
@@ -134,7 +151,7 @@ case class Complex(x: Double, y: Double = 0.0) {
   }
 
 
-  def toJavaComplex = new JavaComplex(x, y)
+  def toJavaComplex: JavaComplex = new JavaComplex(x, y)
 
 
   def toString(nf: NumberFormat,
@@ -167,5 +184,13 @@ object Complex {
 
   implicit def coordinateToComplex(c: Coordinate): Complex =
     Complex(c.getX, c.getY)
+
+}
+
+case object NoComplex
+  extends OptComplex
+    with NoHigherNumber[OptComplex, Complex] {
+
+  override def toString: String = "na"
 
 }
