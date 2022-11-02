@@ -29,13 +29,13 @@ public class FractalPreciseMetadata extends FractalMetadata {
         if (iteratorFactory instanceof Scaled)
             scaled = (Scaled) iteratorFactory;
         if (iteratorFactory instanceof ApfelMetaIteratorFactory) {
-            ApfelMetaIteratorFactory<?, ?> metaIteratorFactory = (ApfelMetaIteratorFactory) iteratorFactory;
+            ApfelMetaIteratorFactory<?, ?> metaIteratorFactory = (ApfelMetaIteratorFactory<?, ?>) iteratorFactory;
             ApfelFunctionFactory<?> functionFactory = metaIteratorFactory.getFunctionFactory();
             if (functionFactory instanceof Scaled)
                 scaled = (Scaled) functionFactory;
         }
         if (iteratorFactory instanceof ApfelParamMetaIteratorFactory) {
-            ApfelParamMetaIteratorFactory<?, ?> metaIteratorFactory = (ApfelParamMetaIteratorFactory) iteratorFactory;
+            ApfelParamMetaIteratorFactory<?, ?> metaIteratorFactory = (ApfelParamMetaIteratorFactory<?, ?>) iteratorFactory;
             ApfelParamFunctionFactory<?> functionFactory = metaIteratorFactory.getFunctionFactory();
             if (functionFactory instanceof Scaled)
                 scaled = (Scaled) functionFactory;

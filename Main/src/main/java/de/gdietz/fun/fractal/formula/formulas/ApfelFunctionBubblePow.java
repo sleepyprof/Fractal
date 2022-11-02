@@ -7,7 +7,7 @@ import de.gdietz.fun.fractal.util.PowerUtils;
 public class ApfelFunctionBubblePow<X extends NormedNumber<X>> implements ApfelFunction<X> {
 
     private final int n;
-    private X a;
+    private final X a;
 
     public ApfelFunctionBubblePow(int n, X a) {
         this.n = n;

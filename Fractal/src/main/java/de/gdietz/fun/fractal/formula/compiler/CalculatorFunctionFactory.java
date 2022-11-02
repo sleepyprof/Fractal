@@ -51,21 +51,21 @@ public class CalculatorFunctionFactory<X extends Normed> implements ApfelFunctio
     }
 
     public ApfelFunction<X> get() {
-        return new CalculatorFunction(new Calculator<X>());
+        return new CalculatorFunction(new Calculator<>());
     }
 
     public ApfelFunction<X> get(X p) {
-        return new ParamCalculatorFunction(new Calculator<X>(), p);
+        return new ParamCalculatorFunction(new Calculator<>(), p);
     }
 
     public String toString() {
-        String str = "calculator: ";
+        StringBuilder str = new StringBuilder("calculator: ");
         for(int i = 0; i < algorithm.size(); i++) {
-            str += algorithm.get(i);
+            str.append(algorithm.get(i));
             if (i < algorithm.size() - 1)
-                str += ",";
+                str.append(",");
         }
-        return str;
+        return str.toString();
     }
 
 }

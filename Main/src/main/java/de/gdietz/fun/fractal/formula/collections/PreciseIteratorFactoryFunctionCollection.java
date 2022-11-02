@@ -3,8 +3,6 @@ package de.gdietz.fun.fractal.formula.collections;
 import de.gdietz.fun.fractal.formula.ApfelFunction;
 import de.gdietz.fun.fractal.formula.FractalIteratorFactory;
 import de.gdietz.fun.fractal.util.BigCoordinate;
-import de.gdietz.fun.fractal.util.Coordinate;
-import de.gdietz.fun.fractal.util.Coordinate3D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,7 @@ public class PreciseIteratorFactoryFunctionCollection<X> implements PreciseItera
     public List<FractalIteratorFactory<BigCoordinate>> getCollection() {
         List<ApfelFunction<X>> functions = collection.getCollection();
 
-        List<FractalIteratorFactory<BigCoordinate>> iteratorFactories = new ArrayList<FractalIteratorFactory<BigCoordinate>>();
+        List<FractalIteratorFactory<BigCoordinate>> iteratorFactories = new ArrayList<>();
 
         for(ApfelFunction<X> function : functions)
             iteratorFactories.add(collection.getApfelIteratorFactory(function, bound, maxScale));

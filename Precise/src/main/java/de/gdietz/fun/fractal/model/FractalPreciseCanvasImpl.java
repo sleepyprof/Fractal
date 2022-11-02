@@ -10,7 +10,7 @@ public class FractalPreciseCanvasImpl implements FractalPreciseCanvas {
 
     private final static int PRECISION = 8;
 
-    private final static BigDecimal HALF = BigDecimal.ONE.divide(new BigDecimal(2));
+    private final static BigDecimal HALF = BigDecimal.valueOf(5, 1);
 
     protected int width;
     protected int height;
@@ -101,7 +101,7 @@ public class FractalPreciseCanvasImpl implements FractalPreciseCanvas {
 
     public int getX(BigCoordinate c) {
         try {
-            return c.getX().subtract(from.getX()).divide(ratioX, 0, BigDecimal.ROUND_HALF_UP).intValue();
+            return c.getX().subtract(from.getX()).divide(ratioX, 0, RoundingMode.HALF_UP).intValue();
         } catch (ArithmeticException e) {
             return 0;
         }
@@ -109,7 +109,7 @@ public class FractalPreciseCanvasImpl implements FractalPreciseCanvas {
 
     public int getY(BigCoordinate c) {
         try {
-            return c.getY().subtract(to.getY()).divide(ratioY, 0, BigDecimal.ROUND_HALF_UP).intValue();
+            return c.getY().subtract(to.getY()).divide(ratioY, 0, RoundingMode.HALF_UP).intValue();
         } catch (ArithmeticException e) {
             return 0;
         }

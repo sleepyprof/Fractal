@@ -2,6 +2,7 @@ package de.gdietz.fun.fractal.gui;
 
 import de.gdietz.fun.fractal.controller.FractalTilesController;
 import de.gdietz.fun.fractal.controller.SizeTilesController;
+import de.gdietz.fun.fractal.model.FractalTilesCanvas;
 import de.gdietz.fun.fractal.model.FractalTilesModel;
 import de.gdietz.fun.fractal.view.FractalView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
@@ -15,7 +16,7 @@ import java.util.Observable;
 
 public class FractalTilesSelector extends JPanel implements FractalView {
 
-    private final FractalTilesModel model;
+    private final FractalTilesCanvas model;
     private final SizeTilesController controller;
 
     private final JNumberCachedTextField textTilesX;
@@ -30,7 +31,7 @@ public class FractalTilesSelector extends JPanel implements FractalView {
         }
     }
 
-    public FractalTilesSelector(FractalTilesModel model, FractalTilesController controller) {
+    public FractalTilesSelector(FractalTilesModel<?> model, FractalTilesController controller) {
         super(new GridBagLayout());
 
         JLabel labelTiles = new JLabel("Tiles:");

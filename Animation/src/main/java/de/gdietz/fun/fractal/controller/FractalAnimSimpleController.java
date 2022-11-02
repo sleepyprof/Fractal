@@ -3,7 +3,6 @@ package de.gdietz.fun.fractal.controller;
 import de.gdietz.fun.fractal.formula.FractalIteratorFactory;
 import de.gdietz.fun.fractal.model.FractalAnimIterateModel;
 import de.gdietz.fun.fractal.util.Coordinate;
-import de.gdietz.fun.fractal.view.AnimationView;
 
 public class FractalAnimSimpleController implements FractalAnimIterateController {
 

@@ -4,18 +4,18 @@ import java.util.Hashtable;
 
 public class CachedPath<T extends Tuple<T>> implements Path<T> {
 
-    private Path<T> delegate;
+    private final Path<T> delegate;
 
     private Hashtable<Double, T> cache;
 
     public CachedPath(Path<T> path) {
         delegate = path;
-        cache = new Hashtable<Double, T>();
+        cache = new Hashtable<>();
     }
 
     public void setLimits(T from, T to) {
         delegate.setLimits(from, to);
-        cache = new Hashtable<Double, T>();
+        cache = new Hashtable<>();
     }
 
     public T getFrom() {

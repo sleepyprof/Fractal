@@ -4,7 +4,8 @@ import de.gdietz.fun.fractal.formula.FractalIterator;
 import de.gdietz.fun.fractal.formula.FractalIteratorFactory;
 import de.gdietz.fun.fractal.meta.FractalMetadata;
 import de.gdietz.fun.fractal.util.Coordinate3D;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Fractal3DSimpleIterateModel extends Fractal3DIterateModelAdapter {
 
@@ -15,7 +16,7 @@ public class Fractal3DSimpleIterateModel extends Fractal3DIterateModelAdapter {
     private boolean calculating;
     private FractalThread thread;
 
-    private static Logger log = Logger.getLogger(Fractal3DSimpleIterateModel.class);
+    private final static Logger log = LoggerFactory.getLogger(Fractal3DSimpleIterateModel.class);
 
     private class FractalThread extends Thread {
 

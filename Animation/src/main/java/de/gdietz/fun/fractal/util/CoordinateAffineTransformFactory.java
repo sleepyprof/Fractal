@@ -5,7 +5,7 @@ public class CoordinateAffineTransformFactory implements AffineTransformFactory<
     public AffineOperator<Coordinate, Matrix> get(Coordinate from, Coordinate to) {
         Coordinate diff = to.subtract(from);
         Matrix m = new Matrix(diff.x, 0.0, 0.0, diff.y);
-        return new AffineOperator<Coordinate, Matrix>(m, from);
+        return new AffineOperator<>(m, from);
     }
 
     public AffineOperator<Coordinate, Matrix> get(Coordinate oldFrom, Coordinate oldTo, Coordinate newFrom, Coordinate newTo) {

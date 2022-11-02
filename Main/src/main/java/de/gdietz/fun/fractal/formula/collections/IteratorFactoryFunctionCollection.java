@@ -21,7 +21,7 @@ public class IteratorFactoryFunctionCollection<X> implements IteratorFactoryColl
     public List<FractalIteratorFactory<Coordinate>> getCollection() {
         List<ApfelFunction<X>> functions = collection.getCollection();
 
-        List<FractalIteratorFactory<Coordinate>> iteratorFactories = new ArrayList<FractalIteratorFactory<Coordinate>>();
+        List<FractalIteratorFactory<Coordinate>> iteratorFactories = new ArrayList<>();
 
         for(ApfelFunction<X> function : functions)
             iteratorFactories.add(collection.getApfelIteratorFactory(function, bound));
@@ -32,7 +32,7 @@ public class IteratorFactoryFunctionCollection<X> implements IteratorFactoryColl
     public List<FractalIteratorFactory<Coordinate3D>> getCollection3D() {
         List<ApfelFunction<X>> functions = collection.getCollection();
 
-        List<FractalIteratorFactory<Coordinate3D>> iteratorFactories = new ArrayList<FractalIteratorFactory<Coordinate3D>>();
+        List<FractalIteratorFactory<Coordinate3D>> iteratorFactories = new ArrayList<>();
 
         for(ApfelFunction<X> function : functions)
             iteratorFactories.add(collection.getApfel3DIteratorFactory(function, bound));

@@ -17,23 +17,23 @@ public class RealBraidIteratorFactoryCollection implements IteratorFactoryCollec
     }
 
     public FractalIteratorFactory<Coordinate> getRealBraidIteratorFactory(SelectorSequence seq) {
-        return new BraidIteratorFactory<Double, Coordinate>(new RealIntersecDataCoordMapper(), seq);
+        return new BraidIteratorFactory<>(new RealIntersecDataCoordMapper(), seq);
     }
 
     public FractalIteratorFactory<Coordinate3D> getRealBraid3DIteratorFactory(SelectorSequence seq) {
-        return new BraidIteratorFactory<Double, Coordinate3D>(new RealIntersecDataCoord3DMapper(), seq);
+        return new BraidIteratorFactory<>(new RealIntersecDataCoord3DMapper(), seq);
     }
 
     public FractalIteratorFactory<Coordinate> getRealBraidIteratorFactory(SmartSelectorSequence<IntersecData<Double>> seq) {
-        return new BraidIteratorFactory<Double, Coordinate>(new RealIntersecDataCoordMapper(), seq);
+        return new BraidIteratorFactory<>(new RealIntersecDataCoordMapper(), seq);
     }
 
     public FractalIteratorFactory<Coordinate3D> getRealBraid3DIteratorFactory(SmartSelectorSequence<IntersecData<Double>> seq) {
-        return new BraidIteratorFactory<Double, Coordinate3D>(new RealIntersecDataCoord3DMapper(), seq);
+        return new BraidIteratorFactory<>(new RealIntersecDataCoord3DMapper(), seq);
     }
 
     public List<FractalIteratorFactory<Coordinate>> getCollection() {
-        List<FractalIteratorFactory<Coordinate>> iteratorFactories = new ArrayList<FractalIteratorFactory<Coordinate>>();
+        List<FractalIteratorFactory<Coordinate>> iteratorFactories = new ArrayList<>();
 
         for(SelectorSequence seq : seqs)
             iteratorFactories.add(getRealBraidIteratorFactory(seq));
@@ -45,7 +45,7 @@ public class RealBraidIteratorFactoryCollection implements IteratorFactoryCollec
     }
 
     public List<FractalIteratorFactory<Coordinate3D>> getCollection3D() {
-        List<FractalIteratorFactory<Coordinate3D>> iteratorFactories = new ArrayList<FractalIteratorFactory<Coordinate3D>>();
+        List<FractalIteratorFactory<Coordinate3D>> iteratorFactories = new ArrayList<>();
 
         for(SelectorSequence seq : seqs)
             iteratorFactories.add(getRealBraid3DIteratorFactory(seq));

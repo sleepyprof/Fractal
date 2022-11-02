@@ -15,16 +15,16 @@ public class PNGWriter {
 
     public static final String EXTENSION = "png";
 
-    private RenderedImage image;
-    private File file;
+    private final RenderedImage image;
+    private final File file;
 
-    private Map<String, String> metadata;
+    private final Map<String, String> metadata;
 
     public PNGWriter(RenderedImage image, File file) {
         this.image = image;
         this.file = file;
 
-        metadata = new HashMap<String, String>();
+        metadata = new HashMap<>();
     }
 
     public void addMetadata(String keyword, String text) {
@@ -48,14 +48,14 @@ public class PNGWriter {
         if (metadata instanceof com.sun.imageio.plugins.png.PNGMetadata) {
             com.sun.imageio.plugins.png.PNGMetadata pngMetadata = (com.sun.imageio.plugins.png.PNGMetadata) metadata;
 
-            ArrayList keyword = pngMetadata.tEXt_keyword;
-            ArrayList text = pngMetadata.tEXt_text;
+            ArrayList<String> keyword = pngMetadata.tEXt_keyword;
+            ArrayList<String> text = pngMetadata.tEXt_text;
 
             for(String key : this.metadata.keySet()) {
                 if (keyword == null)
-                    keyword = new ArrayList();
+                    keyword = new ArrayList<>();
                 if (text == null)
-                    text = new ArrayList();
+                    text = new ArrayList<>();
 
                 keyword.add(key);
                 text.add(this.metadata.get(key));

@@ -2,20 +2,22 @@ package de.gdietz.fun.fractal.scala.util
 
 import scala.language.implicitConversions
 
-class HigherRealModNumberDoubleOps(val r: Double) extends AnyVal {
+class HigherRealModNumberDoubleOps(private val r: Double) extends AnyVal {
 
-  def +[X <: HigherRealModNumber[X]](x: X): X = r +: x
-  def -[X <: HigherRealModNumber[X]](x: X): X = r -: x
-  def *[X <: HigherRealModNumber[X]](x: X): X = r *: x
-  def /[X <: HigherRealModNumber[X]](x: X): X = r /: x
-
-}
-
-trait HigherRealModNumberDoubleOpsInstances {
-
-  implicit def toHigherRealModNumberDoubleOps(r: Double): HigherRealModNumberDoubleOps =
-    new HigherRealModNumberDoubleOps(r)
+  @inline final def +[X <: HigherRealModNumber[X]](x: X): X = r +: x
+  @inline final def -[X <: HigherRealModNumber[X]](x: X): X = r -: x
+  @inline final def *[X <: HigherRealModNumber[X]](x: X): X = r *: x
+  @inline final def /[X <: HigherRealModNumber[X]](x: X): X = r /: x
 
 }
 
-object HigherRealModNumberDoubleOpsInstances extends HigherRealModNumberDoubleOpsInstances
+object HigherRealModNumberDoubleOps {
+
+  trait ToHigherRealModNumberDoubleOps {
+    implicit def toHigherRealModNumberDoubleOps(r: Double): HigherRealModNumberDoubleOps =
+      new HigherRealModNumberDoubleOps(r)
+  }
+
+  object ops extends ToHigherRealModNumberDoubleOps
+
+}

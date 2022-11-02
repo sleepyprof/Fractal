@@ -19,7 +19,7 @@ public class PaletteSelector extends JPanel implements ActionListener {
 	private final JButton buttonNew;
     private final JNumberCachedTextField textSeed;
 	private final JNumberCachedTextField textFieldFactor;
-    private final JComboBox comboBoxForm;
+    private final JComboBox<TransformedPalette.Form> comboBoxForm;
 
 	private final PaletteView listener;
 
@@ -54,7 +54,7 @@ public class PaletteSelector extends JPanel implements ActionListener {
         textFieldFactor = new JNumberCachedTextField(formatFactor);
 		textFieldFactor.addActionListener(this);
 
-        comboBoxForm = new JComboBox(TransformedPalette.Form.values());
+        comboBoxForm = new JComboBox<>(TransformedPalette.Form.values());
         comboBoxForm.setRenderer(new FormListCellRenderer());
         comboBoxForm.addActionListener(this);
 
@@ -141,7 +141,7 @@ public class PaletteSelector extends JPanel implements ActionListener {
     }
 
 
-    private static class FormListCellRenderer extends JLabel implements ListCellRenderer {
+    private static class FormListCellRenderer extends JLabel implements ListCellRenderer<TransformedPalette.Form> {
 
         private FormListCellRenderer() {
             setOpaque(true);
@@ -149,7 +149,8 @@ public class PaletteSelector extends JPanel implements ActionListener {
             setVerticalAlignment(CENTER);
         }
 
-        public Component getListCellRendererComponent(JList list, Object value,
+        public Component getListCellRendererComponent(JList<? extends TransformedPalette.Form> list,
+                                                      TransformedPalette.Form value,
                                                       int index, boolean isSelected, boolean cellHasFocus) {
             Color background = isSelected ? list.getSelectionBackground() : list.getBackground();
             Color foreground = isSelected ? list.getSelectionForeground() : list.getForeground();
@@ -160,8 +161,7 @@ public class PaletteSelector extends JPanel implements ActionListener {
             Dimension prefsize = getPreferredSize();
             int size = Math.max(10, Math.min(prefsize.width, prefsize.height));
 
-            TransformedPalette.Form form = (TransformedPalette.Form)value;
-            Icon icon = new ImageIcon(getImage(form, size, foreground));
+            Icon icon = new ImageIcon(getImage(value, size, foreground));
 
             setIcon(icon);
             setText(" ");

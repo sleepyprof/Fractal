@@ -143,7 +143,7 @@ public class JNumberCachedTextField extends JFormattedTextField {
         Number result = getValueCommit();
         if (result instanceof BigDecimal)
             return (BigDecimal) result;
-        return new BigDecimal(result.doubleValue());
+        return BigDecimal.valueOf(result.doubleValue());
     }
 
     protected void processFocusEvent(FocusEvent e) {

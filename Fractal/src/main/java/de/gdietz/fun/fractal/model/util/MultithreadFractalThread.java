@@ -14,7 +14,7 @@ public class MultithreadFractalThread extends Thread {
     
     private final int parallelThreads;
 
-    private PartThread[] partThreads;
+    private final PartThread[] partThreads;
 
     private boolean stopNow = false;
 
@@ -24,7 +24,7 @@ public class MultithreadFractalThread extends Thread {
     private boolean calculating = false;
     private final Object mutexCalculating = new Object();
 
-    private PartListener[] partListeners;
+    private final PartListener[] partListeners;
     private final Object mutexListener = new Object();
     
     public MultithreadFractalThread(int width, int height, MultithreadFractalWork work, boolean endless, CalculationListener listener, int parallelThreads) {
@@ -88,12 +88,12 @@ public class MultithreadFractalThread extends Thread {
 
     private class PartThread extends Thread {
 
-        private int fromX;
-        private int fromY;
-        private int toX;
-        private int toY;
+        private final int fromX;
+        private final int fromY;
+        private final int toX;
+        private final int toY;
 
-        private PartListener partListener;
+        private final PartListener partListener;
 
         private PartThread(int fromX, int fromY, int toX, int toY, PartListener partListener) {
             super("FractalWorkerPartThread");

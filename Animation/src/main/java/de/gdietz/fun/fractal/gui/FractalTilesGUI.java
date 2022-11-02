@@ -37,13 +37,13 @@ public class FractalTilesGUI extends JPanel implements PaletteView, FractalItera
 
         ColorStrategy<Integer> coloring = new SimpleColorStrategy(palette, false);
 
-        FractalPicture<Coordinate> picture = new FractalTilesPicture<Integer>(model, coloring);
-        pictureView = resizeable ? new FractalScaledPictureView<Coordinate>(picture, pairedController) :
-                new FractalPictureView<Coordinate>(picture, pairedController);
+        FractalPicture<Coordinate> picture = new FractalTilesPicture<>(model, coloring);
+        pictureView = resizeable ? new FractalScaledPictureView<>(picture, pairedController) :
+                new FractalPictureView<>(picture, pairedController);
         JComponent controlView = new FractalTilesEditView(model, controller);
         JPanel panel = getPanel(pictureView, controlView);
 
-        iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+        iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
         iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();
@@ -119,7 +119,7 @@ public class FractalTilesGUI extends JPanel implements PaletteView, FractalItera
         return iteratorSelector;
     }
 
-    public FractalPictureViewBase getView() {
+    public FractalPictureViewBase<Coordinate> getView() {
         return pictureView;
     }
 

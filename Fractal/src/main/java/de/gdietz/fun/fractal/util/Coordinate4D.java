@@ -89,13 +89,13 @@ public class Coordinate4D implements Tuple<Coordinate4D> {
     public int hashCode() {
         int result;
         long temp;
-        temp = x != +0.0d ? Double.doubleToLongBits(x) : 0L;
+        temp = x != 0.0d ? Double.doubleToLongBits(x) : 0L;
         result = (int) (temp ^ (temp >>> 32));
-        temp = y != +0.0d ? Double.doubleToLongBits(y) : 0L;
+        temp = y != 0.0d ? Double.doubleToLongBits(y) : 0L;
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = z != +0.0d ? Double.doubleToLongBits(z) : 0L;
+        temp = z != 0.0d ? Double.doubleToLongBits(z) : 0L;
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = w != +0.0d ? Double.doubleToLongBits(w) : 0L;
+        temp = w != 0.0d ? Double.doubleToLongBits(w) : 0L;
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }

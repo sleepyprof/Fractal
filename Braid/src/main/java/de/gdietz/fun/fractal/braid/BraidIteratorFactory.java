@@ -3,8 +3,6 @@ package de.gdietz.fun.fractal.braid;
 import de.gdietz.fun.fractal.formula.FractalIteratorFactory;
 import de.gdietz.fun.fractal.formula.FractalIterator;
 import de.gdietz.fun.fractal.formula.CoordMapper;
-import de.gdietz.fun.fractal.util.Complex;
-import de.gdietz.fun.fractal.util.Coordinate;
 import de.gdietz.fun.fractal.util.Tuple;
 
 public class BraidIteratorFactory<X, T extends Tuple<T>> implements FractalIteratorFactory<T> {
@@ -20,7 +18,7 @@ public class BraidIteratorFactory<X, T extends Tuple<T>> implements FractalItera
     }
 
     public BraidIteratorFactory(CoordMapper<IntersecData<X>, T> mapper, SelectorSequence sigmaSelectors, double bound) {
-        this(mapper, new DumbSelectorSequence<IntersecData<X>>(sigmaSelectors), bound);
+        this(mapper, new DumbSelectorSequence<>(sigmaSelectors), bound);
     }
 
     public BraidIteratorFactory(CoordMapper<IntersecData<X>, T> mapper, SmartSelectorSequence<IntersecData<X>> sigmaSelectors) {

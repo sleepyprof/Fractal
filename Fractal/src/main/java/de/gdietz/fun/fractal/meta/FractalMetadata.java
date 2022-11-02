@@ -56,7 +56,7 @@ public class FractalMetadata extends HashMap<String, String> {
     public static final String FRACTAL_PALETTE = "FractalPalette";
 
 
-    private static DateFormat RFC822DATEFORMAT = new SimpleDateFormat("EEE', 'dd' 'MMM' 'yyyy' 'HH:mm:ss' 'Z", Locale.US);
+    private static final DateFormat RFC822DATEFORMAT = new SimpleDateFormat("EEE', 'dd' 'MMM' 'yyyy' 'HH:mm:ss' 'Z", Locale.US);
 
 
     public FractalMetadata() {

@@ -25,7 +25,7 @@ public class IterHeightStrategy implements HeightStrategy<Integer> {
         if (data < 0)
             return maxHeight;
 
-        return data < 0 ? maxHeight : (int)(factor * Math.log(data + 1));
+        return (int)(factor * Math.log(data + 1));
     }
 
     public int getMaxHeight() {

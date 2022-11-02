@@ -74,11 +74,11 @@ public class ComplexNumberFormatter {
                 if (parentheses && terms > 1 || negativeParentheses)
                     return "+ (" + buffer.toString() + ")";
                 if (buffer.charAt(0) == '-') {
-                    StringBuffer temp = new StringBuffer(buffer);
+                    StringBuilder temp = new StringBuilder(buffer);
                     temp.insert(1, " ");
                     return temp.toString();
                 }
-                return "+ (" + buffer.toString() + ")";
+                return "+ (" + buffer + ")";
             } else {
                 if (terms == 0)
                     return "+ " + nf.format(0.0);

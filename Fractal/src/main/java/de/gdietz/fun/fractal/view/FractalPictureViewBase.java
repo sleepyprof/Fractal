@@ -24,7 +24,7 @@ public abstract class FractalPictureViewBase<T extends Tuple<T>> extends MouseDr
         setHorizontalAlignment(SwingConstants.LEFT);
         setVerticalAlignment(SwingConstants.TOP);
 
-        Fractal2DMouseController<T> mouseController = new Fractal2DMouseController<T>(controller, this, this);
+        Fractal2DMouseController<T> mouseController = new Fractal2DMouseController<>(controller, this, this);
         addMouseListener(mouseController);
         addMouseMotionListener(mouseController);
     }

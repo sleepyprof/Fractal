@@ -91,24 +91,24 @@ public class FractalGUI extends JPanel implements PaletteView, FractalIteratorMa
         ColorStrategy<Integer> coloringLeft = new SimpleColorStrategy(palette, false);
         ColorStrategy<Integer> coloringRight = new SimpleColorStrategy(palette, config.equals(Config.MANDEL_TRACE) || config.equals(Config.MANDEL_BIFURCATION));
 
-        FractalPicture<Coordinate> pictureLeft = new FractalPictureImpl<Integer>(modelLeft, coloringLeft);
-		pictureViewLeft = resizeable ? new FractalScaledPictureView<Coordinate>(pictureLeft, pairedControllerLeft) :
-                new FractalPictureView<Coordinate>(pictureLeft, pairedControllerLeft);
+        FractalPicture<Coordinate> pictureLeft = new FractalPictureImpl<>(modelLeft, coloringLeft);
+		pictureViewLeft = resizeable ? new FractalScaledPictureView<>(pictureLeft, pairedControllerLeft) :
+                new FractalPictureView<>(pictureLeft, pairedControllerLeft);
 		JComponent controlViewLeft = new FractalEditView(modelLeft, controllerLeft);
 		JPanel panelLeft = getPanel(pictureViewLeft, controlViewLeft);
 
         FractalPictureViewBase<Coordinate> pictureViewSecond = null;
 		JPanel panelRight = null;
         if (modelRight != null) {
-            FractalPicture<Coordinate> pictureRight = new FractalPictureImpl<Integer>(modelRight, coloringRight);
-			pictureViewSecond =  resizeable ? new FractalScaledPictureView<Coordinate>(pictureRight, pairedControllerRight) :
-                    new FractalPictureView<Coordinate>(pictureRight, pairedControllerRight);
+            FractalPicture<Coordinate> pictureRight = new FractalPictureImpl<>(modelRight, coloringRight);
+			pictureViewSecond =  resizeable ? new FractalScaledPictureView<>(pictureRight, pairedControllerRight) :
+                    new FractalPictureView<>(pictureRight, pairedControllerRight);
 			JComponent controlViewRight = new FractalEditView(modelRight, controllerRight);
 			panelRight = getPanel(pictureViewSecond, controlViewRight);
         }
         pictureViewRight = pictureViewSecond;
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, !endless);
+		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, !endless);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

@@ -37,7 +37,7 @@ public class CalculatorComplexParser implements CalculatorParser<Complex> {
             } catch (NumberFormatException e) {
                 throw new CalculatorException("Cannot parse calculator power string: " + str, e);
             }
-            return new PowOperator<Complex>(n);
+            return new PowOperator<>(n);
         }
 
         if (str.isEmpty())
@@ -45,14 +45,14 @@ public class CalculatorComplexParser implements CalculatorParser<Complex> {
 
         try {
             Complex c = ComplexNumberParser.parseComplex(str);
-            return new ConstantImpl<Complex>(c);
+            return new ConstantImpl<>(c);
         } catch (NumberFormatException e) {
             throw new CalculatorException("Cannot parse calculator string as number: " + str, e);
         }
     }
 
     public List<CalculatorAction<Complex>> parse(String str, boolean allowParam) {
-        List<CalculatorAction<Complex>> result = new ArrayList<CalculatorAction<Complex>>();
+        List<CalculatorAction<Complex>> result = new ArrayList<>();
 
         String[] partStrs = str.split(",");
         for(String partStr : partStrs)

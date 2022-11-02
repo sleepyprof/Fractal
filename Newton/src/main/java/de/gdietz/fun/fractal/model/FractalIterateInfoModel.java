@@ -13,7 +13,7 @@ public class FractalIterateInfoModel<I> extends FractalSimpleIterateModelAdapter
 
 	public FractalIterateInfoModel(IterateInfoProvider<I, FractalIterator<Coordinate>> infoProvider,
                                    int width, int height, Coordinate from, Coordinate to, FractalIteratorFactory<Coordinate> iteratorFactory, int maxiter, boolean julia) {
-		super(new FractalInfoBuffer<I>(width, height, from, to), iteratorFactory, maxiter, julia);
+		super(new FractalInfoBuffer<>(width, height, from, to), iteratorFactory, maxiter, julia);
         this.infoProvider = infoProvider;
 	}
 

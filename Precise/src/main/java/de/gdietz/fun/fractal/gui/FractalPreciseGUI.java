@@ -41,14 +41,14 @@ public class FractalPreciseGUI extends JPanel implements PaletteView, FractalIte
 
         ColorStrategy<Integer> coloring = new SimpleColorStrategy(palette, false);
 
-        FractalPicture<BigCoordinate> picture = new FractalPrecisePictureImpl<Integer>(model, coloring);
-        pictureView = resizeable ? new FractalScaledPictureView<BigCoordinate>(picture, pairedController) :
-                new FractalPictureView<BigCoordinate>(picture, pairedController);
+        FractalPicture<BigCoordinate> picture = new FractalPrecisePictureImpl<>(model, coloring);
+        pictureView = resizeable ? new FractalScaledPictureView<>(picture, pairedController) :
+                new FractalPictureView<>(picture, pairedController);
 
         JComponent controlView = new FractalPreciseEditView(model, controller);
         JPanel panel = getPanel(pictureView, controlView);
 
-        iteratorSelector = new AdvancedFractalPreciseIteratorFactorySelector<BigCoordinate>(this, !endless);
+        iteratorSelector = new AdvancedFractalPreciseIteratorFactorySelector<>(this, !endless);
         iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

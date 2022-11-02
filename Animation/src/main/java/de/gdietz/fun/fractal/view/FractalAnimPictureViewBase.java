@@ -25,7 +25,7 @@ public abstract class FractalAnimPictureViewBase<T extends Tuple<T>> extends Mou
     private int waitCounter = 0;
     private int direction = 1;
 
-    private List<AnimationListener> listeners;
+    private final List<AnimationListener> listeners;
 
 
     private class UpdateThread extends Thread {
@@ -50,7 +50,7 @@ public abstract class FractalAnimPictureViewBase<T extends Tuple<T>> extends Mou
 
 
     public FractalAnimPictureViewBase(FractalAnimPicture<T> picture, FractalAnimPairedController<T> controller) {
-        listeners = new ArrayList<AnimationListener>();
+        listeners = new ArrayList<>();
 
         this.picture = picture;
         this.controller = controller;
@@ -60,7 +60,7 @@ public abstract class FractalAnimPictureViewBase<T extends Tuple<T>> extends Mou
         setHorizontalAlignment(SwingConstants.LEFT);
         setVerticalAlignment(SwingConstants.TOP);
 
-        Fractal2DMouseController<T> mouseController = new Fractal2DMouseController<T>(controller, this, this);
+        Fractal2DMouseController<T> mouseController = new Fractal2DMouseController<>(controller, this, this);
 		addMouseListener(mouseController);
 		addMouseMotionListener(mouseController);
     }

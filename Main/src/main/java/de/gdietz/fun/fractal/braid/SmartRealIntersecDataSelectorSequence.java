@@ -6,7 +6,7 @@ public class SmartRealIntersecDataSelectorSequence implements SmartSelectorSeque
         SMART, XLY1, YLX1, XLU1, ULX1, YLU1, ULY1
     }
 
-    private Type type;
+    private final Type type;
 
     public SmartRealIntersecDataSelectorSequence(Type type) {
         this.type = type;

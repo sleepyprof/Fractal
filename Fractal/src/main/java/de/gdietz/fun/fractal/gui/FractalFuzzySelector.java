@@ -1,7 +1,7 @@
 package de.gdietz.fun.fractal.gui;
 
 import de.gdietz.fun.fractal.controller.FractalFuzzyController;
-import de.gdietz.fun.fractal.model.FractalModel;
+import de.gdietz.fun.fractal.model.FractalModelBase;
 import de.gdietz.fun.fractal.view.FractalView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
 
@@ -31,7 +31,7 @@ public class FractalFuzzySelector extends JPanel implements FractalView {
 		}
 	}
 
-	public FractalFuzzySelector(FractalModel model, FractalFuzzyController controller, boolean showEpsilon) {
+	public FractalFuzzySelector(FractalModelBase model, FractalFuzzyController controller, boolean showEpsilon) {
 		super(new GridBagLayout());
 
         labelLambda = new JLabel("\u03bb:");
@@ -67,7 +67,7 @@ public class FractalFuzzySelector extends JPanel implements FractalView {
 		update();
 	}
 
-    public FractalFuzzySelector(FractalModel model, FractalFuzzyController controller) {
+    public FractalFuzzySelector(FractalModelBase model, FractalFuzzyController controller) {
         this(model, controller, false);
     }
 

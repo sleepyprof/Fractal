@@ -6,7 +6,7 @@ import de.gdietz.fun.fractal.util.Coordinate;
 public class CoordinateInfoProvider implements IterateInfoProvider<Coordinate, FractalIterator<Coordinate>> {
 
     public IterateInfo<Coordinate> get(FractalIterator<Coordinate> iterator) {
-        return new IterateInfo<Coordinate>(iterator.getCoordinate(), iterator.isValid());
+        return new IterateInfo<>(iterator.getCoordinate(), iterator.isValid());
     }
     
 }

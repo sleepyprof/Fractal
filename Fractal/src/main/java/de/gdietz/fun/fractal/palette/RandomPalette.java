@@ -40,7 +40,7 @@ public class RandomPalette implements Palette {
         
     }
     
-    protected class ColorTripleRandomGenerator implements ColorTripleGenerator {
+    protected static class ColorTripleRandomGenerator implements ColorTripleGenerator {
         
         private final Random random;
         
@@ -60,7 +60,7 @@ public class RandomPalette implements Palette {
         
     }
 
-    protected class ColorTripleRGBConverter implements ColorTripleConverter {
+    protected static class ColorTripleRGBConverter implements ColorTripleConverter {
 
         public Color convert(ColorTriple triple) {
             return new Color(triple.getX(), triple.getY(), triple.getZ());
@@ -68,7 +68,7 @@ public class RandomPalette implements Palette {
         
     }
 
-    protected class ColorTripleHSBConverter implements ColorTripleConverter {
+    protected static class ColorTripleHSBConverter implements ColorTripleConverter {
 
         public Color convert(ColorTriple triple) {
             return Color.getHSBColor(triple.getX() / 255f, triple.getY() / 255f, triple.getZ() / 255f);
@@ -78,8 +78,8 @@ public class RandomPalette implements Palette {
 
     private static class ColorInfo {
         
-        private ColorTriple triple;
-        private Color color;
+        private final ColorTriple triple;
+        private final Color color;
 
         private ColorInfo(ColorTriple triple, ColorTripleConverter converter) {
             this.triple = triple;
@@ -118,7 +118,7 @@ public class RandomPalette implements Palette {
 
 	public RandomPalette(long seed) {
         this.seed = seed;
-		colors = Collections.synchronizedList(new ArrayList<ColorInfo>());
+		colors = Collections.synchronizedList(new ArrayList<>());
         generator = new ColorTripleRandomGenerator(seed);
         converter = seed < 0 ? new ColorTripleHSBConverter() : new ColorTripleRGBConverter();
 	}

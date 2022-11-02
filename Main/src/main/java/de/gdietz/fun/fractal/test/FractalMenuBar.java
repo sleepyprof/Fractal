@@ -1,7 +1,8 @@
 package de.gdietz.fun.fractal.test;
 
 import de.gdietz.fun.fractal.view.SaveableView;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class FractalMenuBar extends JMenuBar implements ActionListener {
 
     private final FileSelector fileSelector;
 
-    private static Logger log = Logger.getLogger(FractalMenuBar.class);
+    private final static Logger log = LoggerFactory.getLogger(FractalMenuBar.class);
 
     public FractalMenuBar(FractalWindow window) {
         this.window = window;

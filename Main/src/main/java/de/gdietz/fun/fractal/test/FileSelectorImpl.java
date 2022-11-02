@@ -9,7 +9,7 @@ public class FileSelectorImpl implements FileSelector {
 
     private static class FilenameExtensionFilter implements FilenameFilter {
 
-        private String dotExtension;
+        private final String dotExtension;
 
         private FilenameExtensionFilter(String extension) {
             dotExtension = "." + extension;

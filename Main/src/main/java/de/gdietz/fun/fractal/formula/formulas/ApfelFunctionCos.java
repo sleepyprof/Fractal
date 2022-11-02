@@ -1,7 +1,6 @@
 package de.gdietz.fun.fractal.formula.formulas;
 
 import de.gdietz.fun.fractal.formula.ApfelDerivableFunction;
-import de.gdietz.fun.fractal.formula.ApfelFunction;
 import de.gdietz.fun.fractal.util.Complex;
 
 public class ApfelFunctionCos implements ApfelDerivableFunction<Complex> {

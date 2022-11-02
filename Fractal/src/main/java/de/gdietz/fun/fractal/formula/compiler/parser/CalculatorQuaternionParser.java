@@ -37,7 +37,7 @@ public class CalculatorQuaternionParser implements CalculatorParser<Quaternion> 
             } catch (NumberFormatException e) {
                 throw new CalculatorException("Cannot parse calculator power string: " + str, e);
             }
-            return new PowOperator<Quaternion>(n);
+            return new PowOperator<>(n);
         }
 
         if (str.isEmpty())
@@ -45,14 +45,14 @@ public class CalculatorQuaternionParser implements CalculatorParser<Quaternion> 
 
         try {
             Quaternion c = ComplexNumberParser.parseQuaternion(str);
-            return new ConstantImpl<Quaternion>(c);
+            return new ConstantImpl<>(c);
         } catch (NumberFormatException e) {
             throw new CalculatorException("Cannot parse calculator string as number: " + str, e);
         }
     }
 
     public List<CalculatorAction<Quaternion>> parse(String str, boolean allowParam) {
-        List<CalculatorAction<Quaternion>> result = new ArrayList<CalculatorAction<Quaternion>>();
+        List<CalculatorAction<Quaternion>> result = new ArrayList<>();
 
         String[] partStrs = str.split(",");
         for(String partStr : partStrs)

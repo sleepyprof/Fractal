@@ -1,11 +1,12 @@
 package de.gdietz.imageio;
 
-import org.apache.log4j.Logger;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
 import org.monte.media.VideoFormatKeys;
 import org.monte.media.math.Rational;
 import org.monte.media.quicktime.QuickTimeWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class MovWriter {
     private final File file;
     private final Component parent;
 
-    private static Logger log = Logger.getLogger(MovWriter.class);
+    private final static Logger log = LoggerFactory.getLogger(MovWriter.class);
 
     private interface SaveTaskInterface {
         public boolean cancel(boolean mayInterruptIfRunning);
@@ -100,7 +101,7 @@ public class MovWriter {
             setProgress(progress);
         }
 
-        private File file;
+        private final File file;
 
         private SaveTask(File file) {
             this.file = file;
@@ -119,7 +120,7 @@ public class MovWriter {
 
     private static class SaveProgressMonitor extends ProgressMonitor implements PropertyChangeListener {
 
-        private SaveTaskInterface task;
+        private final SaveTaskInterface task;
 
         private SaveProgressMonitor(Component parentComponent, SaveTaskInterface task) {
             super(parentComponent, "Saving...", null, 0, 100);

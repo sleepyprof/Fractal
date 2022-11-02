@@ -85,9 +85,9 @@ public class Coordinate implements Tuple<Coordinate> {
     public int hashCode() {
         int result;
         long temp;
-        temp = x != +0.0d ? Double.doubleToLongBits(x) : 0L;
+        temp = x != 0.0d ? Double.doubleToLongBits(x) : 0L;
         result = (int) (temp ^ (temp >>> 32));
-        temp = y != +0.0d ? Double.doubleToLongBits(y) : 0L;
+        temp = y != 0.0d ? Double.doubleToLongBits(y) : 0L;
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }

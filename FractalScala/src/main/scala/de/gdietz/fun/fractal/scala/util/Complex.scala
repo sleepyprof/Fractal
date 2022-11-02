@@ -42,8 +42,6 @@ case class Complex(x: Double, y: Double = 0.0)
 
   override def normSqr: Double = x * x + y * y
 
-  override def norm: Double = Math.sqrt(normSqr)
-
   def arg: Double = {
     if (x == 0.0 && y == 0.0) return 0.0
     Math.atan2(y, x)

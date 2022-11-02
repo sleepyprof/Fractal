@@ -13,28 +13,28 @@ import java.util.List;
 public class NewtonIteratorFactoryCollection implements IteratorFactoryCollection {
 
     public FractalIteratorFactory<Coordinate> getNewtonIteratorFactory(ApfelDerivableFunction<Complex> function) {
-        return new ApfelIteratorFactory<Complex, Coordinate>(new ComplexCoordMapper(), new NewtonFunction<Complex>(function), new ClosedEyesTest<Complex>());
+        return new ApfelIteratorFactory<>(new ComplexCoordMapper(), new NewtonFunction<>(function), new ClosedEyesTest<>());
     }
 
     public FractalIteratorFactory<Coordinate> getDualNewtonIteratorFactory(ApfelDerivableFunction<Complex> function, Complex value) {
-        return new DualNewtonIteratorFactory<Complex, Coordinate>(new TwistedDualCoordMapper<Complex, Complex, Coordinate>(new ComplexCoordMapper(), value),
-                function, new ClosedEyesTest<Complex>());
+        return new DualNewtonIteratorFactory<>(new TwistedDualCoordMapper<>(new ComplexCoordMapper(), value),
+                function, new ClosedEyesTest<>());
     }
 
     public List<FractalIteratorFactory<Coordinate>> getCollection() {
-        List<FractalIteratorFactory<Coordinate>> iterFactories = new ArrayList<FractalIteratorFactory<Coordinate>>();
+        List<FractalIteratorFactory<Coordinate>> iterFactories = new ArrayList<>();
 
         for(int n = 2; n <= 8; n++)
-            iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionPow<Complex>(n)));
+            iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionPow<>(n)));
 
         for(int n = 2; n <= 6; n++)
             for(int m = 1; m < n; m++)
-                iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionPowSum<Complex>(n, m)));
+                iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionPowSum<>(n, m)));
 
         for (int n = 1; n <= 6; n++)
             for (int m = 1; m <= 6; m++)
                 if (n != m)
-                    iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionMixedPow<Complex>(n, Complex.MINUS_ONE, m)));
+                    iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionMixedPow<>(n, Complex.MINUS_ONE, m)));
 
         iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionSin()));
         iterFactories.add(getNewtonIteratorFactory(new ApfelFunctionCos()));
@@ -44,16 +44,16 @@ public class NewtonIteratorFactoryCollection implements IteratorFactoryCollectio
 
 
         for(int n = 2; n <= 8; n++)
-            iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionPow<Complex>(n), Complex.ONE));
+            iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionPow<>(n), Complex.ONE));
 
         for(int n = 2; n <= 6; n++)
             for(int m = 1; m < n; m++)
-                iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionPowSum<Complex>(n, m), Complex.ONE));
+                iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionPowSum<>(n, m), Complex.ONE));
 
         for (int n = 1; n <= 6; n++)
             for (int m = 1; m <= 6; m++)
                 if (n != m)
-                    iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionMixedPow<Complex>(n, Complex.MINUS_ONE, m), Complex.ONE));
+                    iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionMixedPow<>(n, Complex.MINUS_ONE, m), Complex.ONE));
 
         iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionSin(), Complex.ZERO));
         iterFactories.add(getDualNewtonIteratorFactory(new ApfelFunctionCos(), Complex.ZERO));
@@ -65,7 +65,7 @@ public class NewtonIteratorFactoryCollection implements IteratorFactoryCollectio
     }
 
     public List<FractalIteratorFactory<Coordinate3D>> getCollection3D() {
-        return new ArrayList<FractalIteratorFactory<Coordinate3D>>();
+        return new ArrayList<>();
     }
 
     public String getName() {

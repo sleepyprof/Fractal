@@ -13,25 +13,25 @@ import java.util.List;
 public class RealNewtonIteratorFactoryCollection implements IteratorFactoryCollection {
 
     public FractalIteratorFactory<Coordinate> getRealDualNewtonIteratorFactory(ApfelDerivableFunction<DoubleNumber> function) {
-        return new DualNewtonIteratorFactory<DoubleNumber, Coordinate>(new TwistedDoubleNumberCoordMapper(), function, new ClosedEyesTest<DoubleNumber>());
+        return new DualNewtonIteratorFactory<>(new TwistedDoubleNumberCoordMapper(), function, new ClosedEyesTest<>());
     }
 
     public List<FractalIteratorFactory<Coordinate>> getCollection() {
-        List<FractalIteratorFactory<Coordinate>> iterFactories = new ArrayList<FractalIteratorFactory<Coordinate>>();
+        List<FractalIteratorFactory<Coordinate>> iterFactories = new ArrayList<>();
 
         for(int n = 2; n <= 8; n++)
-            iterFactories.add(getRealDualNewtonIteratorFactory(new ApfelFunctionPow<DoubleNumber>(n)));
+            iterFactories.add(getRealDualNewtonIteratorFactory(new ApfelFunctionPow<>(n)));
 
         for (int n = 1; n <= 6; n++)
             for (int m = 1; m <= 6; m++)
                 if (n != m)
-                    iterFactories.add(getRealDualNewtonIteratorFactory(new ApfelFunctionMixedPow<DoubleNumber>(n, DoubleNumber.MINUS_ONE, m)));
+                    iterFactories.add(getRealDualNewtonIteratorFactory(new ApfelFunctionMixedPow<>(n, DoubleNumber.MINUS_ONE, m)));
 
         return iterFactories;
     }
 
     public List<FractalIteratorFactory<Coordinate3D>> getCollection3D() {
-        return new ArrayList<FractalIteratorFactory<Coordinate3D>>();
+        return new ArrayList<>();
     }
 
     public String getName() {

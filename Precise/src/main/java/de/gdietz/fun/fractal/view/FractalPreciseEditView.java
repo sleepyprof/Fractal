@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.Observable;
 
 public class FractalPreciseEditView extends JPanel implements FractalView {

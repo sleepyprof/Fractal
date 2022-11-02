@@ -68,12 +68,8 @@ public class AdvancedFractalIteratorFactorySelector<T extends Tuple<T>> extends 
 
             if (!valid) {
                 JOptionPane.showMessageDialog(AdvancedFractalIteratorFactorySelector.this, "Function not valid:\n" + error, "Error", JOptionPane.ERROR_MESSAGE);
-                algorithm = new ArrayList<CalculatorAction<X>>();
-                algorithm.add(new Variable<X>() {
-                    public X get(X z, X c, X p) {
-                        return c;
-                    }
-                });
+                algorithm = new ArrayList<>();
+                algorithm.add((Variable<X>) (z, c, p) -> c);
             }
 
             this.funcStr = funcStr;
@@ -82,18 +78,18 @@ public class AdvancedFractalIteratorFactorySelector<T extends Tuple<T>> extends 
         }
 
         protected ApfelFunctionFactory<X> getFunctionFactory(List<CalculatorAction<X>> algorithm) {
-            return new CalculatorFunctionFactory<X>(algorithm);
+            return new CalculatorFunctionFactory<>(algorithm);
         }
 
         protected ApfelParamFunctionFactory<X> getParamFunctionFactory(List<CalculatorAction<X>> algorithm) {
-            return new CalculatorFunctionFactory<X>(algorithm);
+            return new CalculatorFunctionFactory<>(algorithm);
         }
 
         public FractalIteratorFactory<T> getIteratorFactory() {
             List<CalculatorAction<X>> algorithm = getAlgorithm();
             if (z0 == null)
-                return new ApfelMetaIteratorFactory<X, T>(mapper, getFunctionFactory(algorithm), test);
-            return new ApfelParamMetaIteratorFactory<X, T>(mapper, getParamFunctionFactory(algorithm), z0, test);
+                return new ApfelMetaIteratorFactory<>(mapper, getFunctionFactory(algorithm), test);
+            return new ApfelParamMetaIteratorFactory<>(mapper, getParamFunctionFactory(algorithm), z0, test);
         }
 
         public String toString() {
@@ -103,21 +99,21 @@ public class AdvancedFractalIteratorFactorySelector<T extends Tuple<T>> extends 
     }
 
     public <X extends Normed> void addCustom(CalculatorParser<X> parser, ParamCoordMapper<X, X, T> mapper, ValidityTest<X> test, int maxiter, String description) {
-        FractalIteratorData<T> iteratorData = new InteractiveFractalIteratorData<X>(parser, mapper, test, maxiter, description);
+        FractalIteratorData<T> iteratorData = new InteractiveFractalIteratorData<>(parser, mapper, test, maxiter, description);
         addIteratorData(iteratorData);
     }
     
     public <X extends Normed> void addCustom(CalculatorParser<X> parser, ParamCoordMapper<X, X, T> mapper, double bound, int maxiter, String description) {
-        addCustom(parser, mapper, new BoundaryTest<X>(bound), maxiter, description);
+        addCustom(parser, mapper, new BoundaryTest<>(bound), maxiter, description);
     }
 
     public <X extends Normed> void addCustom(CalculatorParser<X> parser, ParamCoordMapper<X, X, T> mapper, X z0, ValidityTest<X> test, int maxiter, String description) {
-        FractalIteratorData<T> iteratorData = new InteractiveFractalIteratorData<X>(parser, mapper, z0, test, maxiter, description);
+        FractalIteratorData<T> iteratorData = new InteractiveFractalIteratorData<>(parser, mapper, z0, test, maxiter, description);
         addIteratorData(iteratorData);
     }
 
     public <X extends Normed> void addCustom(CalculatorParser<X> parser, ParamCoordMapper<X, X, T> mapper, X z0, double bound, int maxiter, String description) {
-        addCustom(parser, mapper, z0, new BoundaryTest<X>(bound), maxiter, description);
+        addCustom(parser, mapper, z0, new BoundaryTest<>(bound), maxiter, description);
     }
 
 }

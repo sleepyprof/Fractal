@@ -48,8 +48,6 @@ case class Quaternion(x: Double, y: Double = 0.0, z: Double = 0.0, w: Double = 0
 
   override def normSqr: Double = x * x + y * y + z * z + w * w
 
-  override def norm: Double = Math.sqrt(normSqr)
-
   def imagNormSqr: Double = y * y + z * z + w * w
 
   def imagNorm: Double = Math.sqrt(imagNormSqr)

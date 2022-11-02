@@ -39,10 +39,10 @@ public class FractalTest extends FractalWindow {
 
 		AdvancedFractalIteratorFactorySelector<Coordinate> iteratorSelector = gui.getIteratorSelector();
 
-        List<IteratorFactoryCollection> collections = new ArrayList<IteratorFactoryCollection>();
-        collections.add(new IteratorFactoryFunctionCollection<Complex>(new ComplexFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Quaternion>(new QuaternionFunctionCollection(), bound));
-        collections.add(new IteratorFactoryFunctionCollection<Vector3D>(new Vector3DFunctionCollection(), bound));
+        List<IteratorFactoryCollection> collections = new ArrayList<>();
+        collections.add(new IteratorFactoryFunctionCollection<>(new ComplexFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new QuaternionFunctionCollection(), bound));
+        collections.add(new IteratorFactoryFunctionCollection<>(new Vector3DFunctionCollection(), bound));
         collections.add(new RealBraidIteratorFactoryCollection());
         collections.add(new ComplexBraidIteratorFactoryCollection());
 

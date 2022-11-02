@@ -18,18 +18,18 @@ public class Vector3DFunctionCollection implements FunctionCollection<Vector3D> 
     public static final ParamCoordMapper<Vector3D, Vector3D, Coordinate3D> mapper3D = new Vector3DCoord3DMapper();
 
     public FractalIteratorFactory<Coordinate> getApfelIteratorFactory(ApfelFunction<Vector3D> function, double bound) {
-		return new ApfelIteratorFactory<Vector3D, Coordinate>(mapper, function, new BoundaryTest<Vector3D>(bound));
+		return new ApfelIteratorFactory<>(mapper, function, new BoundaryTest<>(bound));
     }
 
     public FractalIteratorFactory<Coordinate3D> getApfel3DIteratorFactory(ApfelFunction<Vector3D> function, double bound) {
-        return new ApfelIteratorFactory<Vector3D, Coordinate3D>(mapper3D, function, new BoundaryTest<Vector3D>(bound));
+        return new ApfelIteratorFactory<>(mapper3D, function, new BoundaryTest<>(bound));
     }
 
     public static class ApfelFunctionVectorExperimental implements ApfelFunction<Vector3D> {
 
-        private int izx;
-        private int izy;
-        private int izz;
+        private final int izx;
+        private final int izy;
+        private final int izz;
         
         public ApfelFunctionVectorExperimental(int number) {
             int n = number;
@@ -92,14 +92,14 @@ public class Vector3DFunctionCollection implements FunctionCollection<Vector3D> 
     }
 
     public List<ApfelFunction<Vector3D>> getCollection() {
-        List<ApfelFunction<Vector3D>> functions = new ArrayList<ApfelFunction<Vector3D>>();
+        List<ApfelFunction<Vector3D>> functions = new ArrayList<>();
 
         for(int n = 2; n <= 8; n++)
-            functions.add(new ApfelFunctionPow<Vector3D>(n));
+            functions.add(new ApfelFunctionPow<>(n));
 
         for (int n = 2; n <= 6; n++)
             for (int m = 1; m < n; m++)
-                functions.add(new ApfelFunctionPowSum<Vector3D>(n, m));
+                functions.add(new ApfelFunctionPowSum<>(n, m));
 
         functions.add(new ApfelFunctionVector3DRot(Math.PI, 2.0));
         functions.add(new ApfelFunctionVector3DRot(Math.PI / 2.0, 2.0));

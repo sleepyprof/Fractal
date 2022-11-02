@@ -7,6 +7,7 @@ trait OptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
   def isNumber: Boolean
 
   def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y
+  def filterNumber(cond: X => Boolean): O
 
   def unary_+ : O = this
   def unary_- : O

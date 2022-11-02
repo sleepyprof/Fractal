@@ -7,10 +7,10 @@ import java.util.Vector;
 
 public class CalculationObservable extends Observable implements CalculationListener {
 
-    private Vector<CalculationListener> listeners;
+    private final Vector<CalculationListener> listeners;
 
     public CalculationObservable() {
-    	listeners = new Vector<CalculationListener>();
+    	listeners = new Vector<>();
     }
 
     public synchronized void addCalculationListener(CalculationListener listener) {

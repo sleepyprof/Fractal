@@ -10,8 +10,8 @@ public class CoordinateColorStrategy implements ColorStrategy<IterateInfo<Coordi
 
     private Palette palette;
 
-    private double radius;
-    private double delta;
+    private final double radius;
+    private final double delta;
 
     public CoordinateColorStrategy(Palette palette, double radius, double delta) {
         this.palette = palette;

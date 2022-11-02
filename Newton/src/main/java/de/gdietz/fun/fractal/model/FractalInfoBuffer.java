@@ -6,7 +6,7 @@ import de.gdietz.fun.fractal.util.Coordinate;
 
 public class FractalInfoBuffer<I> extends FractalCanvasImpl implements FractalWritableBuffer<IterateInfo<I>> {
 
-    private final IterateInfo<I> INVALID = new IterateInfo<I>();
+    private final IterateInfo<I> INVALID = new IterateInfo<>();
 
     private boolean ready = false;
 

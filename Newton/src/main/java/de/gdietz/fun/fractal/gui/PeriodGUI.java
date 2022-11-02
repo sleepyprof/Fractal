@@ -37,14 +37,14 @@ public class PeriodGUI extends JPanel implements PaletteView, FractalIteratorMan
 
         ColorStrategy<Integer> coloring = new SimpleColorStrategy(palette, false);
 
-        FractalPicture<Coordinate> picture = new FractalPictureImpl<Integer>(model, coloring);
-        pictureView = resizeable ? new FractalScaledPictureView<Coordinate>(picture, pairedController) :
-                new FractalPictureView<Coordinate>(picture, pairedController);
+        FractalPicture<Coordinate> picture = new FractalPictureImpl<>(model, coloring);
+        pictureView = resizeable ? new FractalScaledPictureView<>(picture, pairedController) :
+                new FractalPictureView<>(picture, pairedController);
 
 		JComponent controlView = new FractalEditView(model, controller);
 		JPanel panel = getPanel(pictureView, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<Coordinate>(this, true);
+		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

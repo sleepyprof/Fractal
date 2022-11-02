@@ -11,7 +11,8 @@ import de.gdietz.fun.fractal.meta.FractalMetadata;
 import de.gdietz.fun.fractal.model.Fractal3DModel;
 import de.gdietz.fun.fractal.util.Coordinate3D;
 import de.gdietz.imageio.PNGWriter;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.media.j3d.*;
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
     private Shape3D body;
     private List<Point3f> points;
 
-    private static Logger log = Logger.getLogger(Fractal3DPictureView.class);
+    private final static Logger log = LoggerFactory.getLogger(Fractal3DPictureView.class);
 
     public Fractal3DPictureView(Fractal3DModel model, Fractal3DController controller) {
         this.model = model;
@@ -95,8 +96,6 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
         polygonAttr.setCullFace(PolygonAttributes.CULL_NONE);
         polygonAttr.setBackFaceNormalFlip(true);
 
-//        material.setDiffuseColor(0.5f, 1.0f, 0.5f);
-//        material.setAmbientColor(0.8f, 0.4f, 0.4f);
         material.setDiffuseColor(0.7f, 0.7f, 0.7f);
         material.setAmbientColor(0.7f, 0.7f, 0.7f);
         material.setLightingEnable(true);
@@ -144,7 +143,7 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
     }
 
     private List<Light> getLights() {
-        List<Light> lights = new ArrayList<Light>();
+        List<Light> lights = new ArrayList<>();
 
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
 
@@ -204,7 +203,7 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
     public BranchGroup createSceneGraph() {
         log.info("Calculating surfaces...");
 
-        points = new ArrayList<Point3f>();
+        points = new ArrayList<>();
 
         int size = model.getSize();
         for(int x=0; x <= size; x++) {
@@ -264,8 +263,8 @@ public class Fractal3DPictureView extends JPanel implements FractalView, Saveabl
         Transform3D inverseTransform = new Transform3D(currentTransform);
         inverseTransform.invert();
 
-        List<Point3d> intersections = new ArrayList<Point3d>();
-        List<Double> dists = new ArrayList<Double>();
+        List<Point3d> intersections = new ArrayList<>();
+        List<Double> dists = new ArrayList<>();
         for(int count=0; count<points.size(); count+=4) {
             Point3d p1 = new Point3d(points.get(count));
             Point3d p2 = new Point3d(points.get(count+1));
