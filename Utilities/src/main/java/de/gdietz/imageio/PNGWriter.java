@@ -36,7 +36,6 @@ public class PNGWriter {
             this.metadata.put(key, metadata.get(key));
     }
 
-    @SuppressWarnings("unchecked")
     public void write() throws IOException {
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(EXTENSION);
         ImageWriter writer = writers.next();

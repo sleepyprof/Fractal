@@ -67,7 +67,7 @@ public class FractalFuzzySelector extends JPanel implements FractalView {
 		update();
 	}
 
-    public FractalFuzzySelector(FractalModel model, FractalFuzzyController controller) {
+    public FractalFuzzySelector(FractalModelBase model, FractalFuzzyController controller) {
         this(model, controller, false);
     }
 
