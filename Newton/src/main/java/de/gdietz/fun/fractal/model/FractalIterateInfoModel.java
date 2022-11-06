@@ -9,15 +9,15 @@ import de.gdietz.fun.fractal.util.Coordinate;
 
 public class FractalIterateInfoModel<I> extends FractalSimpleIterateModelAdapter<IterateInfo<I>> {
 
-    private final IterateInfoProvider<I, FractalIterator<Coordinate>> infoProvider;
+    private final IterateInfoProvider<I, Coordinate, FractalIterator<Coordinate>> infoProvider;
 
-	public FractalIterateInfoModel(IterateInfoProvider<I, FractalIterator<Coordinate>> infoProvider,
+	public FractalIterateInfoModel(IterateInfoProvider<I, Coordinate, FractalIterator<Coordinate>> infoProvider,
                                    int width, int height, Coordinate from, Coordinate to, FractalIteratorFactory<Coordinate> iteratorFactory, int maxiter, boolean julia) {
 		super(new FractalInfoBuffer<>(width, height, from, to), iteratorFactory, maxiter, julia);
         this.infoProvider = infoProvider;
 	}
 
-	public FractalIterateInfoModel(IterateInfoProvider<I, FractalIterator<Coordinate>> infoProvider,
+	public FractalIterateInfoModel(IterateInfoProvider<I, Coordinate, FractalIterator<Coordinate>> infoProvider,
                                    int width, int height, Coordinate from, Coordinate to, FractalIteratorFactory<Coordinate> iteratorFactory, int maxiter) {
 		this(infoProvider, width, height, from, to, iteratorFactory, maxiter, false);
 	}

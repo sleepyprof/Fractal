@@ -309,8 +309,8 @@ public class FractalStarter implements ListSelectionListener {
 
     public static String checkJava3D() {
         try {
-            Map properties = VirtualUniverse.getProperties();
-            return  properties.get("j3d.version").toString();
+            Map<?, ?> properties = VirtualUniverse.getProperties();
+            return properties.get("j3d.version").toString();
         } catch (Throwable e) {
             log.warn("Could not get Java3D version", e);
             return null;

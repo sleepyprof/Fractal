@@ -13,8 +13,6 @@ import de.gdietz.fun.fractal.gui.FractalTilesGUI;
 import de.gdietz.fun.fractal.mandel.MandelbrotIteratorFactory;
 import de.gdietz.fun.fractal.util.Complex;
 import de.gdietz.fun.fractal.util.Coordinate;
-import de.gdietz.fun.fractal.util.Quaternion;
-import de.gdietz.fun.fractal.util.Vector3D;
 import de.gdietz.fun.fractal.view.SaveableView;
 
 import javax.swing.*;

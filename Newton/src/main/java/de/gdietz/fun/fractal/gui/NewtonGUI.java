@@ -29,7 +29,7 @@ public class NewtonGUI extends JPanel implements PaletteView, FractalIteratorMan
 	                 Coordinate from, Coordinate to, boolean julia, boolean resizeable) {
 		super(new GridBagLayout());
 
-        IterateInfoProvider<Coordinate, FractalIterator<Coordinate>> infoProvider = new CoordinateInfoProvider();
+        IterateInfoProvider<Coordinate, Coordinate, FractalIterator<Coordinate>> infoProvider = new CoordinateInfoProvider();
 
         FractalIterateModel<IterateInfo<Coordinate>> model = new FractalIterateInfoModel<>(infoProvider, width, height, from, to, iteratorFactory, maxiter, julia);
         model.setParameter(Complex.ONE);
@@ -47,7 +47,7 @@ public class NewtonGUI extends JPanel implements PaletteView, FractalIteratorMan
 
         FractalPicture<Coordinate> picture = new FractalPictureImpl<>(model, coloring);
         pictureView = resizeable ? new FractalScaledPictureView<>(picture, pairedController) :
-                new FractalPictureView<>(picture, pairedController);
+				new FractalPictureView<>(picture, pairedController);
 
         JComponent controlView = new FractalEditView(model, controller);
 		JPanel panel = getPanel(pictureView, controlView);
