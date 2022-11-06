@@ -9,7 +9,6 @@ trait NoHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[O,
   final override def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y = ifNoNumber
   final override def filterNumber(cond: X => Boolean): O = none
 
-  @inline override def unary_+ : O = this
   @inline override def unary_- : O = none
 
   @inline override def +(r: Double): O = none

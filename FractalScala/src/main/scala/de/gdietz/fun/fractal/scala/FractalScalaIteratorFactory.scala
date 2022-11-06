@@ -23,9 +23,11 @@ case class FractalScalaIteratorFactory(code: String) extends FractalIteratorFact
 
     val toolbox = runtimeMirror(getClass.getClassLoader).mkToolBox()
     val tree = toolbox.parse(fullCode)
-    toolbox.typecheck(tree, pt = typeOf[FractalIteratorDefinition])
     val definition0 = toolbox.compile(tree)
-    definition0().asInstanceOf[FractalIteratorDefinition]
+    definition0() match {
+      case d: FractalIteratorDefinition => d
+      case _ => sys.error("compile result is not a FractalIteratorDefinition")
+    }
   }
 
   private lazy val definition: FractalIteratorDefinition =
@@ -59,13 +61,30 @@ case class FractalScalaIteratorFactory(code: String) extends FractalIteratorFact
 
 object FractalScalaIteratorFactory {
 
+  val simpleCode: String =
+    """( (c: Complex, p: Complex) => (
+      |    p,
+      |    (z: Complex) => z.sqr + c
+      |  ),
+      |  (z: Complex) => z.normSqr <= 4.0
+      |)""".stripMargin
+
+  val z3z2Code: String =
+    """( (c: Complex, p: Complex) => {
+      |  val p3 = 1.0 + p
+      |  val p2 = 1.0 - p
+      |  val z0 = p2 / (-1.5 * p3)
+      |  (
+      |    ComplexVector2(Complex.zero, z0),
+      |    (z: ComplexVector2) =>
+      |      (p3 *! z.cube + p2 *!: z.sqr +! c).filterNumber(_.normSqr <= 400.0)
+      |  )},
+      |  (z: ComplexVector2) => z.exists(_.isNumber)
+      |)""".stripMargin
+
+
+  // more interesting formula for default...
   val default: FractalScalaIteratorFactory =
-    FractalScalaIteratorFactory(
-      """( (c: Complex, p: Complex) => (
-        |    p,
-        |    (z: Complex) => z.sqr + c
-        |  ),
-        |  (z: Complex) => z.normSqr <= 4.0
-        |)""".stripMargin)
+    FractalScalaIteratorFactory(z3z2Code)
 
 }

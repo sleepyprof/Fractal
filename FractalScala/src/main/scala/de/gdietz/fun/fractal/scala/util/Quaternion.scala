@@ -131,6 +131,9 @@ object Quaternion {
   implicit def doubleToQuaternion(x: Double): Quaternion =
     Quaternion(x)
 
+  implicit def realToQuaternion(x: Real): Quaternion =
+    Quaternion(x.x)
+
   implicit def complexToQuaternion(c: Complex): Quaternion =
     Quaternion(c.x, c.y)
 

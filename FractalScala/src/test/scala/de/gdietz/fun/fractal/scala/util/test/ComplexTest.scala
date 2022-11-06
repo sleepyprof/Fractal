@@ -66,6 +66,15 @@ object ComplexTest {
     println("qo + qo = " + (qo + qo))
 
     println("-----")
+    println("-----")
+
+    val v = ComplexVector2(c, co)
+
+    println("v  +  v  = " + (v  + v ))
+    println("v  +! c  = " + (v  +! c ))
+    println("c  +! v  = " + (c  +! v ))
+
+    println("-----")
   }
 
 }

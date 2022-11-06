@@ -13,6 +13,8 @@ sealed trait OptComplex
   override val zero: Complex = Complex.zero
   override val unit: Complex = Complex.one
 
+  def toRealVector: RealVector2
+
 }
 
 object OptComplex {
@@ -149,6 +151,9 @@ case class Complex(x: Double, y: Double = 0.0)
   }
 
 
+  override def toRealVector: RealVector2 =
+    RealVector2(Real(x), Real(y))
+
   def toJavaComplex: JavaComplex = new JavaComplex(x, y)
 
 
@@ -180,6 +185,9 @@ object Complex {
   implicit def doubleToComplex(x: Double): Complex =
     Complex(x)
 
+  implicit def realToComplex(x: Real): Complex =
+    Complex(x.x)
+
   implicit def coordinateToComplex(c: Coordinate): Complex =
     Complex(c.getX, c.getY)
 
@@ -188,6 +196,9 @@ object Complex {
 case object NoComplex
   extends OptComplex
     with NoHigherNumber[OptComplex, Complex] {
+
+  override def toRealVector: RealVector2 =
+    RealVector2(OptReal.none, OptReal.none)
 
   override def toString: String = "na"
 
