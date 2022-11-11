@@ -53,7 +53,7 @@ public class FractalAnimCombinedGUI extends JPanel implements PaletteView, Fract
         JComponent controlView = new FractalAnimEditView(model, controller);
 		JPanel panel = getPanel(animView, pictureView, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
+		iteratorSelector = AdvancedFractalIteratorFactorySelector.create(Coordinate.class, this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

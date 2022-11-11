@@ -67,6 +67,8 @@ public class PeriodTest extends FractalWindow {
         iteratorSelector.addCustom(parser, mapper, bound, maxiter, "custom");
         iteratorSelector.addCustom(parser, mapper, Complex.ZERO, bound, maxiter, "p-custom");
 
+        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
+
         add(gui);
 
         JMenuBar menu = new FractalMenuBar(this);

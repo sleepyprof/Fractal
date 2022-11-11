@@ -64,6 +64,8 @@ public class FractalPreciseTest extends FractalWindow {
         iteratorSelector.addCustomPrecise(parser, mapper, bound, maxiter, maxScale, "custom");
         iteratorSelector.addCustomPrecise(parser, mapper, BigComplex.ZERO, bound, maxiter, maxScale, "p-custom");
 
+        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
+
         add(gui);
 
 		JMenuBar menu = new FractalMenuBar(this);

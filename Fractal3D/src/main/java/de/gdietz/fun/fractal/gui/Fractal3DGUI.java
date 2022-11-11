@@ -29,7 +29,7 @@ public class Fractal3DGUI extends JPanel implements FractalIteratorManager<Coord
 		JComponent controlView = new Fractal3DEditView(model, controller);
 		JPanel panel = getPanel(picture, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
+		iteratorSelector = AdvancedFractalIteratorFactorySelector.create(Coordinate3D.class, this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

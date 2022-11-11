@@ -44,7 +44,7 @@ public class PeriodGUI extends JPanel implements PaletteView, FractalIteratorMan
 		JComponent controlView = new FractalEditView(model, controller);
 		JPanel panel = getPanel(pictureView, controlView);
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
+		iteratorSelector = AdvancedFractalIteratorFactorySelector.create(Coordinate.class, this, true);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

@@ -13,7 +13,9 @@ import de.gdietz.fun.fractal.util.Tuple;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 public class AdvancedFractalIteratorFactorySelector<T extends Tuple<T>> extends FractalIteratorFactorySelector<T> {
 
@@ -114,6 +116,23 @@ public class AdvancedFractalIteratorFactorySelector<T extends Tuple<T>> extends 
 
     public <X extends Normed> void addCustom(CalculatorParser<X> parser, ParamCoordMapper<X, X, T> mapper, X z0, double bound, int maxiter, String description) {
         addCustom(parser, mapper, z0, new BoundaryTest<>(bound), maxiter, description);
+    }
+
+    public void addScalaIfPossible(int maxiter, String description) {
+    }
+
+
+    public static <T extends Tuple<T>> AdvancedFractalIteratorFactorySelector<T> create(Class<? extends T> clazz, FractalIteratorManager<T> listener, boolean askMaxiter) {
+        Iterator<AdvancedFractalIteratorFactorySelectorProvider> iterator = ServiceLoader.load(AdvancedFractalIteratorFactorySelectorProvider.class).iterator();
+        if (iterator.hasNext()) {
+            AdvancedFractalIteratorFactorySelectorProvider provider = iterator.next();
+            return provider.createIteratorFactorySelectorProvider(clazz, listener, askMaxiter);
+        }
+        return new AdvancedFractalIteratorFactorySelector<>(listener, askMaxiter);
+    }
+
+    public static <T extends Tuple<T>> AdvancedFractalIteratorFactorySelector<T> create(Class<? extends T> clazz, FractalIteratorManager<T> listener) {
+        return create(clazz, listener, false);
     }
 
 }

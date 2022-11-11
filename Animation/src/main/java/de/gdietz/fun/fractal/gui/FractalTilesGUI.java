@@ -43,7 +43,7 @@ public class FractalTilesGUI extends JPanel implements PaletteView, FractalItera
         JComponent controlView = new FractalTilesEditView(model, controller);
         JPanel panel = getPanel(pictureView, controlView);
 
-        iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
+        iteratorSelector = AdvancedFractalIteratorFactorySelector.create(Coordinate.class, this, true);
         iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

@@ -108,7 +108,7 @@ public class FractalGUI extends JPanel implements PaletteView, FractalIteratorMa
         }
         pictureViewRight = pictureViewSecond;
 
-		iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, !endless);
+		iteratorSelector = AdvancedFractalIteratorFactorySelector.create(Coordinate.class, this, !endless);
 		iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

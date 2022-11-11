@@ -45,7 +45,7 @@ public class FractalZoomGUI extends JPanel implements PaletteView, FractalIterat
         JComponent controlView = new FractalZoomEditView(model, controller);
         JPanel panel = getPanel(animView, controlView);
 
-        iteratorSelector = new AdvancedFractalIteratorFactorySelector<>(this, true);
+        iteratorSelector = AdvancedFractalIteratorFactorySelector.create(Coordinate.class, this, true);
         iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

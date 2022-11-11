@@ -64,11 +64,6 @@
             <artifactId>fractal</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>de.gdietz.fractal</groupId>
-            <artifactId>animation</artifactId>
-        </dependency>
-
         <!-- Scala -->
 
         <dependency>

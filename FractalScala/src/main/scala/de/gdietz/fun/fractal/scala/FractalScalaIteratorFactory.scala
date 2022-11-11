@@ -30,11 +30,17 @@ case class FractalScalaIteratorFactory(code: String) extends FractalIteratorFact
     }
   }
 
-  private lazy val definition: FractalIteratorDefinition =
+  private[scala] lazy val tryDefinition: Either[Throwable, FractalIteratorDefinition] =
     try
-      compile()
+      Right(compile())
     catch {
-      case NonFatal(e) =>
+      case NonFatal(e) =>  Left(e)
+    }
+
+  private lazy val definition: FractalIteratorDefinition =
+    tryDefinition match {
+      case Right(definition1) => definition1
+      case Left(e) =>
         e.printStackTrace()
         FractalIteratorDefinition.invalid
     }

@@ -62,6 +62,8 @@ public class Fractal3DTest extends FractalWindow {
         iteratorSelector.addCustom(parser, mapper, bound, maxiter, "custom");
         iteratorSelector.addCustom(parser, mapper, Quaternion.ZERO, bound, maxiter, "p-custom");
 
+        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
+
         add(gui);
 
         JMenuBar menu = new FractalMenuBar(this);
