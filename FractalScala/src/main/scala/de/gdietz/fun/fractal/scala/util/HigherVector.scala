@@ -28,4 +28,8 @@ trait HigherVector[V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: 
   def /!(x: O): V
   def /!:(x: O): V
 
+
+  def ::(x: O): HigherVector[_, O, X]
+  def toHigherVectorN: HigherVectorN[O, X]
+
 }

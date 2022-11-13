@@ -126,6 +126,9 @@ object Quaternion {
   val j: Quaternion = Quaternion(0.0, 0.0, 1.0)
   val k: Quaternion = Quaternion(0.0, 0.0, 0.0, 1.0)
   val minusOne: Quaternion = Quaternion(-1.0)
+  val minusI: Quaternion = Quaternion(0.0, -1.0)
+  val minusJ: Quaternion = Quaternion(0.0, 0.0, -1.0)
+  val minusK: Quaternion = Quaternion(0.0, 0.0, 0.0, -1.0)
 
 
   implicit def doubleToQuaternion(x: Double): Quaternion =

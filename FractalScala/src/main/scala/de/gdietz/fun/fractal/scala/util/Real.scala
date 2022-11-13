@@ -63,6 +63,8 @@ case class Real(x: Double)
 
   override def /(c: Real): Real = Real(x / c.x)
 
+  override def /:(r: Double): Real = Real(r / x)
+
   override def conjugate: Real = this
 
   override def sqr: Real = Real(x * x)

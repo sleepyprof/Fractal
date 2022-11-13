@@ -44,10 +44,9 @@ case class Complex(x: Double, y: Double = 0.0)
 
   override def normSqr: Double = x * x + y * y
 
-  def arg: Double = {
-    if (x == 0.0 && y == 0.0) return 0.0
-    Math.atan2(y, x)
-  }
+  def arg: Double =
+    if (x == 0.0 && y == 0.0) 0.0
+    else Math.atan2(y, x)
 
   override def unary_- : Complex = Complex(-x, -y)
 
@@ -97,23 +96,23 @@ case class Complex(x: Double, y: Double = 0.0)
 
   def log: Complex = Complex(Math.log(norm), arg)
 
-  def pow(c: Complex): Complex = {
-    if (x == 0.0 && y == 0.0) return Complex.zero
-    (log * c).exp
-  }
+  def pow(c: Complex): Complex =
+    if (x == 0.0 && y == 0.0) Complex.zero
+    else (log * c).exp
 
-  def pow(d: Double): Complex = {
-    if (x == 0.0 && y == 0.0) return Complex.zero
-    val pr = Math.pow(norm, d)
-    val pa = d * arg
-    Complex(pr * Math.cos(pa), pr * Math.sin(pa))
-  }
+  def pow(d: Double): Complex =
+    if (x == 0.0 && y == 0.0) Complex.zero
+    else {
+      val pr = Math.pow(norm, d)
+      val pa = d * arg
+      Complex(pr * Math.cos(pa), pr * Math.sin(pa))
+    }
 
   @inline def **(c: Complex): Complex = pow(c)
 
   @inline def **(d: Double): Complex = pow(d)
 
-  def sqrt: Complex = {
+  def sqrt: Complex =
     if (y == 0.0) {
       if (x >= 0.0) Complex(Math.sqrt(x))
       else Complex(0.0, Math.sqrt(-x))
@@ -122,7 +121,24 @@ case class Complex(x: Double, y: Double = 0.0)
       val w = Math.sqrt(2.0 * (x + r))
       Complex(0.5 * w, y / w)
     }
+
+  def roots2: ComplexVector2 = {
+    val sqrt0 = sqrt
+    ComplexVector2(sqrt0, -sqrt0)
   }
+
+  def roots(n: Int): ComplexVectorN =
+    if (x == 0.0 && y == 0.0) ComplexVectorN(List.fill(n)(Complex.zero))
+    else if (n <= 0) ComplexVectorN(Nil)
+    else {
+      val pr = Math.pow(norm, 1.0 / n)
+      val pa = arg / n
+      val phi1 = ComplexVectorN.pi2 / n
+      ComplexVectorN((0 until n).view.map { k =>
+        val phi = pa + phi1 * k
+        Complex(pr * Math.cos(phi), pr * Math.sin(phi))
+      }.toList)
+    }
 
   def sin: Complex =
     Complex(Math.sin(x) * Math.cosh(y), Math.cos(x) * Math.sinh(y))
@@ -177,6 +193,8 @@ object Complex {
   val one: Complex = Complex(1.0)
   val i: Complex = Complex(0.0, 1.0)
   val minusOne: Complex = Complex(-1.0)
+  val minusI: Complex = Complex(0.0, -1.0)
+
 
   def fromPolar(r: Double, phi: Double): Complex =
     Complex(r * Math.cos(phi), r * Math.sin(phi))

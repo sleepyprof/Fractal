@@ -37,4 +37,8 @@ trait OptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
   @inline def *![V <: HigherVector[V, O, X]](x: V): V = this *!: x
   @inline def /![V <: HigherVector[V, O, X]](x: V): V = this /!: x
 
+
+  final override def ::(x: O): HigherVector2[O, X] = HigherVector2(x, this)
+  final override def toHigherVectorN: HigherVectorN[O, X] = HigherVectorN(this :: Nil)
+
 }

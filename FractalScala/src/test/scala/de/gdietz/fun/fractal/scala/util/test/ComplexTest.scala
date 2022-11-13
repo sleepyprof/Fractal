@@ -75,6 +75,13 @@ object ComplexTest {
     println("c  +! v  = " + (c  +! v ))
 
     println("-----")
+
+    println("c.roots2        = " + c.roots2)
+    println("c.roots(2)      = " + c.roots(2))
+    println("c.roots(3)      = " + c.roots(3))
+    println("c.roots(3).cube = " + c.roots(3).cube)
+    println("c.roots2.sqr    = " + c.roots2.sqr)
+
   }
 
 }

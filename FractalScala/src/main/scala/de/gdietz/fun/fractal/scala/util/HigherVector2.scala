@@ -42,6 +42,12 @@ case class HigherVector2[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
   override def inverse: HigherVector2[O, X] =
     HigherVector2(x1.inverse, x2.inverse)
 
+  override def /(x: HigherVector2[O, X]): HigherVector2[O, X] =
+    HigherVector2(x1 / x.x1, x2 / x.x2)
+
+  override def \(x: HigherVector2[O, X]): HigherVector2[O, X] =
+    HigherVector2(x1 \ x.x1, x2 \ x.x2)
+
   override def conjugate: HigherVector2[O, X] =
     HigherVector2(x1.conjugate, x2.conjugate)
 
@@ -59,6 +65,9 @@ case class HigherVector2[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
 
   override def cube: HigherVector2[O, X] =
     HigherVector2(x1.cube, x2.cube)
+
+  override def pow(n: Int): HigherVector2[O, X] =
+    HigherVector2(x1.pow(n), x2.pow(n))
 
   override def +!(x: O): HigherVector2[O, X] =
     HigherVector2(x1 + x, x2 + x)
@@ -103,6 +112,13 @@ case class HigherVector2[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
     HigherVector2(r /: x1, r /: x2)
 
 
+  final override def ::(x: O): HigherVector3[O, X] =
+    HigherVector3(x, x1, x2)
+
+  final override def toHigherVectorN: HigherVectorN[O, X] =
+    HigherVectorN(x1 :: x2 :: Nil)
+
+
   override def toString: String =
     "(" + x1 + ", " + x2 + ")"
 
@@ -111,27 +127,33 @@ case class HigherVector2[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
 
 object RealVector2 {
 
-  def apply(x1: OptReal, x2: OptReal): RealVector2 =
+  @inline def apply(x1: OptReal, x2: OptReal): RealVector2 =
     HigherVector2(x1, x2)
 
   def unapply(x: RealVector2): Option[(OptReal, OptReal)] =
     Some((x.x1, x.x2))
 
+  val zero: RealVector2 =
+    RealVector2(Real.zero, Real.zero)
+
 }
 
 object ComplexVector2 {
 
-  def apply(x1: OptComplex, x2: OptComplex): ComplexVector2 =
+  @inline def apply(x1: OptComplex, x2: OptComplex): ComplexVector2 =
     HigherVector2(x1, x2)
 
   def unapply(x: ComplexVector2): Option[(OptComplex, OptComplex)] =
     Some((x.x1, x.x2))
 
+  val sigmas2: ComplexVector2 =
+    ComplexVector2(Complex.one, Complex.minusOne)
+
 }
 
 object QuaternionVector2 {
 
-  def apply(x1: OptQuaternion, x2: OptQuaternion): QuaternionVector2 =
+  @inline def apply(x1: OptQuaternion, x2: OptQuaternion): QuaternionVector2 =
     HigherVector2(x1, x2)
 
   def unapply(x: QuaternionVector2): Option[(OptQuaternion, OptQuaternion)] =
