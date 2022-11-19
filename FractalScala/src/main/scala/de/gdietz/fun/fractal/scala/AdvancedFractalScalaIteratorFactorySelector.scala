@@ -19,7 +19,7 @@ class AdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManag
     private var code = FractalScalaIteratorFactory.z3z2Code
 
     override def getIteratorFactory: FractalIteratorFactory[Coordinate] = {
-      val textCode: JTextArea = new JTextArea(5, 50)
+      val textCode: JTextArea = new JTextArea(12, 80)
       val scrollTextCode: JScrollPane = new JScrollPane(textCode)
       textCode.setText(this.code)
 

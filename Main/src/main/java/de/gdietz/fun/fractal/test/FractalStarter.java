@@ -317,6 +317,7 @@ public class FractalStarter implements ListSelectionListener {
     static {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.getDefaults().put("TextArea.font", UIManager.getFont("TextArea.font").deriveFont(UIManager.getFont("TextField.font").getSize2D()));
         } catch (Exception e) {
             log.warn("Could not set look&feel", e);
         }
