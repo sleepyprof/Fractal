@@ -16,7 +16,7 @@ class AdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManag
   class InteractiveFractalScalaIteratorData(maxiter: Int, description: String)
     extends FractalIteratorData[Coordinate](null, maxiter, description) {
 
-    private var code = FractalScalaIteratorFactory.z3z2Code
+    private var code = FractalScalaIteratorFactory.defaultCode
 
     override def getIteratorFactory: FractalIteratorFactory[Coordinate] = {
       val textCode: JTextArea = new JTextArea(12, 80)
