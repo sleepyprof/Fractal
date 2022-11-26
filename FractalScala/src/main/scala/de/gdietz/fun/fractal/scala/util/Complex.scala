@@ -96,6 +96,8 @@ case class Complex(x: Double, y: Double = 0.0)
 
   def log: Complex = Complex(Math.log(norm), arg)
 
+  @inline override def pow(n: Int): Complex = super.pow(n)
+
   def pow(c: Complex): Complex =
     if (x == 0.0 && y == 0.0) Complex.zero
     else (log * c).exp
@@ -107,6 +109,8 @@ case class Complex(x: Double, y: Double = 0.0)
       val pa = d * arg
       Complex(pr * Math.cos(pa), pr * Math.sin(pa))
     }
+
+  @inline override def **(n: Int): Complex = pow(n)
 
   @inline def **(c: Complex): Complex = pow(c)
 

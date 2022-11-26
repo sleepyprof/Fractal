@@ -1,6 +1,6 @@
 package de.gdietz.fun.fractal.scala
 
-import de.gdietz.fun.fractal.scala.util.{Complex, Quaternion, Real}
+import de.gdietz.fun.fractal.scala.util.{Complex, Quaternion, Real, Vector3D}
 
 import scala.language.implicitConversions
 
@@ -89,6 +89,19 @@ object QuaternionFractalIteratorDefinition {
   def apply[X](z0Func: (Quaternion, Quaternion) => X)
               (zNextFunc: (Quaternion, Quaternion, Double) => X => X)
               (isValidFunc: Double => X => Boolean): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition(z0Func)(zNextFunc)(isValidFunc)
+
+}
+
+object Vector3DFractalIteratorDefinition {
+
+  def apply[X](initializeFunc: (Vector3D, Vector3D, Double) => FractalInitializedIteratorDefinition[X])
+              (validityTestFunc: Double => ValidityTest[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition(initializeFunc)(validityTestFunc)
+
+  def apply[X](z0Func: (Vector3D, Vector3D) => X)
+              (zNextFunc: (Vector3D, Vector3D, Double) => X => X)
+              (isValidFunc: Double => X => Boolean): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition(z0Func)(zNextFunc)(isValidFunc)
 
 }

@@ -4,21 +4,27 @@ import de.gdietz.fun.fractal.controller.FractalIteratorManager
 import de.gdietz.fun.fractal.formula.FractalIteratorFactory
 import de.gdietz.fun.fractal.gui.AdvancedFractalIteratorFactorySelector
 import de.gdietz.fun.fractal.gui.FractalIteratorFactorySelector.FractalIteratorData
-import de.gdietz.fun.fractal.util.Coordinate
+import de.gdietz.fun.fractal.scala.util.{Complex, Quaternion, Vector3D}
+import de.gdietz.fun.fractal.util.{Coordinate, Coordinate3D, Coordinate4D, Tuple}
 
 import javax.swing.{JOptionPane, JScrollPane, JTextArea}
 
-class AdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManager[Coordinate],
-                                                  askMaxiter: Boolean = false)
-  extends AdvancedFractalIteratorFactorySelector[Coordinate](listener, askMaxiter) {
+abstract class AdvancedFractalScalaIteratorFactorySelector[T <: Tuple[T], C](listener: FractalIteratorManager[T],
+                                                                             askMaxiter: Boolean = false)
+  extends AdvancedFractalIteratorFactorySelector[T](listener, askMaxiter) {
   selector =>
 
+  def defaultCode: String
+
+  def fractalScalaIteratorFactory(code: String): FractalScalaIteratorFactory[T, C]
+
+
   class InteractiveFractalScalaIteratorData(maxiter: Int, description: String)
-    extends FractalIteratorData[Coordinate](null, maxiter, description) {
+    extends FractalIteratorData[T](null, maxiter, description) {
 
-    private var code = FractalScalaIteratorFactory.defaultCode
+    private var code = defaultCode
 
-    override def getIteratorFactory: FractalIteratorFactory[Coordinate] = {
+    override def getIteratorFactory: FractalIteratorFactory[T] = {
       val textCode: JTextArea = new JTextArea(12, 80)
       val scrollTextCode: JScrollPane = new JScrollPane(textCode)
       textCode.setText(this.code)
@@ -29,7 +35,7 @@ class AdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManag
       val code0 = if (response == JOptionPane.OK_OPTION) textCode.getText else null
       val code = Option(code0).getOrElse(this.code)
 
-      val factory = new FractalScalaIteratorFactory(code)
+      val factory = fractalScalaIteratorFactory(code)
       factory.tryDefinition.left.foreach { e =>
         val message = "Invalid Scala code: " + e.getMessage
         JOptionPane.showMessageDialog(selector, message, "Error", JOptionPane.ERROR_MESSAGE)
@@ -44,8 +50,48 @@ class AdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManag
 
 
   override def addScalaIfPossible(maxiter: Int, description: String): Unit = {
-    val iteratorData: FractalIteratorData[Coordinate] = new InteractiveFractalScalaIteratorData(maxiter, description)
+    val iteratorData: FractalIteratorData[T] = new InteractiveFractalScalaIteratorData(maxiter, description)
     addIteratorData(iteratorData)
   }
+
+}
+
+
+class ComplexAdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManager[Coordinate],
+                                                         askMaxiter: Boolean = false)
+  extends AdvancedFractalScalaIteratorFactorySelector[Coordinate, Complex](listener, askMaxiter) {
+  selector =>
+
+  override def defaultCode: String =
+    ComplexFractalScalaIteratorFactory.defaultCode
+
+  override def fractalScalaIteratorFactory(code: String): ComplexFractalScalaIteratorFactory =
+    ComplexFractalScalaIteratorFactory(code)
+
+}
+
+class QuaternionAdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManager[Coordinate4D],
+                                                            askMaxiter: Boolean = false)
+  extends AdvancedFractalScalaIteratorFactorySelector[Coordinate4D, Quaternion](listener, askMaxiter) {
+  selector =>
+
+  override def defaultCode: String =
+    QuaternionFractalScalaIteratorFactory.defaultCode
+
+  override def fractalScalaIteratorFactory(code: String): QuaternionFractalScalaIteratorFactory =
+    QuaternionFractalScalaIteratorFactory(code)
+
+}
+
+class Vector3DAdvancedFractalScalaIteratorFactorySelector(listener: FractalIteratorManager[Coordinate3D],
+                                                          askMaxiter: Boolean = false)
+  extends AdvancedFractalScalaIteratorFactorySelector[Coordinate3D, Vector3D](listener, askMaxiter) {
+  selector =>
+
+  override def defaultCode: String =
+    Vector3DFractalScalaIteratorFactory.defaultCode
+
+  override def fractalScalaIteratorFactory(code: String): Vector3DFractalScalaIteratorFactory =
+    Vector3DFractalScalaIteratorFactory(code)
 
 }

@@ -75,9 +75,13 @@ case class Real(x: Double)
 
   def log: Real = Real(Math.log(x))
 
+  @inline override def pow(n: Int): Real = super.pow(n)
+
   def pow(c: Real): Real = Real(Math.pow(x, c.x))
 
   def pow(d: Double): Real = Real(Math.pow(x, d))
+
+  @inline override def **(n: Int): Real = pow(n)
 
   @inline def **(c: Real): Real = pow(c)
 

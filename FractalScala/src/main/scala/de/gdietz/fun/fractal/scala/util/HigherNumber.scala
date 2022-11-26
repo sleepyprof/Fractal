@@ -1,16 +1,10 @@
 package de.gdietz.fun.fractal.scala.util
 
 trait HigherNumber[X <: HigherNumber[X]]
-  extends HigherRealModNumber[X] with NormedNumber {
+  extends Vector[X] with HigherRealModNumber[X] {
   self: X =>
 
   def isUnit: Boolean
-
-  def unary_+ : X = this
-  def unary_- : X
-
-  def +(x: X): X
-  def -(x: X): X
 
   def *(x: X): X
 
@@ -21,7 +15,6 @@ trait HigherNumber[X <: HigherNumber[X]]
 
   def conjugate: X
 
-  def zero: X
   def unit: X
 
   def sqr: X

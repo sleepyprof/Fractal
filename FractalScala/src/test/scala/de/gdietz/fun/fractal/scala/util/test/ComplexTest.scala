@@ -66,6 +66,12 @@ object ComplexTest {
     println("qo + qo = " + (qo + qo))
 
     println("-----")
+
+    println("c ** 3     = " + (c ** 3))
+    println("c.pow(3)   = " + c.pow(3))
+    println("c ** 3.0   = " + (c ** 3.0))
+    println("c.pow(3.0) = " + c.pow(3.0))
+
     println("-----")
 
     val v = ComplexVector2(c, co)
