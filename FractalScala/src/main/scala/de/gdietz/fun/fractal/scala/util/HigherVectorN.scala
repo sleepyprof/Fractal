@@ -6,7 +6,7 @@ case class HigherVectorN[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
  extends HigherVector[HigherVectorN[O, X], O, X] {
 
   override def const(x: O): HigherVectorN[O, X] =
-    HigherVectorN(x, x, x)
+    HigherVectorN(x)
 
   override def map(f: O => O): HigherVectorN[O, X] =
     HigherVectorN(xs.map(f))
@@ -19,6 +19,15 @@ case class HigherVectorN[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
 
   override def exists(cond: O => Boolean): Boolean =
     xs.exists(cond)
+
+  override def filter(cond: O => Boolean): HigherVectorN[O, X] =
+    HigherVectorN(xs.map(_.filter(cond)))
+
+  override def mapNumber(f: X => O): HigherVectorN[O, X] =
+    HigherVectorN(xs.map(_.mapNumber(f)))
+
+  override def mapOpNumber(x: HigherVectorN[O, X])(f: (X, X) => O): HigherVectorN[O, X] =
+    HigherVectorN(HigherVectorN.mapOp(xs, x.xs)(_.mapOpNumber(_)(f)))
 
   override def filterNumber(cond: X => Boolean): HigherVectorN[O, X] =
     HigherVectorN(xs.map(_.filterNumber(cond)))

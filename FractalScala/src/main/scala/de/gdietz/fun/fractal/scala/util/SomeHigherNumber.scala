@@ -6,7 +6,11 @@ trait SomeHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[
 
   final override def isNumber: Boolean = true
 
-  final override def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y = ifIsNumber(this)
+  @inline final override def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y = ifIsNumber(this)
+
+  @inline final override def mapNumber(f: X => O): O = f(this)
+  @inline final override def mapOpNumber(x: O)(f: (X, X) => O): O = x.mapNumber(f(this, _))
+
   final override def filterNumber(cond: X => Boolean): O = if (cond(this)) this else none
 
   @inline final override def unary_+ : X = this

@@ -18,6 +18,15 @@ case class HigherVector4[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
   override def exists(cond: O => Boolean): Boolean =
     cond(x1) || cond(x2) || cond(x3) || cond(x4)
 
+  override def filter(cond: O => Boolean): HigherVector4[O, X] =
+    HigherVector4(x1.filter(cond), x2.filter(cond), x3.filter(cond), x4.filter(cond))
+
+  override def mapNumber(f: X => O): HigherVector4[O, X] =
+    HigherVector4(x1.mapNumber(f), x2.mapNumber(f), x3.mapNumber(f), x4.mapNumber(f))
+
+  override def mapOpNumber(x: HigherVector4[O, X])(f: (X, X) => O): HigherVector4[O, X] =
+    HigherVector4(x1.mapOpNumber(x.x1)(f), x2.mapOpNumber(x.x2)(f), x3.mapOpNumber(x.x3)(f), x4.mapOpNumber(x.x4)(f))
+
   override def filterNumber(cond: X => Boolean): HigherVector4[O, X] =
     HigherVector4(x1.filterNumber(cond), x2.filterNumber(cond), x3.filterNumber(cond), x4.filterNumber(cond))
 

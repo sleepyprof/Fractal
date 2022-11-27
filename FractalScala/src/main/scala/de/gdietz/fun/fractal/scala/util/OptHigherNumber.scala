@@ -15,6 +15,8 @@ trait OptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
   @inline final override def forall(cond: O => Boolean): Boolean = cond(this)
   @inline final override def exists(cond: O => Boolean): Boolean = cond(this)
 
+  @inline final override def filter(cond: O => Boolean): O = if (cond(this)) this else none
+
   @inline final override def isAllNumber: Boolean = isNumber
   @inline final override def existsNumber: Boolean = isNumber
 

@@ -6,8 +6,12 @@ trait NoHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[O,
 
   final override def isNumber: Boolean = false
 
-  final override def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y = ifNoNumber
-  final override def filterNumber(cond: X => Boolean): O = none
+  @inline final override def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y = ifNoNumber
+
+  @inline final override def mapNumber(f: X => O): O = none
+  @inline final override def mapOpNumber(x: O)(f: (X, X) => O): O = none
+
+  @inline final override def filterNumber(cond: X => Boolean): O = none
 
   @inline override def unary_- : O = none
 

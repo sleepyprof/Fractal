@@ -11,6 +11,11 @@ trait HigherVector[V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: 
   def forall(cond: O => Boolean): Boolean
   def exists(cond: O => Boolean): Boolean
 
+  def filter(cond: O => Boolean): V
+
+  def mapNumber(f: X => O): V
+  def mapOpNumber(x: V)(f: (X, X) => O): V
+
   def filterNumber(cond: X => Boolean): V
 
   override def isAllNumber: Boolean = forall(_.isNumber)
