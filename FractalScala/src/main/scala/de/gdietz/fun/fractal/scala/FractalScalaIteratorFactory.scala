@@ -110,6 +110,7 @@ case class ComplexFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.Quaternion.{j, k}
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.Coordinate
+       |import _root_.de.gdietz.fun.fractal.scala.ComplexFractalIteratorDefinition._
        |{
        |$code
        |}: ComplexFractalIteratorDefinition
@@ -122,28 +123,18 @@ case class ComplexFractalScalaIteratorFactory(override val code: String)
 object ComplexFractalScalaIteratorFactory {
 
   val simpleCode: String =
-    """ComplexFractalIteratorDefinition { (c, p) =>
-      |  p
-      |} { (c, p, lambda) =>
-      |  z => z.sqr + c
-      |} { lambda =>
-      |  val l2 = lambda * lambda
-      |  z => z.normSqr <= l2
-      |}""".stripMargin
+    """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
 
   val z3z2Code: String =
-    """ComplexFractalIteratorDefinition { (c, p) =>
+    """any { (c, p) =>
       |  val p3 = 1.0 + p
       |  val p2 = 1.0 - p
       |  val z0 = p2 / (-1.5 * p3)
       |  ComplexVector2(Complex.zero, z0)
-      |} { (c, p, lambda) =>
+      |} { (c, p) =>
       |  val p3 = 1.0 + p
       |  val p2 = 1.0 - p
-      |  val l2 = lambda * lambda
-      |  z => (p3 *! z.cube + p2 *!: z.sqr +! c).filterNumber(_.normSqr <= l2)
-      |} { lambda =>
-      |  z => z.exists(_.isNumber)
+      |  z => p3 *! z.cube + p2 *!: z.sqr +! c
       |}""".stripMargin
 
 
@@ -166,6 +157,7 @@ case class QuaternionFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.Quaternion.{j, k}
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.Coordinate4D
+       |import _root_.de.gdietz.fun.fractal.scala.QuaternionFractalIteratorDefinition._
        |{
        |$code
        |}: QuaternionFractalIteratorDefinition
@@ -178,14 +170,7 @@ case class QuaternionFractalScalaIteratorFactory(override val code: String)
 object QuaternionFractalScalaIteratorFactory {
 
   val simpleCode: String =
-    """QuaternionFractalIteratorDefinition { (c, p) =>
-      |  p
-      |} { (c, p, lambda) =>
-      |  z => z.sqr + c
-      |} { lambda =>
-      |  val l2 = lambda * lambda
-      |  z => z.normSqr <= l2
-      |}""".stripMargin
+    """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
 
   val defaultCode: String = simpleCode
 
@@ -205,6 +190,7 @@ case class Vector3DFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.Quaternion.{j, k}
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.Coordinate3D
+       |import _root_.de.gdietz.fun.fractal.scala.Vector3DFractalIteratorDefinition._
        |{
        |$code
        |}: Vector3DFractalIteratorDefinition
@@ -217,14 +203,11 @@ case class Vector3DFractalScalaIteratorFactory(override val code: String)
 object Vector3DFractalScalaIteratorFactory {
 
   val simpleCode: String =
-    """Vector3DFractalIteratorDefinition { (c, p) =>
+    """normed { (c, p) =>
       |  Quaternion(p.x, p.y, p.z)
-      |} { (c, p, lambda) =>
+      |} { (c, p) =>
       |  val cq = Quaternion(c.x, c.y, c.z)
       |  z => z.sqr + cq
-      |} { lambda =>
-      |  val l2 = lambda * lambda
-      |  z => z.normSqr <= l2
       |}""".stripMargin
 
   val defaultCode: String = simpleCode

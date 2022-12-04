@@ -1,6 +1,6 @@
 package de.gdietz.fun.fractal.scala
 
-import de.gdietz.fun.fractal.scala.util.{Complex, Quaternion, Real, Vector3D}
+import de.gdietz.fun.fractal.scala.util.{Complex, HigherNumber, HigherVector, NormedNumber, OptComplex, OptHigherNumber, OptQuaternion, OptReal, Quaternion, Real, Vector3D}
 
 import scala.language.implicitConversions
 
@@ -24,22 +24,58 @@ object FractalIteratorDefinition {
       override def validityTest(lambda: Double): ValidityTest[X] = validityTestFunc(lambda)
     }
 
-  def apply[P, X](z0Func: (P, P) => X)
-                 (zNextFunc: (P, P, Double) => X => X)
-                 (isValidFunc: Double => X => Boolean): FractalIteratorDefinitionAux[P, X] =
+  def create[P, X](z0Func: (P, P) => X)
+                  (zNextFunc: (P, P, Double) => X => X)
+                  (isValidFunc: Double => X => Boolean): FractalIteratorDefinitionAux[P, X] =
     new FractalIteratorDefinition[P] with Serializable {
       override type C = X
       override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[X] =
         new FractalInitializedIteratorDefinition[X] with Serializable {
           override val z0: X = z0Func(c, p)
-          private val zNextInitialized = zNextFunc(c, p, lambda)
+          private val zNextInitialized: X => X = zNextFunc(c, p, lambda)
           override def zNext(z: X): X = zNextInitialized(z)
         }
       override def validityTest(lambda: Double): ValidityTest[X] =
         new ValidityTest[X] with Serializable {
-          private val isValidInitialized = isValidFunc(lambda)
+          private val isValidInitialized: X => Boolean = isValidFunc(lambda)
           override def isValid(x: X): Boolean = isValidInitialized(x)
           override def isSurvivor(x: X): Boolean = false
+        }
+    }
+
+  def normed[P, X <: NormedNumber](z0Func: (P, P) => X)
+                                  (zNextFunc: (P, P) => X => X): FractalIteratorDefinitionAux[P, X] =
+    new FractalIteratorDefinition[P] with Serializable {
+      override type C = X
+      override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[X] =
+        new FractalInitializedIteratorDefinition[X] with Serializable {
+          override val z0: X = z0Func(c, p)
+          private val zNextInitialized: X => X = zNextFunc(c, p)
+          override def zNext(z: X): X = zNextInitialized(z)
+        }
+      override def validityTest(lambda: Double): ValidityTest[X] =
+        new ValidityTest[X] with Serializable {
+          private val lambdaSqr: Double = lambda * lambda
+          override def isValid(x: X): Boolean = x.normSqr <= lambdaSqr
+          override def isSurvivor(x: X): Boolean = false
+        }
+    }
+
+  def any[P, V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](z0Func: (P, P) => V)
+                                                                                                 (zNextFunc: (P, P) => V => V): FractalIteratorDefinitionAux[P, V] =
+    new FractalIteratorDefinition[P] with Serializable {
+      override type C = V
+      override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[V] =
+        new FractalInitializedIteratorDefinition[V] with Serializable {
+          private val lambdaSqr: Double = lambda * lambda
+          override val z0: V = z0Func(c, p)
+          private val zNextInitialized: V => V = zNextFunc(c, p)
+          override def zNext(z: V): V = zNextInitialized(z).filterNumber(_.normSqr <= lambdaSqr)
+        }
+      override def validityTest(lambda: Double): ValidityTest[V] =
+        new ValidityTest[V] with Serializable {
+          override def isValid(x: V): Boolean = x.existsNumber
+          override def isSurvivor(x: V): Boolean = false
         }
     }
 
@@ -60,10 +96,18 @@ object RealFractalIteratorDefinition {
               (validityTestFunc: Double => ValidityTest[X]): RealFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition(initializeFunc)(validityTestFunc)
 
-  def apply[X](z0Func: (Real, Real) => X)
-              (zNextFunc: (Real, Real, Double) => X => X)
-              (isValidFunc: Double => X => Boolean): RealFractalIteratorDefinitionAux[X] =
-    FractalIteratorDefinition(z0Func)(zNextFunc)(isValidFunc)
+  def create[X](z0Func: (Real, Real) => X)
+               (zNextFunc: (Real, Real, Double) => X => X)
+               (isValidFunc: Double => X => Boolean): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.create(z0Func)(zNextFunc)(isValidFunc)
+
+  def normed[X <: NormedNumber](z0Func: (Real, Real) => X)
+                               (zNextFunc: (Real, Real) => X => X): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normed(z0Func)(zNextFunc)
+
+  def any[X <: HigherVector[X, OptReal, Real]](z0Func: (Real, Real) => X)
+                                              (zNextFunc: (Real, Real) => X => X): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Real, X, OptReal, Real](z0Func)(zNextFunc)
 
 }
 
@@ -73,10 +117,18 @@ object ComplexFractalIteratorDefinition {
               (validityTestFunc: Double => ValidityTest[X]): ComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition(initializeFunc)(validityTestFunc)
 
-  def apply[X](z0Func: (Complex, Complex) => X)
-              (zNextFunc: (Complex, Complex, Double) => X => X)
-              (isValidFunc: Double => X => Boolean): ComplexFractalIteratorDefinitionAux[X] =
-    FractalIteratorDefinition(z0Func)(zNextFunc)(isValidFunc)
+  def create[X](z0Func: (Complex, Complex) => X)
+               (zNextFunc: (Complex, Complex, Double) => X => X)
+               (isValidFunc: Double => X => Boolean): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.create(z0Func)(zNextFunc)(isValidFunc)
+
+  def normed[X <: NormedNumber](z0Func: (Complex, Complex) => X)
+                               (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normed(z0Func)(zNextFunc)
+
+  def any[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Complex, Complex) => X)
+                                                    (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Complex, X, OptComplex, Complex](z0Func)(zNextFunc)
 
 }
 
@@ -86,10 +138,18 @@ object QuaternionFractalIteratorDefinition {
               (validityTestFunc: Double => ValidityTest[X]): QuaternionFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition(initializeFunc)(validityTestFunc)
 
-  def apply[X](z0Func: (Quaternion, Quaternion) => X)
-              (zNextFunc: (Quaternion, Quaternion, Double) => X => X)
-              (isValidFunc: Double => X => Boolean): QuaternionFractalIteratorDefinitionAux[X] =
-    FractalIteratorDefinition(z0Func)(zNextFunc)(isValidFunc)
+  def create[X](z0Func: (Quaternion, Quaternion) => X)
+               (zNextFunc: (Quaternion, Quaternion, Double) => X => X)
+               (isValidFunc: Double => X => Boolean): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.create(z0Func)(zNextFunc)(isValidFunc)
+
+  def normed[X <: NormedNumber](z0Func: (Quaternion, Quaternion) => X)
+                               (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normed(z0Func)(zNextFunc)
+
+  def any[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Quaternion, Quaternion) => X)
+                                                          (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Quaternion, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
 
 }
 
@@ -99,9 +159,21 @@ object Vector3DFractalIteratorDefinition {
               (validityTestFunc: Double => ValidityTest[X]): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition(initializeFunc)(validityTestFunc)
 
-  def apply[X](z0Func: (Vector3D, Vector3D) => X)
-              (zNextFunc: (Vector3D, Vector3D, Double) => X => X)
-              (isValidFunc: Double => X => Boolean): Vector3DFractalIteratorDefinitionAux[X] =
-    FractalIteratorDefinition(z0Func)(zNextFunc)(isValidFunc)
+  def create[X](z0Func: (Vector3D, Vector3D) => X)
+               (zNextFunc: (Vector3D, Vector3D, Double) => X => X)
+               (isValidFunc: Double => X => Boolean): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.create(z0Func)(zNextFunc)(isValidFunc)
+
+  def normed[X <: NormedNumber](z0Func: (Vector3D, Vector3D) => X)
+                               (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normed(z0Func)(zNextFunc)
+
+  def anyComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Vector3D, Vector3D) => X)
+                                                           (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Vector3D, X, OptComplex, Complex](z0Func)(zNextFunc)
+
+  def anyQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
+                                                                    (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Vector3D, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
 
 }
