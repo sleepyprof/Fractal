@@ -13,6 +13,10 @@ sealed trait OptReal
   override val zero: Real = Real.zero
   override val unit: Real = Real.one
 
+  def toComplex: OptComplex
+
+  def toQuaternion: OptQuaternion
+
 }
 
 object OptReal {
@@ -104,6 +108,10 @@ case class Real(x: Double)
 
   def toDouble: Double = x
 
+  override def toComplex: Complex = Complex(x)
+
+  override def toQuaternion: Quaternion = Quaternion(x)
+
 
   def toString(nf: NumberFormat,
                parentheses: Boolean = false,
@@ -133,6 +141,10 @@ object Real {
 case object NoReal
   extends OptReal
     with NoHigherNumber[OptReal, Real] {
+
+  override def toComplex: OptComplex = NoComplex
+
+  override def toQuaternion: OptQuaternion = NoQuaternion
 
   override def toString: String = "na"
 

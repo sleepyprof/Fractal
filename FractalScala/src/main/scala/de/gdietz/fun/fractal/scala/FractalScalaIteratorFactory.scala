@@ -204,9 +204,9 @@ object Vector3DFractalScalaIteratorFactory {
 
   val simpleCode: String =
     """normed { (c, p) =>
-      |  Quaternion(p.x, p.y, p.z)
+      |  p.toQuaternion
       |} { (c, p) =>
-      |  val cq = Quaternion(c.x, c.y, c.z)
+      |  val cq = c.toQuaternion
       |  z => z.sqr + cq
       |}""".stripMargin
 

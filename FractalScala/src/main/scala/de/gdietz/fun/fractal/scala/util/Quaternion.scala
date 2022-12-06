@@ -13,6 +13,8 @@ sealed trait OptQuaternion
   override val zero: Quaternion = Quaternion.zero
   override val unit: Quaternion = Quaternion.one
 
+  def toRealVector: RealVector4
+
 }
 
 object OptQuaternion {
@@ -98,6 +100,9 @@ case class Quaternion(x: Double, y: Double = 0.0, z: Double = 0.0, w: Double = 0
   }
 
 
+  override def toRealVector: RealVector4 =
+    RealVector4(Real(x), Real(y), Real(z), Real(w))
+
   def toJavaQuaternion: JavaQuaternion = new JavaQuaternion(x, y, z, w)
 
 
@@ -148,6 +153,9 @@ object Quaternion {
 case object NoQuaternion
   extends OptQuaternion
     with NoHigherNumber[OptQuaternion, Quaternion] {
+
+  override def toRealVector: RealVector4 =
+    RealVector4(OptReal.none, OptReal.none, OptReal.none, OptReal.none)
 
   override def toString: String = "na"
 

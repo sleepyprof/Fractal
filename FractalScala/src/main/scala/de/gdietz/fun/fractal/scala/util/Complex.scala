@@ -13,6 +13,8 @@ sealed trait OptComplex
   override val zero: Complex = Complex.zero
   override val unit: Complex = Complex.one
 
+  def toQuaternion: OptQuaternion
+
   def toRealVector: RealVector2
 
 }
@@ -171,6 +173,8 @@ case class Complex(x: Double, y: Double = 0.0)
   }
 
 
+  override def toQuaternion: Quaternion = Quaternion(x, y)
+
   override def toRealVector: RealVector2 =
     RealVector2(Real(x), Real(y))
 
@@ -218,6 +222,8 @@ object Complex {
 case object NoComplex
   extends OptComplex
     with NoHigherNumber[OptComplex, Complex] {
+
+  override def toQuaternion: OptQuaternion = NoQuaternion
 
   override def toRealVector: RealVector2 =
     RealVector2(OptReal.none, OptReal.none)

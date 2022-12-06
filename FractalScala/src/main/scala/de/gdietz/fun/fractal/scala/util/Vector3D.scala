@@ -25,6 +25,13 @@ case class Vector3D(x: Double, y: Double, z: Double)
   override val zero: Vector3D = Vector3D.zero
 
 
+  def toQuaternion: Quaternion = Quaternion(x, y, z)
+
+  def toImagQuaternion: Quaternion = Quaternion(0.0, x, y, z)
+
+  def toRealVector: RealVector3 =
+    RealVector3(Real(x), Real(y), Real(y))
+
   def toJavaVector3D: JavaVector3D = new JavaVector3D(x, y, z)
 
 
