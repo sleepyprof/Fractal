@@ -22,7 +22,7 @@ case class Vector3D(x: Double, y: Double, z: Double)
   override def /(r: Double): Vector3D = Vector3D(x / r, y / r, z / r)
 
 
-  override val zero: Vector3D = Vector3D.zero
+  override def zero: Vector3D = Vector3D.zero
 
 
   def toQuaternion: Quaternion = Quaternion(x, y, z)

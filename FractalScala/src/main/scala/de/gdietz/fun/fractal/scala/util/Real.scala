@@ -9,9 +9,9 @@ sealed trait OptReal
   extends OptHigherNumber[OptReal, Real]
     with Product with Serializable {
 
-  override val none: OptReal = NoReal
-  override val zero: Real = Real.zero
-  override val unit: Real = Real.one
+  override def none: OptReal = NoReal
+  override def zero: Real = Real.zero
+  override def unit: Real = Real.one
 
   def toComplex: OptComplex
 

@@ -9,9 +9,9 @@ sealed trait OptComplex
   extends OptHigherNumber[OptComplex, Complex]
     with Product with Serializable {
 
-  override val none: OptComplex = NoComplex
-  override val zero: Complex = Complex.zero
-  override val unit: Complex = Complex.one
+  override def none: OptComplex = NoComplex
+  override def zero: Complex = Complex.zero
+  override def unit: Complex = Complex.one
 
   def toQuaternion: OptQuaternion
 

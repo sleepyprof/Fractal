@@ -9,9 +9,9 @@ sealed trait OptQuaternion
   extends OptHigherNumber[OptQuaternion, Quaternion]
     with Product with Serializable {
 
-  override val none: OptQuaternion = NoQuaternion
-  override val zero: Quaternion = Quaternion.zero
-  override val unit: Quaternion = Quaternion.one
+  override def none: OptQuaternion = NoQuaternion
+  override def zero: Quaternion = Quaternion.zero
+  override def unit: Quaternion = Quaternion.one
 
   def toRealVector: RealVector4
 
