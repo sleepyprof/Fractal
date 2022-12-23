@@ -1,6 +1,6 @@
 package de.gdietz.fun.fractal.scala
 
-import de.gdietz.fun.fractal.scala.util.{Complex, HigherNumber, HigherVector, NormedNumber, OptComplex, OptHigherNumber, OptQuaternion, OptReal, Quaternion, Real, Vector3D}
+import de.gdietz.fun.fractal.scala.util.{BigComplex, Complex, HigherNumber, HigherVector, NormedNumber, OptBigComplex, OptComplex, OptHigherNumber, OptQuaternion, OptReal, Quaternion, Real, Vector3D}
 
 import scala.language.implicitConversions
 
@@ -175,5 +175,26 @@ object Vector3DFractalIteratorDefinition {
   def anyQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
                                                                     (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Vector3D, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
+
+}
+
+object BigComplexFractalIteratorDefinition {
+
+  def apply[X](initializeFunc: (BigComplex, BigComplex, Double) => FractalInitializedIteratorDefinition[X])
+              (validityTestFunc: Double => ValidityTest[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition(initializeFunc)(validityTestFunc)
+
+  def create[X](z0Func: (BigComplex, BigComplex) => X)
+               (zNextFunc: (BigComplex, BigComplex, Double) => X => X)
+               (isValidFunc: Double => X => Boolean): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.create(z0Func)(zNextFunc)(isValidFunc)
+
+  def normed[X <: NormedNumber](z0Func: (BigComplex, BigComplex) => X)
+                               (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normed(z0Func)(zNextFunc)
+
+  def any[X <: HigherVector[X, OptBigComplex, BigComplex]](z0Func: (BigComplex, BigComplex) => X)
+                                                    (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[BigComplex, X, OptBigComplex, BigComplex](z0Func)(zNextFunc)
 
 }

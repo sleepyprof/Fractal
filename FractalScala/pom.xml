@@ -65,6 +65,11 @@
             <artifactId>fractal</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>de.gdietz.fractal</groupId>
+            <artifactId>precise</artifactId>
+        </dependency>
+
         <!-- Scala -->
 
         <dependency>

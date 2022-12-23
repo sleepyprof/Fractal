@@ -12,7 +12,9 @@ import de.gdietz.fun.fractal.formula.meta.ApfelParamFunctionFactory;
 import de.gdietz.fun.fractal.util.BigNormed;
 import de.gdietz.fun.fractal.util.Tuple;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 public class AdvancedFractalPreciseIteratorFactorySelector<T extends Tuple<T>> extends AdvancedFractalIteratorFactorySelector<T> {
 
@@ -64,6 +66,20 @@ public class AdvancedFractalPreciseIteratorFactorySelector<T extends Tuple<T>> e
 
     public <X extends BigNormed<X>> void addCustomPrecise(CalculatorParser<X> parser, ParamCoordMapper<X, X, T> mapper, X z0, double bound, int maxiter, int maxScale, String description) {
         addCustomPrecise(parser, mapper, z0, new BoundaryTest<>(bound), maxiter, maxScale, description);
+    }
+
+
+    public static <T extends Tuple<T>> AdvancedFractalPreciseIteratorFactorySelector<T> create(Class<? extends T> clazz, FractalIteratorManager<T> listener, boolean askMaxiter) {
+        Iterator<AdvancedFractalPreciseIteratorFactorySelectorProvider> iterator = ServiceLoader.load(AdvancedFractalPreciseIteratorFactorySelectorProvider.class).iterator();
+        if (iterator.hasNext()) {
+            AdvancedFractalPreciseIteratorFactorySelectorProvider provider = iterator.next();
+            return provider.createPreciseIteratorFactorySelectorProvider(clazz, listener, askMaxiter);
+        }
+        return new AdvancedFractalPreciseIteratorFactorySelector<>(listener, askMaxiter);
+    }
+
+    public static <T extends Tuple<T>> AdvancedFractalPreciseIteratorFactorySelector<T> create(Class<? extends T> clazz, FractalIteratorManager<T> listener) {
+        return create(clazz, listener, false);
     }
 
 }

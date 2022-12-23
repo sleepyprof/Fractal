@@ -166,3 +166,14 @@ object QuaternionVector4 {
     Some((x.x1, x.x2, x.x3, x.x4))
 
 }
+
+object BigComplexVector4 {
+
+  @inline def apply(x1: OptBigComplex, x2: OptBigComplex, x3: OptBigComplex, x4: OptBigComplex): BigComplexVector4 =
+    HigherVector4(x1, x2, x3, x4)
+
+  def unapply(x: BigComplexVector4): Option[(OptBigComplex, OptBigComplex, OptBigComplex, OptBigComplex)] =
+    Some((x.x1, x.x2, x.x3, x.x4))
+
+}
+

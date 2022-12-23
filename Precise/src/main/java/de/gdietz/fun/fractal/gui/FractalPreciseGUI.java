@@ -48,7 +48,7 @@ public class FractalPreciseGUI extends JPanel implements PaletteView, FractalIte
         JComponent controlView = new FractalPreciseEditView(model, controller);
         JPanel panel = getPanel(pictureView, controlView);
 
-        iteratorSelector = new AdvancedFractalPreciseIteratorFactorySelector<>(this, !endless);
+        iteratorSelector = AdvancedFractalPreciseIteratorFactorySelector.create(BigCoordinate.class, this, !endless);
         iteratorSelector.addIteratorFactory(iteratorFactory, maxiter, "default");
 
         GridBagConstraints c = new GridBagConstraints();

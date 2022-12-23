@@ -2,8 +2,8 @@ package de.gdietz.fun.fractal.scala
 
 import de.gdietz.fun.fractal.formula.{FractalIterator, FractalIteratorFactory, ValidityTestable, ValidityTest => JavaValidityTest}
 import de.gdietz.fun.fractal.fuzzy.Fuzzy
-import de.gdietz.fun.fractal.scala.util.{Complex, Quaternion, Vector3D}
-import de.gdietz.fun.fractal.util.{Coordinate, Coordinate3D, Coordinate4D, Tuple}
+import de.gdietz.fun.fractal.scala.util.{BigComplex, Complex, Quaternion, Vector3D}
+import de.gdietz.fun.fractal.util.{BigCoordinate, Coordinate, Coordinate3D, Coordinate4D, Tuple}
 
 import scala.language.implicitConversions
 import scala.reflect.runtime.universe._
@@ -216,3 +216,36 @@ object Vector3DFractalScalaIteratorFactory {
     Vector3DFractalScalaIteratorFactory(defaultCode)
 
 }
+
+
+case class BigComplexFractalScalaIteratorFactory(override val code: String)
+  extends FractalScalaIteratorFactory[BigCoordinate, BigComplex] {
+
+  override protected def fullCode: String =
+    s"""import _root_.de.gdietz.fun.fractal.scala.BigComplexFractalIteratorDefinition
+       |import _root_.de.gdietz.fun.fractal.scala.util._
+       |import _root_.de.gdietz.fun.fractal.scala.util.BigComplex.i
+       |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
+       |import _root_.de.gdietz.fun.fractal.util.BigCoordinate
+       |import _root_.de.gdietz.fun.fractal.scala.BigComplexFractalIteratorDefinition._
+       |{
+       |$code
+       |}: BigComplexFractalIteratorDefinition
+       |""".stripMargin
+
+  @inline override def convertTuple(x: BigCoordinate): BigComplex = x
+
+}
+
+object BigComplexFractalScalaIteratorFactory {
+
+  val simpleCode: String =
+    """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
+
+  val defaultCode: String = simpleCode
+
+  val default: BigComplexFractalScalaIteratorFactory =
+    BigComplexFractalScalaIteratorFactory(defaultCode)
+
+}
+

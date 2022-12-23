@@ -1,31 +1,49 @@
 package de.gdietz.fun.fractal.scala
 
 import de.gdietz.fun.fractal.controller.FractalIteratorManager
-import de.gdietz.fun.fractal.gui.{AdvancedFractalIteratorFactorySelector, AdvancedFractalIteratorFactorySelectorProvider}
-import de.gdietz.fun.fractal.util.{Coordinate, Coordinate3D, Coordinate4D, Tuple}
+import de.gdietz.fun.fractal.gui.{AdvancedFractalIteratorFactorySelector, AdvancedFractalIteratorFactorySelectorProvider, AdvancedFractalPreciseIteratorFactorySelector, AdvancedFractalPreciseIteratorFactorySelectorProvider}
+import de.gdietz.fun.fractal.util.{BigCoordinate, Coordinate, Coordinate3D, Coordinate4D, Tuple}
+
+import scala.reflect.ClassTag
 
 class AdvancedFractalScalaIteratorFactorySelectorProvider
-  extends AdvancedFractalIteratorFactorySelectorProvider {
+  extends AdvancedFractalIteratorFactorySelectorProvider
+  with AdvancedFractalPreciseIteratorFactorySelectorProvider {
 
   override def createIteratorFactorySelectorProvider[T <: Tuple[T]](clazz: Class[_ <: T], listener: FractalIteratorManager[T], askMaxiter: Boolean): AdvancedFractalIteratorFactorySelector[T] =
-    if (clazz == classOf[Coordinate]) {
-      val listener0 = listener.asInstanceOf[FractalIteratorManager[Coordinate]]
-      val provider0 = createIteratorFactorySelectorProvider(listener0, askMaxiter)
-      provider0.asInstanceOf[AdvancedFractalIteratorFactorySelector[T]]
-    } else if (clazz == classOf[Coordinate4D]) {
-      val listener0 = listener.asInstanceOf[FractalIteratorManager[Coordinate4D]]
-      val provider0 = createIteratorFactorySelectorProvider(listener0, askMaxiter)
-      provider0.asInstanceOf[AdvancedFractalIteratorFactorySelector[T]]
-    } else if (clazz == classOf[Coordinate3D]) {
-      val listener0 = listener.asInstanceOf[FractalIteratorManager[Coordinate3D]]
-      val provider0 = createIteratorFactorySelectorProvider(listener0, askMaxiter)
-      provider0.asInstanceOf[AdvancedFractalIteratorFactorySelector[T]]
-    } else
+    checkCreateIteratorFactorySelectorProvider[T, Coordinate](clazz, listener, askMaxiter) orElse
+      checkCreateIteratorFactorySelectorProvider[T, Coordinate4D](clazz, listener, askMaxiter) orElse
+      checkCreateIteratorFactorySelectorProvider[T, Coordinate3D](clazz, listener, askMaxiter) orElse
+      checkCreateIteratorFactorySelectorProvider[T, BigCoordinate](clazz, listener, askMaxiter) getOrElse
       new AdvancedFractalIteratorFactorySelector(listener, askMaxiter)
+
+  override def createPreciseIteratorFactorySelectorProvider[T <: Tuple[T]](clazz: Class[_ <: T], listener: FractalIteratorManager[T], askMaxiter: Boolean): AdvancedFractalPreciseIteratorFactorySelector[T] =
+    checkCreatePreciseIteratorFactorySelectorProvider[T, BigCoordinate](clazz, listener, askMaxiter) getOrElse
+      new AdvancedFractalPreciseIteratorFactorySelector(listener, askMaxiter)
 
   def createIteratorFactorySelectorProvider[T <: Tuple[T]](listener: FractalIteratorManager[T], askMaxiter: Boolean)
                                                           (implicit ev: CanProvideIteratorFactorySelector[T]): AdvancedFractalIteratorFactorySelector[T] =
     ev.createIteratorFactorySelectorProvider(listener, askMaxiter)
+
+  def createPreciseIteratorFactorySelectorProvider[T <: Tuple[T]](listener: FractalIteratorManager[T], askMaxiter: Boolean)
+                                                                 (implicit ev: CanProvidePreciseIteratorFactorySelector[T]): AdvancedFractalPreciseIteratorFactorySelector[T] =
+    ev.createPreciseIteratorFactorySelectorProvider(listener, askMaxiter)
+
+  private def checkCreateIteratorFactorySelectorProvider[T <: Tuple[T], T0 <: Tuple[T0]](clazz: Class[_ <: T], listener: FractalIteratorManager[T], askMaxiter: Boolean)
+                                                                                        (implicit ev: CanProvideIteratorFactorySelector[T0], tag: ClassTag[T0]): Option[AdvancedFractalIteratorFactorySelector[T]] =
+    if (clazz == tag.runtimeClass) {
+      val listener0 = listener.asInstanceOf[FractalIteratorManager[T0]]
+      val provider0 = createIteratorFactorySelectorProvider(listener0, askMaxiter)
+      Some(provider0.asInstanceOf[AdvancedFractalIteratorFactorySelector[T]])
+    } else None
+
+  private def checkCreatePreciseIteratorFactorySelectorProvider[T <: Tuple[T], T0 <: Tuple[T0]](clazz: Class[_ <: T], listener: FractalIteratorManager[T], askMaxiter: Boolean)
+                                                                                               (implicit ev: CanProvidePreciseIteratorFactorySelector[T0], tag: ClassTag[T0]): Option[AdvancedFractalPreciseIteratorFactorySelector[T]] =
+    if (clazz == tag.runtimeClass) {
+      val listener0 = listener.asInstanceOf[FractalIteratorManager[T0]]
+      val provider0 = createPreciseIteratorFactorySelectorProvider(listener0, askMaxiter)
+      Some(provider0.asInstanceOf[AdvancedFractalPreciseIteratorFactorySelector[T]])
+    } else None
 
 }
 
@@ -33,6 +51,13 @@ class AdvancedFractalScalaIteratorFactorySelectorProvider
 trait CanProvideIteratorFactorySelector[T <: Tuple[T]] {
 
   def createIteratorFactorySelectorProvider(listener: FractalIteratorManager[T], askMaxiter: Boolean): AdvancedFractalIteratorFactorySelector[T]
+
+}
+
+trait CanProvidePreciseIteratorFactorySelector[T <: Tuple[T]]
+  extends CanProvideIteratorFactorySelector[T] {
+
+  def createPreciseIteratorFactorySelectorProvider(listener: FractalIteratorManager[T], askMaxiter: Boolean): AdvancedFractalPreciseIteratorFactorySelector[T]
 
 }
 
@@ -56,6 +81,14 @@ private[scala] sealed abstract class CanProvideIteratorFactorySelectorInstances 
     new CanProvideIteratorFactorySelector[Coordinate3D] with Serializable {
       override def createIteratorFactorySelectorProvider(listener: FractalIteratorManager[Coordinate3D], askMaxiter: Boolean): AdvancedFractalIteratorFactorySelector[Coordinate3D] =
         new Vector3DAdvancedFractalScalaIteratorFactorySelector(listener, askMaxiter)
+    }
+
+  implicit def canProvideBigCoordinateIteratorFactorySelector: CanProvidePreciseIteratorFactorySelector[BigCoordinate] =
+    new CanProvidePreciseIteratorFactorySelector[BigCoordinate] with Serializable {
+      override def createIteratorFactorySelectorProvider(listener: FractalIteratorManager[BigCoordinate], askMaxiter: Boolean): AdvancedFractalIteratorFactorySelector[BigCoordinate] =
+        new BigComplexAdvancedFractalScalaIteratorFactorySelector(listener, askMaxiter)
+      override def createPreciseIteratorFactorySelectorProvider(listener: FractalIteratorManager[BigCoordinate], askMaxiter: Boolean): AdvancedFractalPreciseIteratorFactorySelector[BigCoordinate] =
+        new BigComplexAdvancedFractalScalaPreciseIteratorFactorySelector(listener, askMaxiter)
     }
 
 }
