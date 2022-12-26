@@ -2,11 +2,12 @@ package de.gdietz.imageio;
 
 import javax.imageio.*;
 import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataFormatImpl;
+import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -44,24 +45,17 @@ public class PNGWriter {
 
         IIOMetadata metadata = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image), param);
 
-        if (metadata instanceof com.sun.imageio.plugins.png.PNGMetadata) {
-            com.sun.imageio.plugins.png.PNGMetadata pngMetadata = (com.sun.imageio.plugins.png.PNGMetadata) metadata;
-
-            ArrayList<String> keyword = pngMetadata.tEXt_keyword;
-            ArrayList<String> text = pngMetadata.tEXt_text;
-
-            for(String key : this.metadata.keySet()) {
-                if (keyword == null)
-                    keyword = new ArrayList<>();
-                if (text == null)
-                    text = new ArrayList<>();
-
-                keyword.add(key);
-                text.add(this.metadata.get(key));
+        if (this.metadata.size() > 0) {
+            IIOMetadataNode tEXt_parent = new IIOMetadataNode("tEXt");
+            for (String key : this.metadata.keySet()) {
+                IIOMetadataNode tEXt_node = new IIOMetadataNode("tEXtEntry");
+                tEXt_node.setAttribute("keyword", key);
+                tEXt_node.setAttribute("value", this.metadata.get(key));
+                tEXt_parent.appendChild(tEXt_node);
             }
-
-            pngMetadata.tEXt_keyword = keyword;
-            pngMetadata.tEXt_text = text;
+            IIOMetadataNode root = new IIOMetadataNode(metadata.getNativeMetadataFormatName());
+            root.appendChild(tEXt_parent);
+            metadata.mergeTree(IIOMetadataFormatImpl.standardMetadataFormatName, root);
         }
 
         IIOImage iioi = new IIOImage(image, null, metadata);

@@ -22,7 +22,7 @@
         <!-- Monte Media Library -->
 
         <dependency>
-            <groupId>org.monte</groupId>
+            <groupId>ch.randelshofer</groupId>
             <artifactId>monte-cc</artifactId>
         </dependency>
 

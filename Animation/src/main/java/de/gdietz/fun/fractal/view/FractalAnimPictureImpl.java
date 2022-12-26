@@ -43,7 +43,7 @@ public class FractalAnimPictureImpl<D> implements FractalAnimPicture<Coordinate>
     }
 
     public String getExtension() {
-        return "mov";
+        return MovWriter.DEFAULT_EXTENSION;
     }
 
     public void setPalette(Palette palette) {

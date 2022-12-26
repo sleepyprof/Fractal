@@ -22,6 +22,12 @@
 
     <repositories>
         <repository>
+            <id>sci-java-public</id>
+            <name>SciJava Public</name>
+            <url>https://maven.scijava.org/content/repositories/public/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
             <id>local-project-libraries</id>
             <name>Local project libraries</name>
             <url>file://${project.basedir}/lib</url>
@@ -142,7 +148,7 @@
             <!-- Monte Media Library -->
 
             <dependency>
-                <groupId>org.monte</groupId>
+                <groupId>ch.randelshofer</groupId>
                 <artifactId>monte-cc</artifactId>
                 <version>0.7.7</version>
             </dependency>
