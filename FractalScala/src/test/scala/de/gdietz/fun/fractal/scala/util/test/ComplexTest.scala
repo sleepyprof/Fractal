@@ -79,6 +79,14 @@ object ComplexTest {
     println("v  +  v  = " + (v  + v ))
     println("v  +! c  = " + (v  +! c ))
     println("c  +! v  = " + (c  +! v ))
+    println("v  +  c  = " + (v  +  c ))
+    //println("c  +  v  = " + (c  +  v))   // TODO implicit injection (see below) not working. Why?
+    println("c  +  v  = " + (toOptHigherNumberOps(c)  +  v))
+    println("v  +! co = " + (v +! co))
+    println("co +! v  = " + (co +! v))
+    println("v  +  co = " + (v + co))
+    //println("co +  v  = " + (co + v))   // TODO implicit injection (see below) not working. Why?
+    println("co +  v  = " + (toOptHigherNumberOps(co) + v))
 
     println("-----")
 
