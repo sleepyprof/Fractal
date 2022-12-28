@@ -38,7 +38,8 @@ object OptComplex {
 
 case class Complex(x: Double, y: Double = 0.0)
   extends OptComplex
-    with SomeHigherNumber[OptComplex, Complex] {
+    with SomeHigherNumber[OptComplex, Complex]
+    with HigherHoloNumber[Complex] {
 
   override def isZero: Boolean = x == 0.0 && y == 0.0
 
@@ -91,34 +92,37 @@ case class Complex(x: Double, y: Double = 0.0)
     Complex(x * (x2 - 3.0 * y2), (3.0 * x2 - y2) * y)
   }
 
-  def exp: Complex = {
+  override def exp: Complex = {
     val er = Math.exp(x)
     Complex(er * Math.cos(y), er * Math.sin(y))
   }
 
-  def log: Complex = Complex(Math.log(norm), arg)
+  override def log: Complex = Complex(Math.log(norm), arg)
+
+  override def log(branch: Int): Complex =
+    Complex(Math.log(norm), arg + branch * Complex.pi2)
 
   @inline override def pow(n: Int): Complex = super.pow(n)
 
-  def pow(c: Complex): Complex =
-    if (x == 0.0 && y == 0.0) Complex.zero
-    else (log * c).exp
-
-  def pow(d: Double): Complex =
-    if (x == 0.0 && y == 0.0) Complex.zero
+  override def pow(d: Double): Complex =
+    if (isZero) this
     else {
       val pr = Math.pow(norm, d)
       val pa = d * arg
       Complex(pr * Math.cos(pa), pr * Math.sin(pa))
     }
 
+  override def pow(d: Double, branch: Int): Complex =
+    if (isZero) this
+    else {
+      val pr = Math.pow(norm, d)
+      val pa = d * (arg + branch * Complex.pi2)
+      Complex(pr * Math.cos(pa), pr * Math.sin(pa))
+    }
+
   @inline override def **(n: Int): Complex = pow(n)
 
-  @inline def **(c: Complex): Complex = pow(c)
-
-  @inline def **(d: Double): Complex = pow(d)
-
-  def sqrt: Complex =
+  override def sqrt: Complex =
     if (y == 0.0) {
       if (x >= 0.0) Complex(Math.sqrt(x))
       else Complex(0.0, Math.sqrt(-x))
@@ -134,38 +138,38 @@ case class Complex(x: Double, y: Double = 0.0)
   }
 
   def roots(n: Int): ComplexVectorN =
-    if (x == 0.0 && y == 0.0) ComplexVectorN(List.fill(n)(Complex.zero))
+    if (isZero) ComplexVectorN(List.fill(n)(Complex.zero))
     else if (n <= 0) ComplexVectorN(Nil)
     else {
       val pr = Math.pow(norm, 1.0 / n)
       val pa = arg / n
-      val phi1 = ComplexVectorN.pi2 / n
+      val phi1 = Complex.pi2 / n
       ComplexVectorN((0 until n).view.map { k =>
         val phi = pa + phi1 * k
         Complex(pr * Math.cos(phi), pr * Math.sin(phi))
       }.toList)
     }
 
-  def sin: Complex =
+  override def sin: Complex =
     Complex(Math.sin(x) * Math.cosh(y), Math.cos(x) * Math.sinh(y))
 
-  def cos: Complex =
+  override def cos: Complex =
     Complex(Math.cos(x) * Math.cosh(y), -Math.sin(x) * Math.sinh(y))
 
-  def sinh: Complex =
+  override def sinh: Complex =
     Complex(Math.sinh(x) * Math.cos(y), Math.cosh(x) * Math.sin(y))
 
-  def cosh: Complex =
+  override def cosh: Complex =
     Complex(Math.cosh(x) * Math.cos(y), Math.sinh(x) * Math.sin(y))
 
-  def tan: Complex = {
+  override def tan: Complex = {
     val dx = x + x
     val dy = y + y
     val h = Math.cos(dx) + Math.cosh(dy)
     Complex(Math.sin(dx) / h, Math.sinh(dy) / h)
   }
 
-  def tanh: Complex = {
+  override def tanh: Complex = {
     val dx = x + x
     val dy = y + y
     val h = Math.cosh(dx) + Math.cos(dy)
@@ -202,6 +206,8 @@ object Complex {
   val i: Complex = Complex(0.0, 1.0)
   val minusOne: Complex = Complex(-1.0)
   val minusI: Complex = Complex(0.0, -1.0)
+
+  private[util] val pi2 = 2.0 * Math.PI
 
 
   def fromPolar(r: Double, phi: Double): Complex =

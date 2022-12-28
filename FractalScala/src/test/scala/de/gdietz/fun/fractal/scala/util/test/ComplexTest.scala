@@ -76,26 +76,39 @@ object ComplexTest {
 
     val v = ComplexVector2(c, co)
 
-    println("v  +  v  = " + (v  + v ))
+    println("v  +  v  = " + (v  +  v ))
     println("v  +! c  = " + (v  +! c ))
     println("c  +! v  = " + (c  +! v ))
     println("v  +  c  = " + (v  +  c ))
-    //println("c  +  v  = " + (c  +  v))   // TODO implicit injection (see below) not working. Why?
+    //println("c  +  v  = " + (c  +  v ))   // TODO implicit injection (see below) not working. Why?
     println("c  +  v  = " + (toOptHigherNumberOps(c)  +  v))
-    println("v  +! co = " + (v +! co))
+    println("v  +! co = " + (v  +! co))
     println("co +! v  = " + (co +! v))
-    println("v  +  co = " + (v + co))
-    //println("co +  v  = " + (co + v))   // TODO implicit injection (see below) not working. Why?
+    println("v  +  co = " + (v  + co))
+    //println("co +  v  = " + (co + v ))   // TODO implicit injection (see below) not working. Why?
     println("co +  v  = " + (toOptHigherNumberOps(co) + v))
 
     println("-----")
 
-    println("c.roots2        = " + c.roots2)
-    println("c.roots(2)      = " + c.roots(2))
-    println("c.roots(3)      = " + c.roots(3))
-    println("c.roots(3).cube = " + c.roots(3).cube)
-    println("c.roots2.sqr    = " + c.roots2.sqr)
+    println("c .roots2        = " + c .roots2)
+    println("c .roots(2)      = " + c .roots(2))
+    println("c .roots(3)      = " + c .roots(3))
+    println("c .roots2.sqr    = " + c .roots2.sqr)
+    println("c .roots(3).cube = " + c .roots(3).cube)
+    println("co.roots2        = " + co.roots2)
+    println("co.roots(2)      = " + co.roots(2))
+    println("co.roots(3)      = " + co.roots(3))
+    println("co.roots2.sqr    = " + co.roots2.sqr)
+    println("co.roots(3).cube = " + co.roots(3).cube)
 
+    println("-----")
+
+    println("v  **  v  = " + (v  **  v ))
+    println("v  **  c  = " + (v  **  c ))
+    println("v1 **  v1 = " + (v.x1 ** v.x1))
+    println("v2 **  v2 = " + (v.x2 ** v.x2))
+    println("v1 **  c  = " + (v.x1 ** c))
+    println("v2 **  c  = " + (v.x2 ** c))
   }
 
 }
