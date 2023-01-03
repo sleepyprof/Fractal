@@ -2,7 +2,6 @@ package de.gdietz.imageio;
 
 import javax.imageio.*;
 import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.RenderedImage;
@@ -53,9 +52,10 @@ public class PNGWriter {
                 tEXt_node.setAttribute("value", this.metadata.get(key));
                 tEXt_parent.appendChild(tEXt_node);
             }
-            IIOMetadataNode root = new IIOMetadataNode(metadata.getNativeMetadataFormatName());
+            String formatName = metadata.getNativeMetadataFormatName();
+            IIOMetadataNode root = new IIOMetadataNode(formatName);
             root.appendChild(tEXt_parent);
-            metadata.mergeTree(IIOMetadataFormatImpl.standardMetadataFormatName, root);
+            metadata.mergeTree(formatName, root);
         }
 
         IIOImage iioi = new IIOImage(image, null, metadata);
