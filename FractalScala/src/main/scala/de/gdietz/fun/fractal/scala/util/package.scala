@@ -2,6 +2,11 @@ package de.gdietz.fun.fractal.scala
 
 package object util {
 
+  type RealVector[V <: RealVector[V]] = HigherVector[V, OptReal, Real]
+  type ComplexVector[V <: ComplexVector[V]] = HigherVector[V, OptComplex, Complex]
+  type QuaternionVector[V <: QuaternionVector[V]] = HigherVector[V, OptQuaternion, Quaternion]
+  type BigComplexVector[V <: BigComplexVector[V]] = HigherVector[V, OptBigComplex, BigComplex]
+  
   type RealVector2 = HigherVector2[OptReal, Real]
   type ComplexVector2 = HigherVector2[OptComplex, Complex]
   type QuaternionVector2 = HigherVector2[OptQuaternion, Quaternion]

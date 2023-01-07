@@ -136,8 +136,8 @@ case class HigherVectorN[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
 
 object HigherVectorN {
 
-  def apply[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](head: O, tail: O*): HigherVectorN[O, X] =
-    HigherVectorN(head :: tail.toList)
+  def apply[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](xs: O*): HigherVectorN[O, X] =
+    HigherVectorN(xs.toList)
 
   private def mapOp[X, Y, Z](xs: List[X], ys: List[Y])(f: (X, Y) => Z): List[Z] =
     xs match {
@@ -182,8 +182,8 @@ object RealVectorN {
   @inline def apply(xs: List[OptReal]): RealVectorN =
     HigherVectorN(xs)
 
-  @inline def apply(head: OptReal, tail: OptReal*): RealVectorN =
-    HigherVectorN(head, tail: _*)
+  @inline def apply(xs: OptReal*): RealVectorN =
+    HigherVectorN(xs: _*)
 
   def unapply(x: RealVectorN): Option[List[OptReal]] =
     Some(x.xs)
@@ -195,8 +195,8 @@ object ComplexVectorN {
   @inline def apply(xs: List[OptComplex]): ComplexVectorN =
     HigherVectorN(xs)
 
-  @inline def apply(head: OptComplex, tail: OptComplex*): ComplexVectorN =
-    HigherVectorN(head, tail: _*)
+  @inline def apply(xs: OptComplex*): ComplexVectorN =
+    HigherVectorN(xs: _*)
 
   def unapply(x: ComplexVectorN): Option[List[OptComplex]] =
     Some(x.xs)
@@ -217,8 +217,8 @@ object QuaternionVectorN {
   @inline def apply(xs: List[OptQuaternion]): QuaternionVectorN =
     HigherVectorN(xs)
 
-  @inline def apply(head: OptQuaternion, tail: OptQuaternion*): QuaternionVectorN =
-    HigherVectorN(head, tail: _*)
+  @inline def apply(xs: OptQuaternion*): QuaternionVectorN =
+    HigherVectorN(xs: _*)
 
   def unapply(x: QuaternionVectorN): Option[List[OptQuaternion]] =
     Some(x.xs)
@@ -230,8 +230,8 @@ object BigComplexVectorN {
   @inline def apply(xs: List[OptBigComplex]): BigComplexVectorN =
     HigherVectorN(xs)
 
-  @inline def apply(head: OptBigComplex, tail: OptBigComplex*): BigComplexVectorN =
-    HigherVectorN(head, tail: _*)
+  @inline def apply(xs: OptBigComplex*): BigComplexVectorN =
+    HigherVectorN(xs: _*)
 
   def unapply(x: BigComplexVectorN): Option[List[OptBigComplex]] =
     Some(x.xs)
