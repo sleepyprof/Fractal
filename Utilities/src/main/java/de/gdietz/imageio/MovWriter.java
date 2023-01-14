@@ -15,8 +15,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
-public class MovWriter {
+public class MovWriter implements AnimWriter {
 
     private final ImageDeliverer deliverer;
     private final File file;
@@ -27,6 +28,7 @@ public class MovWriter {
     public final static String DEFAULT_COMPRESSOR = null;
 
     private final static Logger log = LoggerFactory.getLogger(MovWriter.class);
+
 
     private interface SaveTaskInterface {
         public boolean cancel(boolean mayInterruptIfRunning);
@@ -118,7 +120,7 @@ public class MovWriter {
         }
 
         protected Void doInBackground() throws Exception {
-            try{
+            try {
                 writeTo(file);
             } catch (Exception e) {
                 log.error("Could not write to file", e);
@@ -150,10 +152,21 @@ public class MovWriter {
 
     }
 
+
     public MovWriter(ImageDeliverer deliverer, File file, Component parent) {
         this.deliverer = deliverer;
         this.file = file;
         this.parent = parent;
+    }
+
+    @Override
+    public void addMetadata(String keyword, String text) {
+        // ignore
+    }
+
+    @Override
+    public void addMetadata(Map<String, String> metadata) {
+        // ignore
     }
 
     public void write() throws IOException {

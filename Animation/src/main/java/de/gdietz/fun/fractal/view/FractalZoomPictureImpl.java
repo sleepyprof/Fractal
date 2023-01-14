@@ -1,10 +1,11 @@
 package de.gdietz.fun.fractal.view;
 
+import de.gdietz.fun.fractal.meta.FractalMetadata;
 import de.gdietz.fun.fractal.model.FractalZoomModel;
 import de.gdietz.fun.fractal.palette.Palette;
 import de.gdietz.fun.fractal.util.Coordinate;
+import de.gdietz.imageio.AnimWriter;
 import de.gdietz.imageio.ImageDeliverer;
-import de.gdietz.imageio.MovWriter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -38,12 +39,15 @@ public class FractalZoomPictureImpl<D> implements FractalAnimPicture<Coordinate>
     }
 
     public void writeTo(File file) throws IOException {
-        MovWriter writer = new MovWriter(this, file, parent);
+        AnimWriter writer = AnimWriter.create(this, file, parent);
+        FractalMetadata metadata = model.getMetadata();
+        metadata.setColorStrategy(coloring);
+        writer.addMetadata(metadata);
         writer.write();
     }
 
     public String getExtension() {
-        return MovWriter.DEFAULT_EXTENSION;
+        return AnimWriter.DEFAULT_EXTENSION;
     }
 
     public void setPalette(Palette palette) {
