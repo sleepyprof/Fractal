@@ -35,7 +35,8 @@ object OptReal {
 
 case class Real(x: Double)
   extends OptReal
-    with SomeHigherNumber[OptReal, Real] {
+    with SomeHigherNumber[OptReal, Real]
+    with HigherHoloNumber[Real] {
 
   override def isZero: Boolean = x == 0.0
 
@@ -75,35 +76,33 @@ case class Real(x: Double)
 
   override def cube: Real = Real(x * x * x)
 
-  def exp: Real = Real(Math.exp(x))
+  override def exp: Real = Real(Math.exp(x))
 
-  def log: Real = Real(Math.log(x))
+  override def log: Real = Real(Math.log(x))
+
+  override def log(branch: Int): Real = Real(Math.log(x))
 
   @inline override def pow(n: Int): Real = super.pow(n)
 
-  def pow(c: Real): Real = Real(Math.pow(x, c.x))
+  override def pow(c: Real): Real = Real(Math.pow(x, c.x))
 
-  def pow(d: Double): Real = Real(Math.pow(x, d))
+  override def pow(d: Double): Real = Real(Math.pow(x, d))
 
   @inline override def **(n: Int): Real = pow(n)
 
-  @inline def **(c: Real): Real = pow(c)
+  override def sqrt: Real = Real(Math.sqrt(x))
 
-  @inline def **(d: Double): Real = pow(d)
+  override def sin: Real = Real(Math.sin(x))
 
-  def sqrt: Real = Real(Math.sqrt(x))
+  override def cos: Real = Real(Math.cos(x))
 
-  def sin: Real = Real(Math.sin(x))
+  override def sinh: Real = Real(Math.sinh(x))
 
-  def cos: Real = Real(Math.cos(x))
+  override def cosh: Real = Real(Math.cosh(x))
 
-  def sinh: Real = Real(Math.sinh(x))
+  override def tan: Real = Real(Math.tan(x))
 
-  def cosh: Real = Real(Math.cosh(x))
-
-  def tan: Real = Real(Math.tan(x))
-
-  def tanh: Real = Real(Math.tanh(x))
+  override def tanh: Real = Real(Math.tanh(x))
 
 
   def toDouble: Double = x

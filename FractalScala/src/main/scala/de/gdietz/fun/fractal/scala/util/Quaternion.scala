@@ -42,7 +42,8 @@ object OptQuaternion {
 
 case class Quaternion(x: Double, y: Double = 0.0, z: Double = 0.0, w: Double = 0.0)
   extends OptQuaternion
-    with SomeHigherNumber[OptQuaternion, Quaternion] {
+    with SomeHigherNumber[OptQuaternion, Quaternion]
+    with HigherHoloNumber[Quaternion] {
 
   override def isZero: Boolean = x == 0.0 && y == 0.0 && z == 0.0 && w == 0.0
 
@@ -98,6 +99,55 @@ case class Quaternion(x: Double, y: Double = 0.0, z: Double = 0.0, w: Double = 0
     val si: Double = y2 + z2 + w2
     Quaternion(x * (x2 - 3.0 * si), (3.0 * x2 - si) * y, (3.0 * x2 - si) * z, (3.0 * x2 - si) * w)
   }
+
+
+  def iTimes: Quaternion =
+    Quaternion(-y, x, -w, z)
+
+  def timesI: Quaternion =
+    Quaternion(-y, x, w, -z)
+
+  def jTimes: Quaternion =
+    Quaternion(-z, w, x ,-y)
+
+  def timesJ: Quaternion =
+    Quaternion(-z, -w, x, y)
+
+  def kTimes: Quaternion =
+    Quaternion(-w, -z, y, x)
+
+  def timesK: Quaternion =
+    Quaternion(-w, z, -y, x)
+
+
+  /**
+   * A power series `f` with real coefficients as a function on the complex plane can be extended to the quaternions.
+   */
+  def realPowerSeries(f: Complex => Complex): Quaternion = {
+    val in = imagNorm
+    val c = Complex(x, imagNorm)
+    val fc = f(c)
+    if (in == 0d)
+      fc.toQuaternion   // f(c) should be real since c is real
+    else {
+      val q = fc.y / in
+      Quaternion(fc.x, y * q, z * q, w * q)
+    }
+  }
+
+
+  @inline override def exp: Quaternion = realPowerSeries(_.exp)
+  @inline override def log: Quaternion = realPowerSeries(_.log)
+  @inline override def log(branch: Int): Quaternion = realPowerSeries(_.log(branch))
+
+  @inline override def sqrt: Quaternion = realPowerSeries(_.sqrt)
+
+  @inline override def sin: Quaternion = realPowerSeries(_.sin)
+  @inline override def cos: Quaternion = realPowerSeries(_.cos)
+  @inline override def sinh: Quaternion = realPowerSeries(_.sinh)
+  @inline override def cosh: Quaternion = realPowerSeries(_.cosh)
+  @inline override def tan: Quaternion = realPowerSeries(_.tan)
+  @inline override def tanh: Quaternion = realPowerSeries(_.tanh)
 
 
   override def toRealVector: RealVector4 =

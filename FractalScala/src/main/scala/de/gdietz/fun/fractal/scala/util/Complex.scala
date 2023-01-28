@@ -177,6 +177,13 @@ case class Complex(x: Double, y: Double = 0.0)
   }
 
 
+  def iTimes: Complex =
+    Complex(-y, x)
+
+  def plusTimesJ(c: Complex): Quaternion =
+    Quaternion(x, y, c.x, c.y)
+
+
   override def toQuaternion: Quaternion = Quaternion(x, y)
 
   override def toRealVector: RealVector2 =

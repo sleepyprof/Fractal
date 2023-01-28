@@ -69,7 +69,6 @@ final class HigherHoloVectorOps[V <: HigherVector[V, O, X], O <: OptHigherNumber
   def tan: V = v.mapNumber(_.tan)
   def tanh: V = v.mapNumber(_.tanh)
 
-
 }
 
 object HigherHoloVectorOps {
