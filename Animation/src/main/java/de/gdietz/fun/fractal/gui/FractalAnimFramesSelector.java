@@ -4,6 +4,7 @@ import de.gdietz.fun.fractal.controller.SizeAnimController;
 import de.gdietz.fun.fractal.model.SizeAnimModel;
 import de.gdietz.fun.fractal.view.FractalView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class FractalAnimFramesSelector extends JPanel implements FractalView {
 
         JLabel labelFrames = new JLabel("Frames:");
 
-        NumberFormat format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormatHelper.getDefaultNumberFormat();
         format.setParseIntegerOnly(true);
 
         textFrames = new JNumberCachedTextField(format);
@@ -49,9 +50,9 @@ public class FractalAnimFramesSelector extends JPanel implements FractalView {
         c.weightx = 1.0;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.NONE;
-        add(labelFrames);
-        add(textFrames);
-        add(setButton);
+        add(labelFrames, c);
+        add(textFrames, c);
+        add(setButton, c);
 
 		this.model = model;
 		this.controller = controller;

@@ -4,6 +4,7 @@ import de.gdietz.fun.fractal.controller.FractalFuzzyController;
 import de.gdietz.fun.fractal.model.FractalModelBase;
 import de.gdietz.fun.fractal.view.FractalView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +38,7 @@ public class FractalFuzzySelector extends JPanel implements FractalView {
         labelLambda = new JLabel("\u03bb:");
         labelEpsilon = new JLabel("\u03b5:");
 
-        NumberFormat formatLambda = NumberFormat.getInstance();
+        NumberFormat formatLambda = NumberFormatHelper.getDefaultNumberFormat();
         formatLambda.setMaximumFractionDigits(1);
 
         textLambda = new JNumberCachedTextField(formatLambda);

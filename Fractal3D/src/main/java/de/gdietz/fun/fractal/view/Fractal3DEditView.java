@@ -4,6 +4,7 @@ import de.gdietz.fun.fractal.controller.Fractal3DController;
 import de.gdietz.fun.fractal.model.Fractal3DModel;
 import de.gdietz.fun.fractal.util.Coordinate3D;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +48,7 @@ public class Fractal3DEditView extends JPanel implements FractalView {
 
         JPanel panelControlData = new JPanel(new GridBagLayout());
 
-        NumberFormat format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormatHelper.getDefaultNumberFormat();
         format.setMaximumFractionDigits(10);
 
         textFromX = new JNumberCachedTextField(format);

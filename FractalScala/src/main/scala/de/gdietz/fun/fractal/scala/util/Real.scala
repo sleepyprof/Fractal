@@ -1,6 +1,7 @@
 package de.gdietz.fun.fractal.scala.util
 
 import de.gdietz.fun.fractal.util.ComplexNumberFormatter
+import de.gdietz.util.NumberFormatHelper
 
 import java.text.NumberFormat
 import scala.language.implicitConversions
@@ -121,7 +122,7 @@ case class Real(x: Double)
     cnf.toString
   }
 
-  override def toString: String = toString(NumberFormat.getInstance)
+  override def toString: String = toString(NumberFormatHelper.getDefaultNumberFormat)
 
 }
 

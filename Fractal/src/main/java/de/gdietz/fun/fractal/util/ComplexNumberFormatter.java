@@ -1,5 +1,7 @@
 package de.gdietz.fun.fractal.util;
 
+import de.gdietz.util.NumberFormatHelper;
+
 import java.text.NumberFormat;
 
 public class ComplexNumberFormatter {
@@ -32,7 +34,7 @@ public class ComplexNumberFormatter {
     }
 
     public ComplexNumberFormatter(boolean parentheses, boolean negativeParentheses, boolean sign) {
-        this(NumberFormat.getInstance(), parentheses, negativeParentheses, sign);
+        this(NumberFormatHelper.getDefaultNumberFormat(), parentheses, negativeParentheses, sign);
     }
 
     public ComplexNumberFormatter(boolean parentheses) {

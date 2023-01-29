@@ -5,6 +5,7 @@ import de.gdietz.fun.fractal.palette.RandomPalette;
 import de.gdietz.fun.fractal.palette.TransformedPalette;
 import de.gdietz.fun.fractal.view.PaletteView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,7 @@ public class PaletteSelector extends JPanel implements ActionListener {
 
         JLabel labelSeed = new JLabel("seed:");
 
-        NumberFormat formatSeed = NumberFormat.getInstance();
+        NumberFormat formatSeed = NumberFormatHelper.getDefaultNumberFormat();
         formatSeed.setParseIntegerOnly(true);
         formatSeed.setMinimumIntegerDigits(5);
         formatSeed.setGroupingUsed(false);
@@ -48,7 +49,7 @@ public class PaletteSelector extends JPanel implements ActionListener {
 
         JLabel labelFactor = new JLabel("speed:");
 
-        NumberFormat formatFactor = NumberFormat.getInstance();
+        NumberFormat formatFactor = NumberFormatHelper.getDefaultNumberFormat();
         formatFactor.setMinimumFractionDigits(1);
 
         textFieldFactor = new JNumberCachedTextField(formatFactor);

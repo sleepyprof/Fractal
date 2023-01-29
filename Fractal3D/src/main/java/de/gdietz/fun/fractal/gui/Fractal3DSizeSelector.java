@@ -4,6 +4,7 @@ import de.gdietz.fun.fractal.controller.Fractal3DController;
 import de.gdietz.fun.fractal.model.Fractal3DModel;
 import de.gdietz.fun.fractal.view.FractalView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class Fractal3DSizeSelector extends JPanel implements FractalView {
 
         JLabel labelSize = new JLabel("Size:");
 
-        NumberFormat format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormatHelper.getDefaultNumberFormat();
         format.setParseIntegerOnly(true);
 
         textSize = new JNumberCachedTextField(format);

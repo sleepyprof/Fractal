@@ -1,5 +1,7 @@
 package de.gdietz.fun.fractal.util;
 
+import de.gdietz.util.NumberFormatHelper;
+
 import java.text.NumberFormat;
 
 public class Complex extends Coordinate implements NormedNumber<Complex> {
@@ -189,7 +191,7 @@ public class Complex extends Coordinate implements NormedNumber<Complex> {
     }
 
     public String toString(boolean parentheses, boolean negativeParentheses, boolean sign) {
-        return toString(NumberFormat.getInstance(), parentheses, negativeParentheses, sign);
+        return toString(NumberFormatHelper.getDefaultNumberFormat(), parentheses, negativeParentheses, sign);
     }
 
     public String toString(boolean parentheses) {

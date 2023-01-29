@@ -1,5 +1,7 @@
 package de.gdietz.fun.fractal.util;
 
+import de.gdietz.util.NumberFormatHelper;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -35,7 +37,7 @@ public class ComplexNumberParser {
         }
         numberStr = numberStr.trim();
 
-        NumberFormat format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormatHelper.getDefaultNumberFormat();
         ParsePosition pos = new ParsePosition(0);
         Number number = format.parse(numberStr, pos);
         int splitPos = pos.getErrorIndex() == -1 ? pos.getIndex() : pos.getErrorIndex();

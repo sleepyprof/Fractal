@@ -4,6 +4,7 @@ import de.gdietz.fun.fractal.controller.FractalIteratorManager;
 import de.gdietz.fun.fractal.formula.FractalIteratorFactory;
 import de.gdietz.fun.fractal.util.Tuple;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class FractalIteratorFactorySelector<T extends Tuple<T>> extends JPanel i
 		comboBoxFunc = new JComboBox<>();
         comboBoxFunc.addActionListener(this);
 
-        NumberFormat format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormatHelper.getDefaultNumberFormat();
         format.setParseIntegerOnly(true);
 
         JLabel labelMaxiter = new JLabel("iter:");

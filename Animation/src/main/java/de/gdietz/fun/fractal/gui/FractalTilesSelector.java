@@ -6,6 +6,7 @@ import de.gdietz.fun.fractal.model.FractalTilesCanvas;
 import de.gdietz.fun.fractal.model.FractalTilesModel;
 import de.gdietz.fun.fractal.view.FractalView;
 import de.gdietz.gui.swing.JNumberCachedTextField;
+import de.gdietz.util.NumberFormatHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class FractalTilesSelector extends JPanel implements FractalView {
 
         JLabel labelTiles = new JLabel("Tiles:");
 
-        NumberFormat format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormatHelper.getDefaultNumberFormat();
         format.setParseIntegerOnly(true);
 
         textTilesX = new JNumberCachedTextField(format);
@@ -54,10 +55,10 @@ public class FractalTilesSelector extends JPanel implements FractalView {
         c.weightx = 1.0;
         c.gridwidth = 1;
         c.fill = GridBagConstraints.NONE;
-        add(labelTiles);
-        add(textTilesX);
-        add(textTilesY);
-        add(setButton);
+        add(labelTiles, c);
+        add(textTilesX, c);
+        add(textTilesY, c);
+        add(setButton, c);
 
         this.model = model;
         this.controller = controller;
