@@ -3,10 +3,10 @@ package de.gdietz.fun.fractal.test;
 import de.gdietz.fun.fractal.gui.FractalAnimGUI;
 import de.gdietz.fun.fractal.gui.FractalGUI;
 import de.gdietz.fun.fractal.gui.FractalViewsGUI;
+import org.jogamp.java3d.VirtualUniverse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.media.j3d.VirtualUniverse;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;

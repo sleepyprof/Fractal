@@ -1,30 +1,31 @@
 package de.gdietz.fun.fractal.view;
 
-import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
-import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
-import com.sun.j3d.utils.behaviors.mouse.MouseZoom;
-import com.sun.j3d.utils.geometry.GeometryInfo;
-import com.sun.j3d.utils.geometry.NormalGenerator;
-import com.sun.j3d.utils.universe.SimpleUniverse;
 import de.gdietz.fun.fractal.controller.Fractal3DController;
 import de.gdietz.fun.fractal.meta.FractalMetadata;
 import de.gdietz.fun.fractal.model.Fractal3DModel;
 import de.gdietz.fun.fractal.util.Coordinate3D;
 import de.gdietz.imageio.PNGWriter;
+import org.jogamp.java3d.*;
+import org.jogamp.java3d.utils.behaviors.mouse.MouseRotate;
+import org.jogamp.java3d.utils.behaviors.mouse.MouseTranslate;
+import org.jogamp.java3d.utils.behaviors.mouse.MouseZoom;
+import org.jogamp.java3d.utils.geometry.GeometryInfo;
+import org.jogamp.java3d.utils.geometry.NormalGenerator;
+import org.jogamp.java3d.utils.universe.SimpleUniverse;
+import org.jogamp.vecmath.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.media.j3d.*;
 import javax.swing.*;
-import javax.vecmath.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class Fractal3DPictureView extends JPanel implements FractalView, SaveableView {
 
