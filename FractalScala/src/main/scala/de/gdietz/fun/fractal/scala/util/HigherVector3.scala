@@ -36,6 +36,12 @@ case class HigherVector3[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
   override def existsNumber: Boolean =
     x1.isNumber || x2.isNumber || x3.isNumber
 
+  override def isZero: Boolean =
+    x1.isZero && x2.isZero && x3.isZero
+
+  override def optNormSqr: Option[Double] =
+    x1.optNormSqr.flatMap(n1 => x2.optNormSqr.flatMap(n2 => x3.optNormSqr.map(n3 => n1 + n2 + n3)))
+
   override def unary_- : HigherVector3[O, X] =
     HigherVector3(-x1, -x2, -x3)
 

@@ -13,6 +13,10 @@ trait NoHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[O,
 
   @inline final override def filterNumber(cond: X => Boolean): O = none
 
+  @inline final override def isZero: Boolean = false
+
+  @inline final override def optNormSqr: Option[Double] = None
+
   @inline override def unary_- : O = none
 
   @inline override def +(r: Double): O = none

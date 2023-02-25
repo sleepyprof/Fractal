@@ -38,6 +38,12 @@ case class HigherVectorN[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
   override def existsNumber: Boolean =
     xs.exists(_.isNumber)
 
+  override def isZero: Boolean =
+    xs.forall(_.isZero)
+
+  override def optNormSqr: Option[Double] =
+    HigherVectorN.foldNormSqr(xs, 0.0)
+
   override def unary_- : HigherVectorN[O, X] =
     HigherVectorN(xs.map(-_))
 
@@ -138,6 +144,16 @@ object HigherVectorN {
 
   def apply[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](xs: O*): HigherVectorN[O, X] =
     HigherVectorN(xs.toList)
+
+  @tailrec private def foldNormSqr[X <: OptNormedNumber](xs: List[X], acc: Double): Option[Double] =
+    xs match {
+      case h :: t =>
+        h.optNormSqr match {
+          case Some(hn) => foldNormSqr(t, acc + hn)
+          case _ => None
+        }
+      case _ => Some(acc)
+    }
 
   private def mapOp[X, Y, Z](xs: List[X], ys: List[Y])(f: (X, Y) => Z): List[Z] =
     xs match {
