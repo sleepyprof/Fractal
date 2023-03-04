@@ -241,6 +241,19 @@ object QuaternionVectorN {
 
 }
 
+object BigRealVectorN {
+
+  @inline def apply(xs: List[OptBigReal]): BigRealVectorN =
+    HigherVectorN(xs)
+
+  @inline def apply(xs: OptBigReal*): BigRealVectorN =
+    HigherVectorN(xs: _*)
+
+  def unapply(x: BigRealVectorN): Option[List[OptBigReal]] =
+    Some(x.xs)
+
+}
+
 object BigComplexVectorN {
 
   @inline def apply(xs: List[OptBigComplex]): BigComplexVectorN =

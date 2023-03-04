@@ -31,6 +31,12 @@ object OptComplex {
   implicit def doubleToOptComplex(x: Double): OptComplex =
     Complex(x)
 
+  implicit def optRealToOptComplex(x: OptReal): OptComplex =
+    x match {
+      case Real(x) => Complex(x)
+      case _ => NoComplex
+    }
+
   implicit def coordinateToOptComplex(c: Coordinate): OptComplex =
     Complex(c.getX, c.getY)
 

@@ -173,6 +173,16 @@ object QuaternionVector3 {
 
 }
 
+object BigRealVector3 {
+
+  @inline def apply(x1: OptBigReal, x2: OptBigReal, x3: OptBigReal): BigRealVector3 =
+    HigherVector3(x1, x2, x3)
+
+  def unapply(x: BigRealVector3): Option[(OptBigReal, OptBigReal, OptBigReal)] =
+    Some((x.x1, x.x2, x.x3))
+
+}
+
 object BigComplexVector3 {
 
   @inline def apply(x1: OptBigComplex, x2: OptBigComplex, x3: OptBigComplex): BigComplexVector3 =

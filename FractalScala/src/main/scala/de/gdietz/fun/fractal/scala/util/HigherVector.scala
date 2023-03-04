@@ -110,6 +110,25 @@ object QuaternionVector {
 
 }
 
+object BigRealVector {
+
+  @inline def apply(x1: OptBigReal): BigRealVector[OptBigReal] =
+    x1
+
+  @inline def apply(x1: OptBigReal, x2: OptBigReal): BigRealVector[BigRealVector2] =
+    BigRealVector2(x1, x2)
+
+  @inline def apply(x1: OptBigReal, x2: OptBigReal, x3: OptBigReal): BigRealVector[BigRealVector3] =
+    BigRealVector3(x1, x2, x3)
+
+  @inline def apply(x1: OptBigReal, x2: OptBigReal, x3: OptBigReal, x4: OptBigReal): BigRealVector[BigRealVector4] =
+    BigRealVector4(x1, x2, x3, x4)
+
+  @inline def apply(xs: OptBigReal*): BigRealVector[BigRealVectorN] =
+    BigRealVectorN(xs: _*)
+
+}
+
 object BigComplexVector {
 
   @inline def apply(x1: OptBigComplex): BigComplexVector[OptBigComplex] =

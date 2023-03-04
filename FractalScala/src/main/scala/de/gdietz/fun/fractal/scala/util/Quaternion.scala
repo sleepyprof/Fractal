@@ -29,6 +29,12 @@ object OptQuaternion {
   implicit def doubleToOptQuaternion(x: Double): OptQuaternion =
     Quaternion(x)
 
+  implicit def optRealToOptQuaternion(x: OptReal): OptQuaternion =
+    x match {
+      case Real(x) => Quaternion(x)
+      case _ => NoQuaternion
+    }
+
   implicit def optComplexToOptQuaternion(c: OptComplex): OptQuaternion =
     c match {
       case Complex(x, y) => Quaternion(x, y)

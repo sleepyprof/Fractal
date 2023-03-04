@@ -17,28 +17,55 @@ sealed trait OptBigComplex
 
 object OptBigComplex {
 
-  def apply(x: BigDecimal, y: BigDecimal = BigComplex.decimalZero): OptBigComplex =
+  def apply(x: BigDecimal, y: BigDecimal = BigReal.decimalZero): OptBigComplex =
     BigComplex(x, y)
 
   val none: OptComplex = NoComplex
 
 
-  implicit def doubleToOptComplex(x: Double): OptComplex =
-    Complex(x)
+  implicit def optComplexToOptBigComplex(c: OptComplex): OptBigComplex =
+    c match {
+      case Complex(x, y) => BigComplex(x, y)
+      case _ => NoBigComplex
+    }
+
+  implicit def bigDecimalToOptBigComplex(x: BigDecimal): OptBigComplex =
+    BigComplex(x)
+
+  implicit def javaBigDecimalToOptBigComplex(x: JavaBigDecimal): OptBigComplex =
+    BigComplex(x)
+
+  implicit def doubleToOptBigComplex(x: Double): OptBigComplex =
+    BigComplex(x)
+
+  implicit def optRealToOptBigComplex(x: OptReal): OptBigComplex =
+    x match {
+      case Real(x) => BigComplex(x)
+      case _ => NoBigComplex
+    }
+
+  implicit def optBigRealOptToBigComplex(x: OptBigReal): OptBigComplex =
+    x match {
+      case BigReal(x) => BigComplex(x)
+      case _ => NoBigComplex
+    }
 
   implicit def bigCoordinateToOptBigComplex(c: BigCoordinate): OptBigComplex =
+    BigComplex(c.getX, c.getY)
+
+  implicit def coordinateToOptBigComplex(c: Coordinate): OptBigComplex =
     BigComplex(c.getX, c.getY)
 
 }
 
 
-case class BigComplex(x: BigDecimal, y: BigDecimal = BigComplex.decimalZero)
+case class BigComplex(x: BigDecimal, y: BigDecimal = BigReal.decimalZero)
   extends OptBigComplex
     with SomeHigherNumber[OptBigComplex, BigComplex] {
 
-  override def isZero: Boolean = x == BigComplex.decimalZero && y == BigComplex.decimalZero
+  override def isZero: Boolean = x == BigReal.decimalZero && y == BigReal.decimalZero
 
-  override def isUnit: Boolean = x == BigComplex.decimalOne && y == BigComplex.decimalZero
+  override def isUnit: Boolean = x == BigReal.decimalOne && y == BigReal.decimalZero
 
   def normSqrPrecise: BigDecimal = x * x + y * y
 
@@ -97,7 +124,7 @@ case class BigComplex(x: BigDecimal, y: BigDecimal = BigComplex.decimalZero)
   override def cube: BigComplex = {
     val x2 = x * x
     val y2 = y * y
-    BigComplex(x * (x2 - BigComplex.decimalThree * y2), (BigComplex.decimalThree * x2 - y2) * y)
+    BigComplex(x * (x2 - BigReal.decimalThree * y2), (BigReal.decimalThree * x2 - y2) * y)
   }
 
   @inline override def pow(n: Int): BigComplex = super.pow(n)
@@ -123,28 +150,29 @@ case class BigComplex(x: BigDecimal, y: BigDecimal = BigComplex.decimalZero)
 
 object BigComplex {
 
-  val decimalZero: BigDecimal = JavaBigDecimal.ZERO
-  val decimalOne: BigDecimal = JavaBigDecimal.ONE
-  val decimalMinusOne: BigDecimal = BigDecimal.decimal(-1)
-  val decimalThree: BigDecimal = BigDecimal.decimal(3)
-
-  val zero: BigComplex = BigComplex(decimalZero)
-  val one: BigComplex = BigComplex(decimalOne)
-  val i: BigComplex = BigComplex(decimalZero, decimalOne)
-  val minusOne: BigComplex = BigComplex(decimalMinusOne)
-  val minusI: BigComplex = BigComplex(decimalZero, decimalMinusOne)
+  val zero: BigComplex = BigComplex(BigReal.decimalZero)
+  val one: BigComplex = BigComplex(BigReal.decimalOne)
+  val i: BigComplex = BigComplex(BigReal.decimalZero, BigReal.decimalOne)
+  val minusOne: BigComplex = BigComplex(BigReal.decimalMinusOne)
+  val minusI: BigComplex = BigComplex(BigReal.decimalZero, BigReal.decimalMinusOne)
 
 
-  implicit def complexToBigComplex(x: Complex): BigComplex =
-    BigComplex(x.x, x.y)
+  implicit def complexToBigComplex(c: Complex): BigComplex =
+    BigComplex(c.x, c.y)
 
   implicit def bigDecimalToBigComplex(x: BigDecimal): BigComplex =
+    BigComplex(x)
+
+  implicit def javaBigDecimalToBigComplex(x: JavaBigDecimal): BigComplex =
     BigComplex(x)
 
   implicit def doubleToBigComplex(x: Double): BigComplex =
     BigComplex(x)
 
   implicit def realToBigComplex(x: Real): BigComplex =
+    BigComplex(x.x)
+
+  implicit def bigRealToBigComplex(x: BigReal): BigComplex =
     BigComplex(x.x)
 
   implicit def bigCoordinateToBigComplex(c: BigCoordinate): BigComplex =

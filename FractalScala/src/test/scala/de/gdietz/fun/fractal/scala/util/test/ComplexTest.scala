@@ -109,6 +109,34 @@ object ComplexTest {
     println("v2 **  v2 = " + (v.x2 ** v.x2))
     println("v1 **  c  = " + (v.x1 ** c))
     println("v2 **  c  = " + (v.x2 ** c))
+
+    println("-----")
+
+    println("pauli1       * pauli1       = " + (RealMatrix22.pauli1  * RealMatrix22.pauli1 ))
+    println("pauli1       * (i * pauli2) = " + (RealMatrix22.pauli1  * RealMatrix22.iPauli2))
+    println("pauli1       * pauli3       = " + (RealMatrix22.pauli1  * RealMatrix22.pauli3 ))
+    
+
+
+    println("(i * pauli2) * (i * pauli2) = " + (RealMatrix22.iPauli2 * RealMatrix22.iPauli2))
+    println("pauli3       * pauli3       = " + (RealMatrix22.pauli3  * RealMatrix22.pauli3 ))
+
+
+
+    val m = RealMatrix22(1.0, 2.0, 3.0, 4.0)
+
+    println("m * pauli1       = " + (m * RealMatrix22.pauli1))
+    println("m * (i * pauli2) = " + (m * RealMatrix22.iPauli2))
+    println("m * pauli3       = " + (m * RealMatrix22.pauli3))
+
+
+    println("-----")
+
+    val qm = QuaternionMatrix22(Quaternion.i, Quaternion.j, Quaternion.k, Quaternion.i + Quaternion.k)
+
+    println("qm * qm.inverse = " + (qm * qm.inverse))
+    println("qm.inverse * qm = " + (qm.inverse * qm))
+
   }
 
 }
