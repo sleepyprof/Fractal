@@ -38,10 +38,16 @@ package object util {
   type BigRealMatrix[M <: BigRealMatrix[M]] = HigherMatrix[M, BigReal]
   type BigComplexMatrix[M <: BigComplexMatrix[M]] = HigherMatrix[M, BigComplex]
 
-  type RealMatrix22 = HigherMatrix22[Real]
-  type ComplexMatrix22 = HigherMatrix22[Complex]
-  type QuaternionMatrix22 = HigherMatrix22[Quaternion]
-  type BigRealMatrix22 = HigherMatrix22[BigReal]
-  type BigComplexMatrix22 = HigherMatrix22[BigComplex]
+  type RealMatrix2 = HigherMatrix2[Real]
+  type ComplexMatrix2 = HigherMatrix2[Complex]
+  type QuaternionMatrix2 = HigherMatrix2[Quaternion]
+  type BigRealMatrix2 = HigherMatrix2[BigReal]
+  type BigComplexMatrix2 = HigherMatrix2[BigComplex]
+
+  type RealMatrix4 = HigherMatrix4[Real]
+  type ComplexMatrix4 = HigherMatrix4[Complex]
+  type QuaternionMatrix4 = HigherMatrix4[Quaternion]
+  type BigRealMatrix4 = HigherMatrix4[BigReal]
+  type BigComplexMatrix4 = HigherMatrix4[BigComplex]
 
 }

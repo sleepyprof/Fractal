@@ -112,30 +112,46 @@ object ComplexTest {
 
     println("-----")
 
-    println("pauli1       * pauli1       = " + (RealMatrix22.pauli1  * RealMatrix22.pauli1 ))
-    println("pauli1       * (i * pauli2) = " + (RealMatrix22.pauli1  * RealMatrix22.iPauli2))
-    println("pauli1       * pauli3       = " + (RealMatrix22.pauli1  * RealMatrix22.pauli3 ))
-    
+    println("pauli1                      = " +  RealMatrix2.pauli1                         )
+    println("(i * pauli2)                = " +  RealMatrix2.iPauli2                        )
+    println("pauli3                      = " +  RealMatrix2.pauli3                         )
+    println("pauli1       * pauli1       = " + (RealMatrix2.pauli1  * RealMatrix2.pauli1 ))
+    println("pauli1       * (i * pauli2) = " + (RealMatrix2.pauli1  * RealMatrix2.iPauli2))
+    println("pauli1       * pauli3       = " + (RealMatrix2.pauli1  * RealMatrix2.pauli3 ))
+    println("(i * pauli2) * pauli1       = " + (RealMatrix2.iPauli2 * RealMatrix2.pauli1 ))
+    println("(i * pauli2) * (i * pauli2) = " + (RealMatrix2.iPauli2 * RealMatrix2.iPauli2))
+    println("(i * pauli2) * pauli3       = " + (RealMatrix2.iPauli2 * RealMatrix2.pauli3 ))
+    println("pauli3       * pauli1       = " + (RealMatrix2.pauli3  * RealMatrix2.pauli1 ))
+    println("pauli3       * (i * pauli2) = " + (RealMatrix2.pauli3  * RealMatrix2.iPauli2))
+    println("pauli3       * pauli3       = " + (RealMatrix2.pauli3  * RealMatrix2.pauli3 ))
 
+    val m = RealMatrix2(1.0, 2.0, 3.0, 4.0)
 
-    println("(i * pauli2) * (i * pauli2) = " + (RealMatrix22.iPauli2 * RealMatrix22.iPauli2))
-    println("pauli3       * pauli3       = " + (RealMatrix22.pauli3  * RealMatrix22.pauli3 ))
-
-
-
-    val m = RealMatrix22(1.0, 2.0, 3.0, 4.0)
-
-    println("m * pauli1       = " + (m * RealMatrix22.pauli1))
-    println("m * (i * pauli2) = " + (m * RealMatrix22.iPauli2))
-    println("m * pauli3       = " + (m * RealMatrix22.pauli3))
-
+    println("m * pauli1       = " + (m * RealMatrix2.pauli1))
+    println("m * (i * pauli2) = " + (m * RealMatrix2.iPauli2))
+    println("m * pauli3       = " + (m * RealMatrix2.pauli3))
 
     println("-----")
 
-    val qm = QuaternionMatrix22(Quaternion.i, Quaternion.j, Quaternion.k, Quaternion.i + Quaternion.k)
+    val qm = QuaternionMatrix2(Quaternion.i, Quaternion.j, Quaternion.k, Quaternion.i + Quaternion.k)
 
     println("qm * qm.inverse = " + (qm * qm.inverse))
     println("qm.inverse * qm = " + (qm.inverse * qm))
+
+    println("-----")
+
+    println("dirac1                      = " + RealMatrix4.dirac1)
+    println("(i * dirac2)                = " + RealMatrix4.iDirac2)
+    println("dirac3                      = " + RealMatrix4.dirac3)
+    println("dirac1       * dirac1       = " + (RealMatrix4.dirac1 * RealMatrix4.dirac1))
+    println("dirac1       * (i * dirac2) = " + (RealMatrix4.dirac1 * RealMatrix4.iDirac2))
+    println("dirac1       * dirac3       = " + (RealMatrix4.dirac1 * RealMatrix4.dirac3))
+    println("(i * dirac2) * dirac1       = " + (RealMatrix4.iDirac2 * RealMatrix4.dirac1))
+    println("(i * dirac2) * (i * dirac2) = " + (RealMatrix4.iDirac2 * RealMatrix4.iDirac2))
+    println("(i * dirac2) * dirac3       = " + (RealMatrix4.iDirac2 * RealMatrix4.dirac3))
+    println("dirac3       * dirac1       = " + (RealMatrix4.dirac3 * RealMatrix4.dirac1))
+    println("dirac3       * (i * dirac2) = " + (RealMatrix4.dirac3 * RealMatrix4.iDirac2))
+    println("dirac3       * dirac3       = " + (RealMatrix4.dirac3 * RealMatrix4.dirac3))
 
   }
 
