@@ -158,10 +158,22 @@ case class HigherMatrix4[X <: HigherNumber[X]](x11: X, x12: X, x13: X, x14: X,
 
 
   override def toString: String = "(" +
-      x11 + ", " + x21 + ", " + x31 + ", " + x41 + " | " + 
-      x12 + ", " + x22 + ", " + x32 + ", " + x42 + " | " + 
-      x13 + ", " + x23 + ", " + x33 + ", " + x43 + " | " + 
-      x14 + ", " + x24 + ", " + x34 + ", " + x44 + ")"
+    x11 + ", " + x12 + ", " + x13 + ", " + x14 + " | " +
+    x21 + ", " + x22 + ", " + x23 + ", " + x24 + " | " +
+    x31 + ", " + x32 + ", " + x33 + ", " + x34 + " | " +
+    x41 + ", " + x42 + ", " + x43 + ", " + x44 + ")"
+
+}
+
+object HigherMatrix4 {
+
+  def apply[X <: HigherNumber[X]](x1212: HigherMatrix2[X], x1234: HigherMatrix2[X],
+                                  x3412: HigherMatrix2[X], x3434: HigherMatrix2[X]): HigherMatrix4[X] =
+    HigherMatrix4(
+      x1212.x11, x1212.x12, x1234.x11, x1234.x12,
+      x1212.x21, x1212.x22, x1234.x21, x1234.x22,
+      x3412.x11, x3412.x12, x3434.x11, x3434.x12,
+      x3412.x21, x3412.x22, x3434.x21, x3434.x22)
 
 }
 
@@ -178,6 +190,10 @@ object RealMatrix4 {
       x31, x32, x33, x34,
       x41, x42, x43, x44)
 
+  @inline def apply(x1212: RealMatrix2, x1234: RealMatrix2,
+                    x3412: RealMatrix2, x3434: RealMatrix2): RealMatrix4 =
+    HigherMatrix4(x1212, x1234, x3412, x3434)
+
   def unapply(x: RealMatrix4): Option[(Real, Real, Real, Real, Real, Real, Real, Real, Real, Real, Real, Real, Real, Real, Real, Real)] =
     Some((
       x.x11, x.x12, x.x13, x.x14,
@@ -186,46 +202,22 @@ object RealMatrix4 {
       x.x41, x.x42, x.x43, x.x44))
 
   val zero: RealMatrix4 =
-    RealMatrix4(
-      Real.zero, Real.zero, Real.zero, Real.zero,
-      Real.zero, Real.zero, Real.zero, Real.zero,
-      Real.zero, Real.zero, Real.zero, Real.zero,
-      Real.zero, Real.zero, Real.zero, Real.zero)
+    RealMatrix4(RealMatrix2.zero, RealMatrix2.zero, RealMatrix2.zero, RealMatrix2.zero)
 
   val unit: RealMatrix4 =
-    RealMatrix4(
-      Real.one, Real.zero, Real.zero, Real.zero,
-      Real.zero, Real.one, Real.zero, Real.zero,
-      Real.zero, Real.zero, Real.one, Real.zero,
-      Real.zero, Real.zero, Real.zero, Real.one)
+    RealMatrix4(RealMatrix2.unit, RealMatrix2.zero, RealMatrix2.zero, RealMatrix2.unit)
 
   val dirac0: RealMatrix4 =
-    RealMatrix4(
-      Real.one, Real.zero, Real.zero, Real.zero,
-      Real.zero, Real.one, Real.zero, Real.zero,
-      Real.zero, Real.zero, Real.minusOne, Real.zero,
-      Real.zero, Real.zero, Real.zero, Real.minusOne)
+    RealMatrix4(RealMatrix2.unit, RealMatrix2.zero, RealMatrix2.zero, -RealMatrix2.unit)
 
   val dirac1: RealMatrix4 =
-    RealMatrix4(
-      Real.zero, Real.zero, Real.zero, Real.one,
-      Real.zero, Real.zero, Real.one, Real.zero,
-      Real.zero, Real.minusOne, Real.zero, Real.zero,
-      Real.minusOne, Real.zero, Real.zero, Real.zero)
+    RealMatrix4(RealMatrix2.zero, RealMatrix2.pauli1, -RealMatrix2.pauli1, RealMatrix2.zero)
 
   val iDirac2: RealMatrix4 =
-    RealMatrix4(
-      Real.zero, Real.zero, Real.zero, Real.one,
-      Real.zero, Real.zero, Real.minusOne, Real.zero,
-      Real.zero, Real.minusOne, Real.zero, Real.zero,
-      Real.one, Real.zero, Real.zero, Real.zero)
+    RealMatrix4(RealMatrix2.zero, RealMatrix2.iPauli2, -RealMatrix2.iPauli2, RealMatrix2.zero)
 
   val dirac3: RealMatrix4 =
-    RealMatrix4(
-      Real.zero, Real.zero, Real.one, Real.zero,
-      Real.zero, Real.zero, Real.zero, Real.minusOne,
-      Real.minusOne, Real.zero, Real.zero, Real.zero,
-      Real.zero, Real.one, Real.zero, Real.zero)
+    RealMatrix4(RealMatrix2.zero, RealMatrix2.pauli3, -RealMatrix2.pauli3, RealMatrix2.zero)
 
 }
 
@@ -241,6 +233,10 @@ object ComplexMatrix4 {
       x31, x32, x33, x34,
       x41, x42, x43, x44)
 
+  @inline def apply(x1212: ComplexMatrix2, x1234: ComplexMatrix2,
+                    x3412: ComplexMatrix2, x3434: ComplexMatrix2): ComplexMatrix4 =
+    HigherMatrix4(x1212, x1234, x3412, x3434)
+
   def unapply(x: ComplexMatrix4): Option[(Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex, Complex)] =
     Some((
       x.x11, x.x12, x.x13, x.x14,
@@ -249,53 +245,32 @@ object ComplexMatrix4 {
       x.x41, x.x42, x.x43, x.x44))
 
   val zero: ComplexMatrix4 =
-    ComplexMatrix4(
-      Complex.zero, Complex.zero, Complex.zero, Complex.zero,
-      Complex.zero, Complex.zero, Complex.zero, Complex.zero,
-      Complex.zero, Complex.zero, Complex.zero, Complex.zero,
-      Complex.zero, Complex.zero, Complex.zero, Complex.zero)
+    ComplexMatrix4(ComplexMatrix2.zero, ComplexMatrix2.zero, ComplexMatrix2.zero, ComplexMatrix2.zero)
 
   val unit: ComplexMatrix4 =
-    ComplexMatrix4(
-      Complex.one, Complex.zero, Complex.zero, Complex.zero,
-      Complex.zero, Complex.one, Complex.zero, Complex.zero,
-      Complex.zero, Complex.zero, Complex.one, Complex.zero,
-      Complex.zero, Complex.zero, Complex.zero, Complex.one)
+    ComplexMatrix4(ComplexMatrix2.unit, ComplexMatrix2.zero, ComplexMatrix2.zero, ComplexMatrix2.unit)
 
   val dirac0: ComplexMatrix4 =
-    ComplexMatrix4(
-      Complex.one, Complex.zero, Complex.zero, Complex.zero,
-      Complex.zero, Complex.one, Complex.zero, Complex.zero,
-      Complex.zero, Complex.zero, Complex.minusOne, Complex.zero,
-      Complex.zero, Complex.zero, Complex.zero, Complex.minusOne)
+    ComplexMatrix4(ComplexMatrix2.unit, ComplexMatrix2.zero, ComplexMatrix2.zero, -ComplexMatrix2.unit)
 
   val dirac1: ComplexMatrix4 =
-    ComplexMatrix4(
-      Complex.zero, Complex.zero, Complex.zero, Complex.one,
-      Complex.zero, Complex.zero, Complex.one, Complex.zero,
-      Complex.zero, Complex.minusOne, Complex.zero, Complex.zero,
-      Complex.minusOne, Complex.zero, Complex.zero, Complex.zero)
+    ComplexMatrix4(ComplexMatrix2.zero, ComplexMatrix2.pauli1, -ComplexMatrix2.pauli1, ComplexMatrix2.zero)
 
   val dirac2: ComplexMatrix4 =
-    ComplexMatrix4(
-      Complex.zero, Complex.zero, Complex.zero, Complex.minusI,
-      Complex.zero, Complex.zero, Complex.i, Complex.zero,
-      Complex.zero, Complex.i, Complex.zero, Complex.zero,
-      Complex.minusI, Complex.zero, Complex.zero, Complex.zero)
+    ComplexMatrix4(ComplexMatrix2.zero, ComplexMatrix2.pauli2, -ComplexMatrix2.pauli2, ComplexMatrix2.zero)
 
   val dirac3: ComplexMatrix4 =
-    ComplexMatrix4(
-      Complex.zero, Complex.zero, Complex.one, Complex.zero,
-      Complex.zero, Complex.zero, Complex.zero, Complex.minusOne,
-      Complex.minusOne, Complex.zero, Complex.zero, Complex.zero,
-      Complex.zero, Complex.one, Complex.zero, Complex.zero)
+    ComplexMatrix4(ComplexMatrix2.zero, ComplexMatrix2.pauli3, -ComplexMatrix2.pauli3, ComplexMatrix2.zero)
 
-  def dirac(x0: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix4 =
+  val dirac5: ComplexMatrix4 =
+    Complex.i *!: (ComplexMatrix4.dirac0 * ComplexMatrix4.dirac1 * ComplexMatrix4.dirac2 * ComplexMatrix4.dirac3)
+
+  def dirac(xu: Complex, x0: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix4 =
     ComplexMatrix4(
-      x0, Complex.zero, x3, x1 - Complex.i * x2,
-      Complex.zero, x0, x1 + Complex.i * x2, -x3,
-      -x3, -x1 + Complex.i * x2, -x0, Complex.zero,
-      -x1 - Complex.i * x2, x3, Complex.zero, -x0)
+      xu + x0, Complex.zero, x3, x1 - Complex.i * x2,
+      Complex.zero, xu + x0, x1 + Complex.i * x2, -x3,
+      -x3, -x1 + Complex.i * x2, xu - x0, Complex.zero,
+      -x1 - Complex.i * x2, x3, Complex.zero, xu - x0)
 
 }
 
@@ -311,6 +286,10 @@ object QuaternionMatrix4 {
       x31, x32, x33, x34,
       x41, x42, x43, x44)
 
+  @inline def apply(x1212: QuaternionMatrix2, x1234: QuaternionMatrix2,
+                    x3412: QuaternionMatrix2, x3434: QuaternionMatrix2): QuaternionMatrix4 =
+    HigherMatrix4(x1212, x1234, x3412, x3434)
+
   def unapply(x: QuaternionMatrix4): Option[(Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion, Quaternion)] =
     Some((
       x.x11, x.x12, x.x13, x.x14,
@@ -319,18 +298,10 @@ object QuaternionMatrix4 {
       x.x41, x.x42, x.x43, x.x44))
 
   val zero: QuaternionMatrix4 =
-    QuaternionMatrix4(
-      Quaternion.zero, Quaternion.zero, Quaternion.zero, Quaternion.zero,
-      Quaternion.zero, Quaternion.zero, Quaternion.zero, Quaternion.zero,
-      Quaternion.zero, Quaternion.zero, Quaternion.zero, Quaternion.zero,
-      Quaternion.zero, Quaternion.zero, Quaternion.zero, Quaternion.zero)
+    QuaternionMatrix4(QuaternionMatrix2.zero, QuaternionMatrix2.zero, QuaternionMatrix2.zero, QuaternionMatrix2.zero)
 
   val unit: QuaternionMatrix4 =
-    QuaternionMatrix4(
-      Quaternion.one, Quaternion.zero, Quaternion.zero, Quaternion.zero,
-      Quaternion.zero, Quaternion.one, Quaternion.zero, Quaternion.zero,
-      Quaternion.zero, Quaternion.zero, Quaternion.one, Quaternion.zero,
-      Quaternion.zero, Quaternion.zero, Quaternion.zero, Quaternion.one)
+    QuaternionMatrix4(QuaternionMatrix2.unit, QuaternionMatrix2.zero, QuaternionMatrix2.zero, QuaternionMatrix2.unit)
 
 }
 
@@ -346,6 +317,10 @@ object BigRealMatrix4 {
       x31, x32, x33, x34,
       x41, x42, x43, x44)
 
+  @inline def apply(x1212: BigRealMatrix2, x1234: BigRealMatrix2,
+                    x3412: BigRealMatrix2, x3434: BigRealMatrix2): BigRealMatrix4 =
+    HigherMatrix4(x1212, x1234, x3412, x3434)
+
   def unapply(x: BigRealMatrix4): Option[(BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal, BigReal)] =
     Some((
       x.x11, x.x12, x.x13, x.x14,
@@ -354,46 +329,22 @@ object BigRealMatrix4 {
       x.x41, x.x42, x.x43, x.x44))
 
   val zero: BigRealMatrix4 =
-    BigRealMatrix4(
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.zero)
+    BigRealMatrix4(BigRealMatrix2.zero, BigRealMatrix2.zero, BigRealMatrix2.zero, BigRealMatrix2.zero)
 
   val unit: BigRealMatrix4 =
-    BigRealMatrix4(
-      BigReal.one, BigReal.zero, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.one, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.one, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.one)
+    BigRealMatrix4(BigRealMatrix2.unit, BigRealMatrix2.zero, BigRealMatrix2.zero, BigRealMatrix2.unit)
 
   val dirac0: BigRealMatrix4 =
-    BigRealMatrix4(
-      BigReal.one, BigReal.zero, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.one, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.minusOne, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.minusOne)
+    BigRealMatrix4(BigRealMatrix2.unit, BigRealMatrix2.zero, BigRealMatrix2.zero, -BigRealMatrix2.unit)
 
   val dirac1: BigRealMatrix4 =
-    BigRealMatrix4(
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.one,
-      BigReal.zero, BigReal.zero, BigReal.one, BigReal.zero,
-      BigReal.zero, BigReal.minusOne, BigReal.zero, BigReal.zero,
-      BigReal.minusOne, BigReal.zero, BigReal.zero, BigReal.zero)
+    BigRealMatrix4(BigRealMatrix2.zero, BigRealMatrix2.pauli1, -BigRealMatrix2.pauli1, BigRealMatrix2.zero)
 
   val iDirac2: BigRealMatrix4 =
-    BigRealMatrix4(
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.one,
-      BigReal.zero, BigReal.zero, BigReal.minusOne, BigReal.zero,
-      BigReal.zero, BigReal.minusOne, BigReal.zero, BigReal.zero,
-      BigReal.one, BigReal.zero, BigReal.zero, BigReal.zero)
+    BigRealMatrix4(BigRealMatrix2.zero, BigRealMatrix2.iPauli2, -BigRealMatrix2.iPauli2, BigRealMatrix2.zero)
 
   val dirac3: BigRealMatrix4 =
-    BigRealMatrix4(
-      BigReal.zero, BigReal.zero, BigReal.one, BigReal.zero,
-      BigReal.zero, BigReal.zero, BigReal.zero, BigReal.minusOne,
-      BigReal.minusOne, BigReal.zero, BigReal.zero, BigReal.zero,
-      BigReal.zero, BigReal.one, BigReal.zero, BigReal.zero)
+    BigRealMatrix4(BigRealMatrix2.zero, BigRealMatrix2.pauli3, -BigRealMatrix2.pauli3, BigRealMatrix2.zero)
 
 }
 
@@ -409,6 +360,10 @@ object BigComplexMatrix4 {
       x31, x32, x33, x34,
       x41, x42, x43, x44)
 
+  @inline def apply(x1212: BigComplexMatrix2, x1234: BigComplexMatrix2,
+                    x3412: BigComplexMatrix2, x3434: BigComplexMatrix2): BigComplexMatrix4 =
+    HigherMatrix4(x1212, x1234, x3412, x3434)
+
   def unapply(x: BigComplexMatrix4): Option[(BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex, BigComplex)] =
     Some((
       x.x11, x.x12, x.x13, x.x14,
@@ -417,52 +372,31 @@ object BigComplexMatrix4 {
       x.x41, x.x42, x.x43, x.x44))
 
   val zero: BigComplexMatrix4 =
-    BigComplexMatrix4(
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.zero)
+    BigComplexMatrix4(BigComplexMatrix2.zero, BigComplexMatrix2.zero, BigComplexMatrix2.zero, BigComplexMatrix2.zero)
 
   val unit: BigComplexMatrix4 =
-    BigComplexMatrix4(
-      BigComplex.one, BigComplex.zero, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.one, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.one, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.one)
+    BigComplexMatrix4(BigComplexMatrix2.unit, BigComplexMatrix2.zero, BigComplexMatrix2.zero, BigComplexMatrix2.unit)
 
   val dirac0: BigComplexMatrix4 =
-    BigComplexMatrix4(
-      BigComplex.one, BigComplex.zero, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.one, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.minusOne, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.minusOne)
+    BigComplexMatrix4(BigComplexMatrix2.unit, BigComplexMatrix2.zero, BigComplexMatrix2.zero, -BigComplexMatrix2.unit)
 
   val dirac1: BigComplexMatrix4 =
-    BigComplexMatrix4(
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.one,
-      BigComplex.zero, BigComplex.zero, BigComplex.one, BigComplex.zero,
-      BigComplex.zero, BigComplex.minusOne, BigComplex.zero, BigComplex.zero,
-      BigComplex.minusOne, BigComplex.zero, BigComplex.zero, BigComplex.zero)
+    BigComplexMatrix4(BigComplexMatrix2.zero, BigComplexMatrix2.pauli1, -BigComplexMatrix2.pauli1, BigComplexMatrix2.zero)
 
   val dirac2: BigComplexMatrix4 =
-    BigComplexMatrix4(
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.minusI,
-      BigComplex.zero, BigComplex.zero, BigComplex.i, BigComplex.zero,
-      BigComplex.zero, BigComplex.i, BigComplex.zero, BigComplex.zero,
-      BigComplex.minusI, BigComplex.zero, BigComplex.zero, BigComplex.zero)
+    BigComplexMatrix4(BigComplexMatrix2.zero, BigComplexMatrix2.pauli2, -BigComplexMatrix2.pauli2, BigComplexMatrix2.zero)
 
   val dirac3: BigComplexMatrix4 =
-    BigComplexMatrix4(
-      BigComplex.zero, BigComplex.zero, BigComplex.one, BigComplex.zero,
-      BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.minusOne,
-      BigComplex.minusOne, BigComplex.zero, BigComplex.zero, BigComplex.zero,
-      BigComplex.zero, BigComplex.one, BigComplex.zero, BigComplex.zero)
+    BigComplexMatrix4(BigComplexMatrix2.zero, BigComplexMatrix2.pauli3, -BigComplexMatrix2.pauli3, BigComplexMatrix2.zero)
 
-  def dirac(x0: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix4 =
+  val dirac5: BigComplexMatrix4 =
+    BigComplex.i *!: (BigComplexMatrix4.dirac0 * BigComplexMatrix4.dirac1 * BigComplexMatrix4.dirac2 * BigComplexMatrix4.dirac3)
+
+  def dirac(xu: BigComplex, x0: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix4 =
     BigComplexMatrix4(
-      x0, BigComplex.zero, x3, x1 - BigComplex.i * x2,
-      BigComplex.zero, x0, x1 + BigComplex.i * x2, -x3,
-      -x3, -x1 + BigComplex.i * x2, -x0, BigComplex.zero,
-      -x1 - BigComplex.i * x2, x3, BigComplex.zero, -x0)
+      xu + x0, BigComplex.zero, x3, x1 - BigComplex.i * x2,
+      BigComplex.zero, xu + x0, x1 + BigComplex.i * x2, -x3,
+      -x3, -x1 + BigComplex.i * x2, xu - x0, BigComplex.zero,
+      -x1 - BigComplex.i * x2, x3, BigComplex.zero, xu - x0)
 
 }

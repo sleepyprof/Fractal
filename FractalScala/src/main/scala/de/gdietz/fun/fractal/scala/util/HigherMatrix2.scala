@@ -136,8 +136,8 @@ object ComplexMatrix2 {
   val pauli3: ComplexMatrix2 =
     ComplexMatrix2(Complex.one, Complex.zero, Complex.zero, Complex.minusOne)
 
-  def pauli(x0: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix2 =
-    ComplexMatrix2(x0 + x3, x1 - Complex.i * x2, x1 + Complex.i * x2, x0 - x3)
+  def pauli(xu: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix2 =
+    ComplexMatrix2(xu + x3, x1 - Complex.i * x2, x1 + Complex.i * x2, xu - x3)
 
 }
 
@@ -205,7 +205,7 @@ object BigComplexMatrix2 {
   val pauli3: BigComplexMatrix2 =
     BigComplexMatrix2(BigComplex.one, BigComplex.zero, BigComplex.zero, BigComplex.minusOne)
 
-  def pauli(x0: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix2 =
-    BigComplexMatrix2(x0 + x3, x1 - BigComplex.i * x2, x1 + BigComplex.i * x2, x0 - x3)
+  def pauli(xu: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix2 =
+    BigComplexMatrix2(xu + x3, x1 - BigComplex.i * x2, x1 + BigComplex.i * x2, xu - x3)
 
 }

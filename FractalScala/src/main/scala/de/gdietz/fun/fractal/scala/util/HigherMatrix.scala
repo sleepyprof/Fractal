@@ -46,6 +46,9 @@ object RealMatrix {
   @inline def pauli3: RealMatrix[RealMatrix2] =
     RealMatrix2.pauli3
 
+  @inline def dirac0: RealMatrix[RealMatrix4] =
+    RealMatrix4.dirac0
+
   @inline def dirac1: RealMatrix[RealMatrix4] =
     RealMatrix4.dirac1
 
@@ -81,8 +84,11 @@ object ComplexMatrix {
   @inline def pauli3: ComplexMatrix[ComplexMatrix2] =
     ComplexMatrix2.pauli3
 
-  @inline def pauli(x0: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix[ComplexMatrix2] =
-    ComplexMatrix2.pauli(x0, x1, x2, x3)
+  @inline def pauli(xu: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix[ComplexMatrix2] =
+    ComplexMatrix2.pauli(xu, x1, x2, x3)
+
+  @inline def dirac0: ComplexMatrix[ComplexMatrix4] =
+    ComplexMatrix4.dirac0
 
   @inline def dirac1: ComplexMatrix[ComplexMatrix4] =
     ComplexMatrix4.dirac1
@@ -93,8 +99,11 @@ object ComplexMatrix {
   @inline def dirac3: ComplexMatrix[ComplexMatrix4] =
     ComplexMatrix4.dirac3
 
-  @inline def dirac(x0: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix[ComplexMatrix4] =
-    ComplexMatrix4.dirac(x0, x1, x2, x3)
+  @inline def dirac5: ComplexMatrix[ComplexMatrix4] =
+    ComplexMatrix4.dirac5
+
+  @inline def dirac(xu: Complex, x0: Complex, x1: Complex, x2: Complex, x3: Complex): ComplexMatrix[ComplexMatrix4] =
+    ComplexMatrix4.dirac(xu, x0, x1, x2, x3)
 
 }
 
@@ -139,6 +148,9 @@ object BigRealMatrix {
   @inline def pauli3: BigRealMatrix[BigRealMatrix2] =
     BigRealMatrix2.pauli3
 
+  @inline def dirac0: BigRealMatrix[BigRealMatrix4] =
+    BigRealMatrix4.dirac0
+
   @inline def dirac1: BigRealMatrix[BigRealMatrix4] =
     BigRealMatrix4.dirac1
 
@@ -174,8 +186,11 @@ object BigComplexMatrix {
   @inline def pauli3: BigComplexMatrix[BigComplexMatrix2] =
     BigComplexMatrix2.pauli3
 
-  @inline def pauli(x0: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix[BigComplexMatrix2] =
-    BigComplexMatrix2.pauli(x0, x1, x2, x3)
+  @inline def pauli(xu: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix[BigComplexMatrix2] =
+    BigComplexMatrix2.pauli(xu, x1, x2, x3)
+
+  @inline def dirac0: BigComplexMatrix[BigComplexMatrix4] =
+    BigComplexMatrix4.dirac0
 
   @inline def dirac1: BigComplexMatrix[BigComplexMatrix4] =
     BigComplexMatrix4.dirac1
@@ -186,7 +201,10 @@ object BigComplexMatrix {
   @inline def dirac3: BigComplexMatrix[BigComplexMatrix4] =
     BigComplexMatrix4.dirac3
 
-  @inline def dirac(x0: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix[BigComplexMatrix4] =
-    BigComplexMatrix4.dirac(x0, x1, x2, x3)
+  @inline def dirac5: BigComplexMatrix[BigComplexMatrix4] =
+    BigComplexMatrix4.dirac5
+
+  @inline def dirac(xu: BigComplex, x0: BigComplex, x1: BigComplex, x2: BigComplex, x3: BigComplex): BigComplexMatrix[BigComplexMatrix4] =
+    BigComplexMatrix4.dirac(xu, x0, x1, x2, x3)
 
 }
