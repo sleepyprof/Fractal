@@ -39,6 +39,8 @@ public class Fractal3DTest extends FractalWindow {
 
 		AdvancedFractalIteratorFactorySelector<Coordinate3D> iteratorSelector = gui.getIteratorSelector();
 
+        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
+
         List<IteratorFactoryCollection> collections = new ArrayList<>();
         collections.add(new IteratorFactoryFunctionCollection<>(new QuaternionFunctionCollection(), bound));
         collections.add(new IteratorFactoryFunctionCollection<>(new Vector3DFunctionCollection(), bound));
@@ -61,8 +63,6 @@ public class Fractal3DTest extends FractalWindow {
         ParamCoordMapper<Quaternion, Quaternion, Coordinate3D> mapper = new QuaternionCoord3DMapper();
         iteratorSelector.addCustom(parser, mapper, bound, maxiter, "custom");
         iteratorSelector.addCustom(parser, mapper, Quaternion.ZERO, bound, maxiter, "p-custom");
-
-        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
 
         add(gui);
 

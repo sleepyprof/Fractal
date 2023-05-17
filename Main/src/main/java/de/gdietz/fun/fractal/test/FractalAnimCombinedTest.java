@@ -46,6 +46,8 @@ public class FractalAnimCombinedTest extends FractalWindow {
 
         AdvancedFractalIteratorFactorySelector<Coordinate> iteratorSelector = gui.getIteratorSelector();
 
+        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
+
         List<IteratorFactoryCollection> collections = new ArrayList<>();
         collections.add(new IteratorFactoryFunctionCollection<>(new ComplexFunctionCollection(), bound));
         collections.add(new IteratorFactoryFunctionCollection<>(new QuaternionFunctionCollection(), bound));
@@ -68,8 +70,6 @@ public class FractalAnimCombinedTest extends FractalWindow {
         ParamCoordMapper<Complex, Complex, Coordinate> mapper = new ComplexCoordMapper();
         iteratorSelector.addCustom(parser, mapper, bound, maxiter, "custom");
         iteratorSelector.addCustom(parser, mapper, Complex.ZERO, bound, maxiter, "p-custom");
-
-        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
 
         add(gui);
 

@@ -45,6 +45,8 @@ public class FractalPreciseTest extends FractalWindow {
 
         AdvancedFractalPreciseIteratorFactorySelector<BigCoordinate> iteratorSelector = gui.getIteratorSelector();
 
+        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
+
         List<PreciseIteratorFactoryCollection> collections = new ArrayList<>();
         collections.add(new PreciseIteratorFactoryFunctionCollection<>(new BigComplexFunctionCollection(), bound, maxScale));
 
@@ -63,8 +65,6 @@ public class FractalPreciseTest extends FractalWindow {
         ParamCoordMapper<BigComplex, BigComplex, BigCoordinate> mapper = new BigComplexCoordMapper();
         iteratorSelector.addCustomPrecise(parser, mapper, bound, maxiter, maxScale, "custom");
         iteratorSelector.addCustomPrecise(parser, mapper, BigComplex.ZERO, bound, maxiter, maxScale, "p-custom");
-
-        iteratorSelector.addScalaIfPossible(maxiter, "Scala");
 
         add(gui);
 
