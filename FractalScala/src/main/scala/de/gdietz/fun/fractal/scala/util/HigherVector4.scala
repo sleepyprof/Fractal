@@ -148,6 +148,9 @@ object RealVector4 {
   def unapply(x: RealVector4): Option[(OptReal, OptReal, OptReal, OptReal)] =
     Some((x.x1, x.x2, x.x3, x.x4))
 
+  val zero: RealVector4 =
+    RealVector4(Real.zero, Real.zero, Real.zero, Real.zero)
+
 }
 
 object ComplexVector4 {
@@ -157,6 +160,9 @@ object ComplexVector4 {
 
   def unapply(x: ComplexVector4): Option[(OptComplex, OptComplex, OptComplex, OptComplex)] =
     Some((x.x1, x.x2, x.x3, x.x4))
+
+  val zero: ComplexVector4 =
+    ComplexVector4(Complex.zero, Complex.zero, Complex.zero, Complex.zero)
 
   val sigmas4: ComplexVector4 =
     ComplexVector4(Complex.one, Complex.i, Complex.minusOne, Complex.minusI)
@@ -171,6 +177,9 @@ object QuaternionVector4 {
   def unapply(x: QuaternionVector4): Option[(OptQuaternion, OptQuaternion, OptQuaternion, OptQuaternion)] =
     Some((x.x1, x.x2, x.x3, x.x4))
 
+  val zero: QuaternionVector4 =
+    QuaternionVector4(Quaternion.zero, Quaternion.zero, Quaternion.zero, Quaternion.zero)
+
 }
 
 object BigRealVector4 {
@@ -181,6 +190,9 @@ object BigRealVector4 {
   def unapply(x: BigRealVector4): Option[(OptBigReal, OptBigReal, OptBigReal, OptBigReal)] =
     Some((x.x1, x.x2, x.x3, x.x4))
 
+  val zero: BigRealVector4 =
+    BigRealVector4(BigReal.zero, BigReal.zero, BigReal.zero, BigReal.zero)
+
 }
 
 object BigComplexVector4 {
@@ -190,6 +202,9 @@ object BigComplexVector4 {
 
   def unapply(x: BigComplexVector4): Option[(OptBigComplex, OptBigComplex, OptBigComplex, OptBigComplex)] =
     Some((x.x1, x.x2, x.x3, x.x4))
+
+  val zero: BigComplexVector4 =
+    BigComplexVector4(BigComplex.zero, BigComplex.zero, BigComplex.zero, BigComplex.zero)
 
 }
 

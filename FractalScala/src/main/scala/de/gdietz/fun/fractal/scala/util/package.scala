@@ -32,6 +32,12 @@ package object util {
   type BigRealVectorN = HigherVectorN[OptBigReal, BigReal]
   type BigComplexVectorN = HigherVectorN[OptBigComplex, BigComplex]
 
+  type RealVector0 = HigherVector0[OptReal, Real]
+  type ComplexVector0 = HigherVector0[OptComplex, Complex]
+  type QuaternionVector0 = HigherVector0[OptQuaternion, Quaternion]
+  type BigRealVector0 = HigherVector0[OptBigReal, BigReal]
+  type BigComplexVector0 = HigherVector0[OptBigComplex, BigComplex]
+
   type RealMatrix[M <: RealMatrix[M]] = HigherMatrix[M, Real]
   type ComplexMatrix[M <: ComplexMatrix[M]] = HigherMatrix[M, Complex]
   type QuaternionMatrix[M <: QuaternionMatrix[M]] = HigherMatrix[M, Quaternion]

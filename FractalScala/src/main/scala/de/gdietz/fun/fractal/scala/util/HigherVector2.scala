@@ -161,6 +161,9 @@ object ComplexVector2 {
   def unapply(x: ComplexVector2): Option[(OptComplex, OptComplex)] =
     Some((x.x1, x.x2))
 
+  val zero: ComplexVector2 =
+    ComplexVector2(Complex.zero, Complex.zero)
+
   val sigmas2: ComplexVector2 =
     ComplexVector2(Complex.one, Complex.minusOne)
 
@@ -174,6 +177,9 @@ object QuaternionVector2 {
   def unapply(x: QuaternionVector2): Option[(OptQuaternion, OptQuaternion)] =
     Some((x.x1, x.x2))
 
+  val zero: QuaternionVector2 =
+    QuaternionVector2(Quaternion.zero, Quaternion.zero)
+
 }
 
 object BigRealVector2 {
@@ -184,6 +190,9 @@ object BigRealVector2 {
   def unapply(x: BigRealVector2): Option[(OptBigReal, OptBigReal)] =
     Some((x.x1, x.x2))
 
+  val zero: BigRealVector2 =
+    BigRealVector2(BigReal.zero, BigReal.zero)
+
 }
 
 object BigComplexVector2 {
@@ -193,5 +202,8 @@ object BigComplexVector2 {
 
   def unapply(x: BigComplexVector2): Option[(OptBigComplex, OptBigComplex)] =
     Some((x.x1, x.x2))
+
+  val zero: BigComplexVector2 =
+    BigComplexVector2(BigComplex.zero, BigComplex.zero)
 
 }
