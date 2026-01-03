@@ -54,11 +54,7 @@ object FractalIteratorDefinition {
           override def zNext(z: X): X = zNextInitialized(z)
         }
       override def validityTest(lambda: Double): ValidityTest[X] =
-        new ValidityTest[X] with Serializable {
-          private val lambdaSqr: Double = lambda * lambda
-          override def isValid(x: X): Boolean = x.normSqr <= lambdaSqr
-          override def isSurvivor(x: X): Boolean = false
-        }
+        ValidityTest.normed(lambda)
     }
 
   def optNormed[P, X <: OptNormedNumber](z0Func: (P, P) => X)

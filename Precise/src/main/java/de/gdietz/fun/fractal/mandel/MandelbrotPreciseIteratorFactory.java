@@ -49,8 +49,6 @@ public class MandelbrotPreciseIteratorFactory implements FractalIteratorFactory<
             zi = i;
             zr2 = zr.multiply(zr);
             zi2 = zi.multiply(zi);
-
-
         }
 
         public BigCoordinate getCoordinate() {
