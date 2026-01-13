@@ -111,6 +111,7 @@ case class ComplexFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.Coordinate
        |import _root_.de.gdietz.fun.fractal.scala.ComplexFractalIteratorDefinition._
+       |import _root_.de.gdietz.fun.fractal.scala.FractalIteratorUnfoldPair.unfold
        |{
        |$code
        |}: ComplexFractalIteratorDefinition
@@ -126,16 +127,17 @@ object ComplexFractalScalaIteratorFactory {
     """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
 
   val z3z2Code: String =
-    """any { (c, p) =>
+    """anyPaired { (c, p) =>
       |  val p3 = 1.0 + p
       |  val p2 = 1.0 - p
       |  val z0 = p2 / (-1.5 * p3)
-      |  ComplexVector2(Complex.zero, z0)
-      |} { (c, p) =>
-      |  val p3 = 1.0 + p
-      |  val p2 = 1.0 - p
-      |  z => p3 *! z.cube + p2 *!: z.sqr +! c
-      |}""".stripMargin
+      |  unfold(
+      |    ComplexVector2(Complex.zero, z0)
+      |  )(
+      |    z => p3 *! z.cube + p2 *!: z.sqr +! c
+      |  )
+      |}
+      |""".stripMargin
 
 
   // more interesting formula for default...
@@ -158,6 +160,7 @@ case class QuaternionFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.Coordinate4D
        |import _root_.de.gdietz.fun.fractal.scala.QuaternionFractalIteratorDefinition._
+       |import _root_.de.gdietz.fun.fractal.scala.FractalIteratorUnfoldPair.unfold
        |{
        |$code
        |}: QuaternionFractalIteratorDefinition
@@ -170,7 +173,7 @@ case class QuaternionFractalScalaIteratorFactory(override val code: String)
 object QuaternionFractalScalaIteratorFactory {
 
   val simpleCode: String =
-    """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
+    """normedPaired((c, p) => unfold(p)(z => z.sqr + c))"""
 
   val defaultCode: String = simpleCode
 
@@ -191,6 +194,7 @@ case class Vector3DFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.Coordinate3D
        |import _root_.de.gdietz.fun.fractal.scala.Vector3DFractalIteratorDefinition._
+       |import _root_.de.gdietz.fun.fractal.scala.FractalIteratorUnfoldPair.unfold
        |{
        |$code
        |}: Vector3DFractalIteratorDefinition
@@ -203,11 +207,10 @@ case class Vector3DFractalScalaIteratorFactory(override val code: String)
 object Vector3DFractalScalaIteratorFactory {
 
   val simpleCode: String =
-    """normed { (c, p) =>
-      |  p.toQuaternion
-      |} { (c, p) =>
+    """normedPaired { (c, p) =>
+      |  val pq = p.toQuaternion
       |  val cq = c.toQuaternion
-      |  z => z.sqr + cq
+      |  unfold(pq)(z => z.sqr + cq)
       |}""".stripMargin
 
   val defaultCode: String = simpleCode
@@ -228,6 +231,7 @@ case class BigComplexFractalScalaIteratorFactory(override val code: String)
        |import _root_.de.gdietz.fun.fractal.scala.util.implicits._
        |import _root_.de.gdietz.fun.fractal.util.BigCoordinate
        |import _root_.de.gdietz.fun.fractal.scala.BigComplexFractalIteratorDefinition._
+       |import _root_.de.gdietz.fun.fractal.scala.FractalIteratorUnfoldPair.unfold
        |{
        |$code
        |}: BigComplexFractalIteratorDefinition
@@ -240,7 +244,7 @@ case class BigComplexFractalScalaIteratorFactory(override val code: String)
 object BigComplexFractalScalaIteratorFactory {
 
   val simpleCode: String =
-    """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
+    """normedPaired((c, p) => unfold(p)(z => z.sqr + c))"""
 
   val defaultCode: String = simpleCode
 

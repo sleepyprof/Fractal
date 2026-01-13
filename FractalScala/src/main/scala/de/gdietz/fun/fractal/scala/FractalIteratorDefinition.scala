@@ -57,6 +57,20 @@ object FractalIteratorDefinition {
         ValidityTest.normed(lambda)
     }
 
+  def normedPaired[P, X <: NormedNumber](z0NextFunc: (P, P) => FractalIteratorUnfoldPair[X]): FractalIteratorDefinitionAux[P, X] =
+    new FractalIteratorDefinition[P] with Serializable {
+      override type C = X
+      override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[X] =
+        new FractalInitializedIteratorDefinition[X] with Serializable {
+          private val z0NextInitialized: FractalIteratorUnfoldPair[X] = z0NextFunc(c, p)
+          override val z0: X = z0NextInitialized.z0
+          private val zNextInitialized: X => X = z0NextInitialized.f
+          override def zNext(z: X): X = zNextInitialized(z)
+        }
+      override def validityTest(lambda: Double): ValidityTest[X] =
+        ValidityTest.normed(lambda)
+    }
+
   def optNormed[P, X <: OptNormedNumber](z0Func: (P, P) => X)
                                         (zNextFunc: (P, P) => X => X): FractalIteratorDefinitionAux[P, X] =
     new FractalIteratorDefinition[P] with Serializable {
@@ -67,7 +81,20 @@ object FractalIteratorDefinition {
           private val zNextInitialized: X => X = zNextFunc(c, p)
           override def zNext(z: X): X = zNextInitialized(z)
         }
+      override def validityTest(lambda: Double): ValidityTest[X] =
+        ValidityTest.optNormed(lambda)
+    }
 
+  def optNormedPaired[P, X <: OptNormedNumber](z0NextFunc: (P, P) => FractalIteratorUnfoldPair[X]): FractalIteratorDefinitionAux[P, X] =
+    new FractalIteratorDefinition[P] with Serializable {
+      override type C = X
+      override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[X] =
+        new FractalInitializedIteratorDefinition[X] with Serializable {
+          private val z0NextInitialized: FractalIteratorUnfoldPair[X] = z0NextFunc(c, p)
+          override val z0: X = z0NextInitialized.z0
+          private val zNextInitialized: X => X = z0NextInitialized.f
+          override def zNext(z: X): X = zNextInitialized(z)
+        }
       override def validityTest(lambda: Double): ValidityTest[X] =
         ValidityTest.optNormed(lambda)
     }
@@ -87,6 +114,22 @@ object FractalIteratorDefinition {
         ValidityTest.existsNumber
     }
 
+  def anyPaired[P, V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
+               (z0NextFunc: (P, P) => FractalIteratorUnfoldPair[V]): FractalIteratorDefinitionAux[P, V] =
+    new FractalIteratorDefinition[P] with Serializable {
+      override type C = V
+      override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[V] =
+        new FractalInitializedIteratorDefinition[V] with Serializable {
+          private val lambdaSqr: Double = lambda * lambda
+          private val z0NextInitialized: FractalIteratorUnfoldPair[V] = z0NextFunc(c, p)
+          override val z0: V = z0NextInitialized.z0
+          private val zNextInitialized: V => V = z0NextInitialized.f
+          override def zNext(z: V): V = zNextInitialized(z).filterNumber(_.normSqr <= lambdaSqr)
+        }
+      override def validityTest(lambda: Double): ValidityTest[V] =
+        ValidityTest.existsNumber
+    }
+
   def all[P, V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](z0Func: (P, P) => V)
                                                                                                  (zNextFunc: (P, P) => V => V): FractalIteratorDefinitionAux[P, V] =
     new FractalIteratorDefinition[P] with Serializable {
@@ -96,6 +139,22 @@ object FractalIteratorDefinition {
           private val lambdaSqr: Double = lambda * lambda
           override val z0: V = z0Func(c, p)
           private val zNextInitialized: V => V = zNextFunc(c, p)
+          override def zNext(z: V): V = zNextInitialized(z).filterNumber(_.normSqr <= lambdaSqr)
+        }
+      override def validityTest(lambda: Double): ValidityTest[V] =
+        ValidityTest.isAllNumber
+    }
+
+  def allPaired[P, V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
+               (z0NextFunc: (P, P) => FractalIteratorUnfoldPair[V]): FractalIteratorDefinitionAux[P, V] =
+    new FractalIteratorDefinition[P] with Serializable {
+      override type C = V
+      override def apply(c: P, p: P, lambda: Double): FractalInitializedIteratorDefinition[V] =
+        new FractalInitializedIteratorDefinition[V] with Serializable {
+          private val lambdaSqr: Double = lambda * lambda
+          private val z0NextInitialized: FractalIteratorUnfoldPair[V] = z0NextFunc(c, p)
+          override val z0: V = z0NextInitialized.z0
+          private val zNextInitialized: V => V = z0NextInitialized.f
           override def zNext(z: V): V = zNextInitialized(z).filterNumber(_.normSqr <= lambdaSqr)
         }
       override def validityTest(lambda: Double): ValidityTest[V] =
@@ -130,17 +189,29 @@ object RealFractalIteratorDefinition {
                                (zNextFunc: (Real, Real) => X => X): RealFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.normed(z0Func)(zNextFunc)
 
+  def normedPaired[X <: NormedNumber](z0NextFunc: (Real, Real) => FractalIteratorUnfoldPair[X]): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normedPaired(z0NextFunc)
+
   def optNormed[X <: OptNormedNumber](z0Func: (Real, Real) => X)
                                      (zNextFunc: (Real, Real) => X => X): RealFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.optNormed(z0Func)(zNextFunc)
+
+  def optNormedPaired[X <: OptNormedNumber](z0NextFunc: (Real, Real) => FractalIteratorUnfoldPair[X]): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.optNormedPaired(z0NextFunc)
 
   def any[X <: HigherVector[X, OptReal, Real]](z0Func: (Real, Real) => X)
                                               (zNextFunc: (Real, Real) => X => X): RealFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Real, X, OptReal, Real](z0Func)(zNextFunc)
 
+  def anyPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Real, Real) => FractalIteratorUnfoldPair[X]): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Real, X, OptReal, Real](z0NextFunc)
+
   def all[X <: HigherVector[X, OptReal, Real]](z0Func: (Real, Real) => X)
                                               (zNextFunc: (Real, Real) => X => X): RealFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[Real, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def allPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Real, Real) => FractalIteratorUnfoldPair[X]): RealFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Real, X, OptReal, Real](z0NextFunc)
 
 }
 
@@ -159,17 +230,29 @@ object ComplexFractalIteratorDefinition {
                                (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.normed(z0Func)(zNextFunc)
 
+  def normedPaired[X <: NormedNumber](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normedPaired(z0NextFunc)
+
   def optNormed[X <: OptNormedNumber](z0Func: (Complex, Complex) => X)
                                      (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.optNormed(z0Func)(zNextFunc)
+
+  def optNormedPaired[X <: OptNormedNumber](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.optNormedPaired(z0NextFunc)
 
   def any[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Complex, Complex) => X)
                                                     (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Complex, X, OptComplex, Complex](z0Func)(zNextFunc)
 
+  def anyPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Complex, X, OptComplex, Complex](z0NextFunc)
+
   def all[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Complex, Complex) => X)
                                                     (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[Complex, X, OptComplex, Complex](z0Func)(zNextFunc)
+
+  def allPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Complex, X, OptComplex, Complex](z0NextFunc)
 
 }
 
@@ -188,17 +271,29 @@ object QuaternionFractalIteratorDefinition {
                                (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.normed(z0Func)(zNextFunc)
 
+  def normedPaired[X <: NormedNumber](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normedPaired(z0NextFunc)
+
   def optNormed[X <: OptNormedNumber](z0Func: (Quaternion, Quaternion) => X)
                                      (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.optNormed(z0Func)(zNextFunc)
+
+  def optNormedPaired[X <: OptNormedNumber](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.optNormedPaired(z0NextFunc)
 
   def any[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Quaternion, Quaternion) => X)
                                                           (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Quaternion, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
 
+  def anyPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Quaternion, X, OptQuaternion, Quaternion](z0NextFunc)
+
   def all[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Quaternion, Quaternion) => X)
                                                           (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[Quaternion, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
+
+  def allPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Quaternion, X, OptQuaternion, Quaternion](z0NextFunc)
 
 }
 
@@ -217,25 +312,43 @@ object Vector3DFractalIteratorDefinition {
                                (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.normed(z0Func)(zNextFunc)
 
+  def normedPaired[X <: NormedNumber](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normedPaired(z0NextFunc)
+
   def optNormed[X <: OptNormedNumber](z0Func: (Vector3D, Vector3D) => X)
                                      (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.optNormed(z0Func)(zNextFunc)
+
+  def optNormedPaired[X <: OptNormedNumber](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.optNormedPaired(z0NextFunc)
 
   def anyComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Vector3D, Vector3D) => X)
                                                            (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Vector3D, X, OptComplex, Complex](z0Func)(zNextFunc)
 
+  def anyComplexPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Vector3D, X, OptComplex, Complex](z0NextFunc)
+
   def anyQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
                                                                     (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Vector3D, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
+
+  def anyQuaternionPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Vector3D, X, OptQuaternion, Quaternion](z0NextFunc)
 
   def allComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Vector3D, Vector3D) => X)
                                                            (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[Vector3D, X, OptComplex, Complex](z0Func)(zNextFunc)
 
+  def allComplexPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Vector3D, X, OptComplex, Complex](z0NextFunc)
+
   def allQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
                                                                     (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[Vector3D, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
+
+  def allQuaternionPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Vector3D, X, OptQuaternion, Quaternion](z0NextFunc)
 
 }
 
@@ -254,16 +367,28 @@ object BigComplexFractalIteratorDefinition {
                                (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.normed(z0Func)(zNextFunc)
 
+  def normedPaired[X <: NormedNumber](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.normedPaired(z0NextFunc)
+
   def optNormed[X <: OptNormedNumber](z0Func: (BigComplex, BigComplex) => X)
                                      (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.optNormed(z0Func)(zNextFunc)
+
+  def optNormedPaired[X <: OptNormedNumber](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.optNormedPaired(z0NextFunc)
 
   def any[X <: HigherVector[X, OptBigComplex, BigComplex]](z0Func: (BigComplex, BigComplex) => X)
                                                           (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[BigComplex, X, OptBigComplex, BigComplex](z0Func)(zNextFunc)
 
+  def anyPaired[X <: HigherVector[X, OptBigComplex, BigComplex]](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[BigComplex, X, OptBigComplex, BigComplex](z0NextFunc)
+
   def all[X <: HigherVector[X, OptBigComplex, BigComplex]](z0Func: (BigComplex, BigComplex) => X)
                                                           (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[BigComplex, X, OptBigComplex, BigComplex](z0Func)(zNextFunc)
+
+  def allPaired[X <: HigherVector[X, OptBigComplex, BigComplex]](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[BigComplex, X, OptBigComplex, BigComplex](z0NextFunc)
 
 }
