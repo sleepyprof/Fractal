@@ -127,17 +127,19 @@ object ComplexFractalScalaIteratorFactory {
     """normed((c, p) => p)((c, p) => z => z.sqr + c)"""
 
   val z3z2Code: String =
-    """anyPaired { (c, p) =>
-      |  val p3 = 1.0 + p
-      |  val p2 = 1.0 - p
-      |  val z0 = p2 / (-1.5 * p3)
-      |  unfold(
-      |    ComplexVector2(Complex.zero, z0)
-      |  )(
-      |    z => p3 *! z.cube + p2 *!: z.sqr +! c
+    """val n = 3
+      |val k = 2
+      |anyPaired { (c, p) =>
+      |  val a: Complex = (Complex.pi2i * p).exp
+      |  val b: Complex = Complex.one
+      |  val q = (-k.toDouble / n) * b / a
+      |  val roots1 = q.roots(n - k)
+      |  val roots = Complex.zero :: roots1
+      |  val d: Complex = (-Complex.pi2i * p / (k - 1)).exp * c
+      |  unfold(roots)(
+      |    z => a *! (z ** n) + b *! (z ** k) +! d
       |  )
-      |}
-      |""".stripMargin
+      |}""".stripMargin
 
 
   // more interesting formula for default...

@@ -232,7 +232,7 @@ object ComplexVectorN {
 
 
   def sigmas(n: Int): ComplexVectorN = {
-    val phi1 = Complex.pi2 / n
+    val phi1 = Complex.doublePi2 / n
     ComplexVectorN((0 until n).view.map { k =>
       val phi = phi1 * k
       Complex(Math.cos(phi), Math.sin(phi))

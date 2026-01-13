@@ -41,9 +41,9 @@ trait SomeHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[
     case -1 => inverse
     case 1 => this
     case 0 => unit
-    case n if n < 0 => inverse.pow(-n)
-    case n if n % 3 == 0 => cube.pow(n / 3)
-    case n if n % 2 == 0 => sqr.pow(n / 2)
+    case _ if n < 0 => inverse.pow(-n)
+    case _ if n % 3 == 0 => cube.pow(n / 3)
+    case _ if n % 2 == 0 => sqr.pow(n / 2)
     case _ => this * sqr.pow((n - 1) / 2)
   }
 

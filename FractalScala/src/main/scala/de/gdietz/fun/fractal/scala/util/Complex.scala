@@ -107,7 +107,7 @@ case class Complex(x: Double, y: Double = 0.0)
   override def log: Complex = Complex(Math.log(norm), arg)
 
   override def log(branch: Int): Complex =
-    Complex(Math.log(norm), arg + branch * Complex.pi2)
+    Complex(Math.log(norm), arg + branch * Complex.doublePi2)
 
   @inline override def pow(n: Int): Complex = super.pow(n)
 
@@ -123,7 +123,7 @@ case class Complex(x: Double, y: Double = 0.0)
     if (isZero) this
     else {
       val pr = Math.pow(norm, d)
-      val pa = d * (arg + branch * Complex.pi2)
+      val pa = d * (arg + branch * Complex.doublePi2)
       Complex(pr * Math.cos(pa), pr * Math.sin(pa))
     }
 
@@ -136,7 +136,10 @@ case class Complex(x: Double, y: Double = 0.0)
     } else {
       val r = norm
       val w = Math.sqrt(2.0 * (x + r))
-      Complex(0.5 * w, y / w)
+      if (w == 0.0)
+        Complex(0.0, Math.sqrt(-x))
+      else
+        Complex(0.5 * w, y / w)
     }
 
   def roots2: ComplexVector2 = {
@@ -146,15 +149,20 @@ case class Complex(x: Double, y: Double = 0.0)
 
   def roots(n: Int): ComplexVectorN =
     if (isZero) ComplexVectorN(List.fill(n)(Complex.zero))
-    else if (n <= 0) ComplexVectorN(Nil)
-    else {
-      val pr = Math.pow(norm, 1.0 / n)
-      val pa = arg / n
-      val phi1 = Complex.pi2 / n
-      ComplexVectorN((0 until n).view.map { k =>
-        val phi = pa + phi1 * k
-        Complex(pr * Math.cos(phi), pr * Math.sin(phi))
-      }.toList)
+    else n match {
+      case 1 => ComplexVectorN(this :: Nil)
+      case 2 =>
+        val sqrt0 = sqrt
+        ComplexVectorN(sqrt0 :: (-sqrt0) :: Nil)
+      case _ if n <= 0 => ComplexVectorN(Nil)
+      case _ =>
+        val pr = Math.pow(norm, 1.0 / n)
+        val pa = arg / n
+        val phi1 = Complex.doublePi2 / n
+        ComplexVectorN((0 until n).view.map { k =>
+          val phi = pa + phi1 * k
+          Complex(pr * Math.cos(phi), pr * Math.sin(phi))
+        }.toList)
     }
 
   override def sin: Complex =
@@ -221,7 +229,10 @@ object Complex {
   val minusOne: Complex = Complex(-1.0)
   val minusI: Complex = Complex(0.0, -1.0)
 
-  private[util] val pi2 = 2.0 * Math.PI
+  private[util] val doublePi2 = 2.0 * Math.PI
+
+  val pi2: Complex = Complex(doublePi2)
+  val pi2i: Complex = Complex(0.0, doublePi2)
 
 
   def fromPolar(r: Double, phi: Double): Complex =
