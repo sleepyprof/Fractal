@@ -6,6 +6,8 @@ trait OptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
 
   def isNumber: Boolean
 
+  def toHigherNumberOption: HigherNumberOption[X]
+
   def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y
 
   @inline final override def const(x: O): O = x
@@ -20,9 +22,6 @@ trait OptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
   @inline final override def isAllNumber: Boolean = isNumber
   @inline final override def existsNumber: Boolean = isNumber
 
-
-  override def zero: X
-  override def unit: X
 
   @inline final override def +!(x: O): O = this + x
   @inline final override def +!:(x: O): O = x + this
@@ -42,5 +41,14 @@ trait OptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
 
   final override def ::(x: O): HigherVector2[O, X] = HigherVector2(x, this)
   final override def toHigherVectorN: HigherVectorN[O, X] = HigherVectorN(this :: Nil)
+
+}
+
+trait SummonableOptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]
+  extends OptHigherNumber[O, X] {
+  self: O =>
+
+  override def zero: X
+  override def unit: X
 
 }

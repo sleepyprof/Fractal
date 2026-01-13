@@ -7,7 +7,7 @@ import java.text.NumberFormat
 import scala.language.implicitConversions
 
 sealed trait OptComplex
-  extends OptHigherNumber[OptComplex, Complex]
+  extends SummonableOptHigherNumber[OptComplex, Complex]
     with Product with Serializable {
 
   override def none: OptComplex = NoComplex

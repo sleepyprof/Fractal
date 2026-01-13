@@ -7,7 +7,7 @@ import java.text.NumberFormat
 import scala.language.implicitConversions
 
 sealed trait OptQuaternion
-  extends OptHigherNumber[OptQuaternion, Quaternion]
+  extends SummonableOptHigherNumber[OptQuaternion, Quaternion]
     with Product with Serializable {
 
   override def none: OptQuaternion = NoQuaternion

@@ -1,10 +1,12 @@
 package de.gdietz.fun.fractal.scala.util
 
 trait SomeHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[O, X]]
-  extends HigherNumber[X] with OptHigherNumber[O, X] {
+  extends HigherNumber[X] with SummonableOptHigherNumber[O, X] {
   self: X =>
 
   final override def isNumber: Boolean = true
+
+  @inline final override def toHigherNumberOption: HigherNumberOption[X] = HigherNumberSome(this)
 
   @inline final override def foldNumber[Y](ifIsNumber: X => Y)(ifNoNumber: => Y): Y = ifIsNumber(this)
 
@@ -46,5 +48,8 @@ trait SomeHigherNumber[O <: OptHigherNumber[O, X], X <: O with SomeHigherNumber[
   }
 
   @inline override def **(n: Int): X = pow(n)
+
+  final override def get(i: Int): HigherNumberOption[X] =
+    if (i == 0) HigherNumberSome(this) else HigherNumberNone()
 
 }

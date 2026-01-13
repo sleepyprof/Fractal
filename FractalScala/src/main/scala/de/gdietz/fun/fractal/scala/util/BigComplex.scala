@@ -6,7 +6,7 @@ import java.math.{BigDecimal => JavaBigDecimal}
 import scala.language.implicitConversions
 
 sealed trait OptBigComplex
-  extends OptHigherNumber[OptBigComplex, BigComplex]
+  extends SummonableOptHigherNumber[OptBigComplex, BigComplex]
     with Product with Serializable {
 
   override def none: OptBigComplex = NoBigComplex

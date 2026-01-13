@@ -7,7 +7,7 @@ import java.text.NumberFormat
 import scala.language.implicitConversions
 
 sealed trait OptReal
-  extends OptHigherNumber[OptReal, Real]
+  extends SummonableOptHigherNumber[OptReal, Real]
     with Product with Serializable {
 
   override def none: OptReal = NoReal

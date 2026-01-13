@@ -134,6 +134,19 @@ case class HigherVectorN[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
 
   final override def toHigherVectorN: HigherVectorN[O, X] = this
 
+  final override def get(i: Int): HigherNumberOption[X] = {
+    @tailrec def loop(i: Int, xs: List[O]): HigherNumberOption[X] =
+      xs match {
+        case xh :: xt =>
+          if (i == 0) xh.toHigherNumberOption
+          else loop(i - 1, xt)
+        case _ => HigherNumberNone()
+      }
+
+    if (i < 0) HigherNumberNone()
+    else loop(i, xs)
+  }
+
 
   override def toString: String =
     xs.mkString("(", ", ", ")")

@@ -37,6 +37,8 @@ trait HigherVector[V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: 
   def ::(x: O): HigherVector[_, O, X]
   def toHigherVectorN: HigherVectorN[O, X]
 
+  def get(i: Int): HigherNumberOption[X]
+
 }
 
 

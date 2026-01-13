@@ -133,6 +133,9 @@ case class HigherVector0[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]
   final override def toHigherVectorN: HigherVectorN[O, X] =
     HigherVectorN(Nil)
 
+  final override def get(i: Int): HigherNumberOption[X] =
+    HigherNumberNone()
+
 
   override def toString: String =
     "()"
