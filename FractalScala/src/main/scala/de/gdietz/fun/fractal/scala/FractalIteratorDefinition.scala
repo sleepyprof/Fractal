@@ -69,11 +69,7 @@ object FractalIteratorDefinition {
         }
 
       override def validityTest(lambda: Double): ValidityTest[X] =
-        new ValidityTest[X] with Serializable {
-          private val lambdaSqr: Double = lambda * lambda
-          override def isValid(x: X): Boolean = x.optNormSqr.exists(_ <= lambdaSqr)
-          override def isSurvivor(x: X): Boolean = false
-        }
+        ValidityTest.optNormed(lambda)
     }
 
   def any[P, V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](z0Func: (P, P) => V)
@@ -88,10 +84,7 @@ object FractalIteratorDefinition {
           override def zNext(z: V): V = zNextInitialized(z).filterNumber(_.normSqr <= lambdaSqr)
         }
       override def validityTest(lambda: Double): ValidityTest[V] =
-        new ValidityTest[V] with Serializable {
-          override def isValid(x: V): Boolean = x.existsNumber
-          override def isSurvivor(x: V): Boolean = false
-        }
+        ValidityTest.existsNumber
     }
 
   def all[P, V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](z0Func: (P, P) => V)
@@ -106,10 +99,7 @@ object FractalIteratorDefinition {
           override def zNext(z: V): V = zNextInitialized(z).filterNumber(_.normSqr <= lambdaSqr)
         }
       override def validityTest(lambda: Double): ValidityTest[V] =
-        new ValidityTest[V] with Serializable {
-          override def isValid(x: V): Boolean = x.isAllNumber
-          override def isSurvivor(x: V): Boolean = false
-        }
+        ValidityTest.isAllNumber
     }
 
 
@@ -117,8 +107,10 @@ object FractalIteratorDefinition {
 
   protected object InvalidFractalIteratorDefinition extends FractalIteratorDefinition[Any] {
     override type C = Unit
-    override def apply(c: Any, p: Any, lambda: Double): FractalInitializedIteratorDefinition[Unit] = FractalInitializedIteratorDefinition.invalid
-    override def validityTest(lambda: Double): ValidityTest[Unit] = ValidityTest.invalid
+    override def apply(c: Any, p: Any, lambda: Double): FractalInitializedIteratorDefinition[Unit] =
+      FractalInitializedIteratorDefinition.invalid
+    override def validityTest(lambda: Double): ValidityTest[Unit] =
+      ValidityTest.invalid
   }
 
 }
@@ -267,7 +259,7 @@ object BigComplexFractalIteratorDefinition {
     FractalIteratorDefinition.optNormed(z0Func)(zNextFunc)
 
   def any[X <: HigherVector[X, OptBigComplex, BigComplex]](z0Func: (BigComplex, BigComplex) => X)
-                                                    (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
+                                                          (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[BigComplex, X, OptBigComplex, BigComplex](z0Func)(zNextFunc)
 
   def all[X <: HigherVector[X, OptBigComplex, BigComplex]](z0Func: (BigComplex, BigComplex) => X)
