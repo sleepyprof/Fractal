@@ -5,7 +5,7 @@ import de.gdietz.fun.fractal.util.{Coordinate3D, Vector3D => JavaVector3D}
 import scala.language.implicitConversions
 
 case class Vector3D(x: Double, y: Double, z: Double)
-  extends Vector[Vector3D] {
+  extends VectorCross[Vector3D] {
 
   override def isZero: Boolean = x == 0.0 && y == 0.0 && z == 0.0
 
@@ -20,6 +20,10 @@ case class Vector3D(x: Double, y: Double, z: Double)
   override def *(r: Double): Vector3D = Vector3D(r * x, r * y, r * z)
 
   override def /(r: Double): Vector3D = Vector3D(x / r, y / r, z / r)
+
+
+  override def *#(c: Vector3D): Vector3D =
+    Vector3D(y * c.z - z * c.y, z * c.x - x * c.z, x * c.y - y * c.x)
 
 
   override def zero: Vector3D = Vector3D.zero

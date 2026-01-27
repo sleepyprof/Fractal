@@ -195,6 +195,21 @@ case class Complex(x: Double, y: Double = 0.0)
   def iTimes: Complex =
     Complex(-y, x)
 
+  def timesI: Complex =
+    Complex(-y, x)
+
+  def jTimes: Quaternion =
+    Quaternion(0.0, 0.0, x ,-y)
+
+  def timesJ: Quaternion =
+    Quaternion(0.0, 0.0, x, y)
+
+  def kTimes: Quaternion =
+    Quaternion(0.0, 0.0, y, x)
+
+  def timesK: Quaternion =
+    Quaternion(0.0, 0.0, -y, x)
+
   def plusTimesJ(c: Complex): Quaternion =
     Quaternion(x, y, c.x, c.y)
 

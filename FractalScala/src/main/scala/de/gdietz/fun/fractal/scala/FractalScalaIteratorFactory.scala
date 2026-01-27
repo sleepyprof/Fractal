@@ -129,13 +129,17 @@ object ComplexFractalScalaIteratorFactory {
   val z3z2Code: String =
     """val n = 3
       |val k = 2
+      |val m = n
+      |val modifyA = true
       |anyPaired { (c, p) =>
-      |  val a: Complex = (Complex.pi2i * p).exp
-      |  val b: Complex = Complex.one
+      |  val abba = ((Complex.pi2i * p).exp, Complex.one)
+      |  val (a, b) = if (modifyA) abba else abba.swap
       |  val q = (-k.toDouble / n) * b / a
       |  val roots1 = q.roots(n - k)
       |  val roots = Complex.zero :: roots1
-      |  val d: Complex = (-Complex.pi2i * p / (k - 1)).exp * c
+      |  val d: Complex =
+      |    if (m == 1) c
+      |    else (-Complex.pi2i * p / (m - 1)).exp * c
       |  unfold(roots)(
       |    z => a *! (z ** n) + b *! (z ** k) +! d
       |  )

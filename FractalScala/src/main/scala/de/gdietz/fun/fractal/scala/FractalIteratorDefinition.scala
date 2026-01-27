@@ -1,5 +1,7 @@
 package de.gdietz.fun.fractal.scala
 
+import de.gdietz.fun.fractal.scala.util.BigReal
+import de.gdietz.fun.fractal.scala.util.OptBigReal
 import de.gdietz.fun.fractal.scala.util.{BigComplex, Complex, HigherNumber, HigherVector, NormedNumber, OptBigComplex, OptComplex, OptHigherNumber, OptNormedNumber, OptQuaternion, OptReal, Quaternion, Real, Vector3D}
 
 import scala.language.implicitConversions
@@ -254,6 +256,20 @@ object ComplexFractalIteratorDefinition {
   def allPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.allPaired[Complex, X, OptComplex, Complex](z0NextFunc)
 
+  def anyReal[X <: HigherVector[X, OptReal, Real]](z0Func: (Complex, Complex) => X)
+                                                  (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Complex, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def anyRealPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Complex, X, OptReal, Real](z0NextFunc)
+
+  def allReal[X <: HigherVector[X, OptReal, Real]](z0Func: (Complex, Complex) => X)
+                                                  (zNextFunc: (Complex, Complex) => X => X): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.all[Complex, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def allRealPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Complex, Complex) => FractalIteratorUnfoldPair[X]): ComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Complex, X, OptReal, Real](z0NextFunc)
+
 }
 
 object QuaternionFractalIteratorDefinition {
@@ -295,6 +311,34 @@ object QuaternionFractalIteratorDefinition {
   def allPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.allPaired[Quaternion, X, OptQuaternion, Quaternion](z0NextFunc)
 
+  def anyReal[X <: HigherVector[X, OptReal, Real]](z0Func: (Quaternion, Quaternion) => X)
+                                                  (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Quaternion, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def anyRealPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Quaternion, X, OptReal, Real](z0NextFunc)
+
+  def allReal[X <: HigherVector[X, OptReal, Real]](z0Func: (Quaternion, Quaternion) => X)
+                                                  (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.all[Quaternion, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def allRealPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Quaternion, X, OptReal, Real](z0NextFunc)
+
+  def anyComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Quaternion, Quaternion) => X)
+                                                           (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Quaternion, X, OptComplex, Complex](z0Func)(zNextFunc)
+
+  def anyComplexPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Quaternion, X, OptComplex, Complex](z0NextFunc)
+
+  def allComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Quaternion, Quaternion) => X)
+                                                           (zNextFunc: (Quaternion, Quaternion) => X => X): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.all[Quaternion, X, OptComplex, Complex](z0Func)(zNextFunc)
+
+  def allComplexPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Quaternion, Quaternion) => FractalIteratorUnfoldPair[X]): QuaternionFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Quaternion, X, OptComplex, Complex](z0NextFunc)
+
 }
 
 object Vector3DFractalIteratorDefinition {
@@ -322,6 +366,20 @@ object Vector3DFractalIteratorDefinition {
   def optNormedPaired[X <: OptNormedNumber](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.optNormedPaired(z0NextFunc)
 
+  def anyReal[X <: HigherVector[X, OptReal, Real]](z0Func: (Vector3D, Vector3D) => X)
+                                                  (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Vector3D, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def anyRealPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Vector3D, X, OptReal, Real](z0NextFunc)
+
+  def allReal[X <: HigherVector[X, OptReal, Real]](z0Func: (Vector3D, Vector3D) => X)
+                                                  (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.all[Vector3D, X, OptReal, Real](z0Func)(zNextFunc)
+
+  def allRealPaired[X <: HigherVector[X, OptReal, Real]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[Vector3D, X, OptReal, Real](z0NextFunc)
+
   def anyComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Vector3D, Vector3D) => X)
                                                            (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.any[Vector3D, X, OptComplex, Complex](z0Func)(zNextFunc)
@@ -329,19 +387,19 @@ object Vector3DFractalIteratorDefinition {
   def anyComplexPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.anyPaired[Vector3D, X, OptComplex, Complex](z0NextFunc)
 
-  def anyQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
-                                                                    (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
-    FractalIteratorDefinition.any[Vector3D, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
-
-  def anyQuaternionPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
-    FractalIteratorDefinition.anyPaired[Vector3D, X, OptQuaternion, Quaternion](z0NextFunc)
-
   def allComplex[X <: HigherVector[X, OptComplex, Complex]](z0Func: (Vector3D, Vector3D) => X)
                                                            (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.all[Vector3D, X, OptComplex, Complex](z0Func)(zNextFunc)
 
   def allComplexPaired[X <: HigherVector[X, OptComplex, Complex]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.allPaired[Vector3D, X, OptComplex, Complex](z0NextFunc)
+
+  def anyQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
+                                                                    (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[Vector3D, X, OptQuaternion, Quaternion](z0Func)(zNextFunc)
+
+  def anyQuaternionPaired[X <: HigherVector[X, OptQuaternion, Quaternion]](z0NextFunc: (Vector3D, Vector3D) => FractalIteratorUnfoldPair[X]): Vector3DFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[Vector3D, X, OptQuaternion, Quaternion](z0NextFunc)
 
   def allQuaternion[X <: HigherVector[X, OptQuaternion, Quaternion]](z0Func: (Vector3D, Vector3D) => X)
                                                                     (zNextFunc: (Vector3D, Vector3D) => X => X): Vector3DFractalIteratorDefinitionAux[X] =
@@ -390,5 +448,19 @@ object BigComplexFractalIteratorDefinition {
 
   def allPaired[X <: HigherVector[X, OptBigComplex, BigComplex]](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
     FractalIteratorDefinition.allPaired[BigComplex, X, OptBigComplex, BigComplex](z0NextFunc)
+
+  def anyReal[X <: HigherVector[X, OptBigReal, BigReal]](z0Func: (BigComplex, BigComplex) => X)
+                                                        (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.any[BigComplex, X, OptBigReal, BigReal](z0Func)(zNextFunc)
+
+  def anyRealPaired[X <: HigherVector[X, OptBigReal, BigReal]](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.anyPaired[BigComplex, X, OptBigReal, BigReal](z0NextFunc)
+
+  def allReal[X <: HigherVector[X, OptBigReal, BigReal]](z0Func: (BigComplex, BigComplex) => X)
+                                                        (zNextFunc: (BigComplex, BigComplex) => X => X): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.all[BigComplex, X, OptBigReal, BigReal](z0Func)(zNextFunc)
+
+  def allRealPaired[X <: HigherVector[X, OptBigReal, BigReal]](z0NextFunc: (BigComplex, BigComplex) => FractalIteratorUnfoldPair[X]): BigComplexFractalIteratorDefinitionAux[X] =
+    FractalIteratorDefinition.allPaired[BigComplex, X, OptBigReal, BigReal](z0NextFunc)
 
 }
