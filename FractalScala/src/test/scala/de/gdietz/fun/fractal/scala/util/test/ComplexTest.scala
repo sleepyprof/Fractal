@@ -195,6 +195,28 @@ object ComplexTest {
     println("dirac3 * dirac3 = " + (ComplexMatrix4.dirac3 * ComplexMatrix4.dirac3))
 
     println("dirac5          = " +  ComplexMatrix4.dirac5)
+
+    println("-----")
+
+    for {
+      n <- -2 to 4
+      k <- -2 to 4
+      a <- Complex.one :: Complex.i :: Nil
+      b <- Complex.one :: Complex.i :: Nil
+    } {
+      val roots = ComplexVectorN.solvePoly2(a, n, b, k)
+      def f(z: Complex): Complex =
+        a * (z ** n) + b * (z ** k)
+      val fRoots = roots.mapNumber(f)
+
+      val passed = fRoots.forall(_.optNorm.exists(_ < 1E-8))
+      assert(passed)
+
+      //println("f(roots) = " + fRoots)
+    }
+
+    println("-----")
+
   }
 
 }

@@ -134,9 +134,7 @@ object ComplexFractalScalaIteratorFactory {
       |anyPaired { (c, p) =>
       |  val abba = ((Complex.pi2i * p).exp, Complex.one)
       |  val (a, b) = if (modifyA) abba else abba.swap
-      |  val q = (-k.toDouble / n) * b / a
-      |  val roots1 = q.roots(n - k)
-      |  val roots = Complex.zero :: roots1
+      |  val roots = ComplexVectorN.solvePoly2Stationary(a, n, b, k)
       |  val d: Complex =
       |    if (m == 1) c
       |    else (-Complex.pi2i * p / (m - 1)).exp * c

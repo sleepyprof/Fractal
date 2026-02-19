@@ -174,6 +174,16 @@ object ComplexVector2 {
   val sigmas2: ComplexVector2 =
     ComplexVector2(Complex.one, Complex.minusOne)
 
+
+  /**
+   * Solve the equation z.sqr + p * z + q == 0.
+   */
+  def solveQuadratic(p: Complex, q: Complex): ComplexVector2 = {
+    val pHalf = 0.5 * p
+    val delta = pHalf.sqr - q
+    -pHalf +! delta.roots2
+  }
+
 }
 
 object QuaternionVector2 {

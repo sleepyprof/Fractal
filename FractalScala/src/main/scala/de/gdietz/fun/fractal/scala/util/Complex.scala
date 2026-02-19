@@ -148,13 +148,13 @@ case class Complex(x: Double, y: Double = 0.0)
   }
 
   def roots(n: Int): ComplexVectorN =
-    if (isZero) ComplexVectorN(List.fill(n)(Complex.zero))
+    if (isZero) ComplexVectorN.singletonZero
     else n match {
-      case 1 => ComplexVectorN(this :: Nil)
+      case 1 => ComplexVectorN.singleton(this)
       case 2 =>
         val sqrt0 = sqrt
         ComplexVectorN(sqrt0 :: (-sqrt0) :: Nil)
-      case _ if n <= 0 => ComplexVectorN(Nil)
+      case _ if n <= 0 => ComplexVectorN.empty
       case _ =>
         val pr = Math.pow(norm, 1.0 / n)
         val pa = arg / n

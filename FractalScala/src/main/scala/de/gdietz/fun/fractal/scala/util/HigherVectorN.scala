@@ -158,6 +158,12 @@ object HigherVectorN {
   def apply[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](xs: O*): HigherVectorN[O, X] =
     HigherVectorN(xs.toList)
 
+  def empty[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]]: HigherVectorN[O, X] =
+    HigherVectorN(Nil)
+
+  def singleton[O <: OptHigherNumber[O, X], X <: O with HigherNumber[X]](x: O): HigherVectorN[O, X] =
+    HigherVectorN(x :: Nil)
+
   @tailrec private def foldNormSqr[X <: OptNormedNumber](xs: List[X], acc: Double): Option[Double] =
     xs match {
       case h :: t =>
@@ -217,6 +223,15 @@ object RealVectorN {
   def unapply(x: RealVectorN): Option[List[OptReal]] =
     Some(x.xs)
 
+  val empty: RealVectorN =
+    HigherVectorN.empty
+
+  def singleton(x: OptReal): RealVectorN =
+    HigherVectorN.singleton(x)
+
+  val singletonZero: RealVectorN =
+    singleton(Real.zero)
+
 }
 
 object ComplexVectorN {
@@ -230,6 +245,15 @@ object ComplexVectorN {
   def unapply(x: ComplexVectorN): Option[List[OptComplex]] =
     Some(x.xs)
 
+  val empty: ComplexVectorN =
+    HigherVectorN.empty
+
+  def singleton(x: OptComplex): ComplexVectorN =
+    HigherVectorN.singleton(x)
+
+  val singletonZero: ComplexVectorN =
+    singleton(Complex.zero)
+
 
   def sigmas(n: Int): ComplexVectorN = {
     val phi1 = Complex.doublePi2 / n
@@ -238,6 +262,64 @@ object ComplexVectorN {
       Complex(Math.cos(phi), Math.sin(phi))
     }.toList)
   }
+
+  /**
+   * Solve the equation z.sqr + p * z + q == 0.
+   */
+  def solveQuadratic(p: Complex, q: Complex): ComplexVectorN =
+    ComplexVector2.solveQuadratic(p, q).toHigherVectorN
+
+  /**
+   * Solve the equation a * z.sqr + b * z + c == 0.
+   */
+  def solveQuadratic(a: Complex, b: Complex, c: Complex): ComplexVectorN =
+    if (a.isZero)
+      if (b.isZero)
+        if (c.isZero)
+          empty // in fact that's 0 = 0, where all z would be solutions, so no meaningful result here
+        else
+          empty
+      else
+        singleton(-c / b)
+    else
+      solveQuadratic(b / a, c / a)
+
+  /**
+   * Solve the equation a * (z ** n) + b * (z ** k) == 0.
+   */
+  def solvePoly2(a: Complex, n: Int, b: Complex, k: Int): ComplexVectorN =
+    if (a.isZero)
+      if (b.isZero)
+        empty // in fact that's 0 = 0, where all z would be solutions, so no meaningful result here
+      else if (k > 0)
+        singletonZero
+      else
+        empty
+    else if (b.isZero)
+      if (n > 0)
+        singletonZero
+      else
+        empty
+    else if (n > k) {
+      val roots1 = (-b / a).roots(n - k)
+      if (k > 0) Complex.zero :: roots1
+      else roots1
+    } else if (n < k) {
+      val roots1 = (-a / b).roots(k - n)
+      if (n > 0) Complex.zero :: roots1
+      else roots1
+    } else { // n == k
+      if (n > 0)
+        singletonZero
+      else
+        empty
+    }
+
+  /**
+   * Solve for stationary points (i.e. zeros of the derivative) of the equation a * (z ** n) + b * (z ** k) + c.
+   */
+  def solvePoly2Stationary(a: Complex, n: Int, b: Complex, k: Int): ComplexVectorN =
+    solvePoly2(n * a, n - 1, k * b, k - 1)
 
 }
 
@@ -252,6 +334,15 @@ object QuaternionVectorN {
   def unapply(x: QuaternionVectorN): Option[List[OptQuaternion]] =
     Some(x.xs)
 
+  val empty: QuaternionVectorN =
+    HigherVectorN.empty
+
+  def singleton(x: OptQuaternion): QuaternionVectorN =
+    HigherVectorN.singleton(x)
+
+  val singletonZero: QuaternionVectorN =
+    singleton(Quaternion.zero)
+
 }
 
 object BigRealVectorN {
@@ -265,6 +356,15 @@ object BigRealVectorN {
   def unapply(x: BigRealVectorN): Option[List[OptBigReal]] =
     Some(x.xs)
 
+  val empty: BigRealVectorN =
+    HigherVectorN.empty
+
+  def singleton(x: OptBigReal): BigRealVectorN =
+    HigherVectorN.singleton(x)
+
+  val singletonZero: BigRealVectorN =
+    singleton(BigReal.zero)
+
 }
 
 object BigComplexVectorN {
@@ -277,5 +377,14 @@ object BigComplexVectorN {
 
   def unapply(x: BigComplexVectorN): Option[List[OptBigComplex]] =
     Some(x.xs)
+
+  val empty: BigComplexVectorN =
+    HigherVectorN.empty
+
+  def singleton(x: OptBigComplex): BigComplexVectorN =
+    HigherVectorN.singleton(x)
+
+  val singletonZero: BigComplexVectorN =
+    singleton(BigComplex.zero)
 
 }
