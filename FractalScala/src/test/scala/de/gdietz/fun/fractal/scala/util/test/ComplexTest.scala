@@ -112,9 +112,9 @@ object ComplexTest {
 
     println("-----")
 
-    println("pauli1                      = " +  RealMatrix2.pauli1                         )
-    println("(i * pauli2)                = " +  RealMatrix2.iPauli2                        )
-    println("pauli3                      = " +  RealMatrix2.pauli3                         )
+    println("pauli1                      = " +  RealMatrix2.pauli1                        )
+    println("(i * pauli2)                = " +  RealMatrix2.iPauli2                       )
+    println("pauli3                      = " +  RealMatrix2.pauli3                        )
     println("pauli1       * pauli1       = " + (RealMatrix2.pauli1  * RealMatrix2.pauli1 ))
     println("pauli1       * (i * pauli2) = " + (RealMatrix2.pauli1  * RealMatrix2.iPauli2))
     println("pauli1       * pauli3       = " + (RealMatrix2.pauli1  * RealMatrix2.pauli3 ))
@@ -214,6 +214,16 @@ object ComplexTest {
 
       //println("f(roots) = " + fRoots)
     }
+
+    println("-----")
+
+    val tupleForOption = ComplexVector2(Complex.one, Complex.i)
+
+    val options = (0 to 2).map(tupleForOption.get).toList
+    val optionOpts = options.map(_.getOptValue)
+
+    println("options     = " + options)
+    println("optionsOpts = " + optionOpts)
 
     println("-----")
 

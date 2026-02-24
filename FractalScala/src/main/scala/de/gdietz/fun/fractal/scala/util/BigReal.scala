@@ -40,6 +40,13 @@ object OptBigReal {
   implicit def doubleToOptBigReal(x: Double): OptBigReal =
     BigReal(x)
 
+  implicit val optBigRealSummonable: OptHigherNumberSummonable[OptBigReal, BigReal] =
+    new OptHigherNumberSummonable[OptBigReal, BigReal] with Serializable {
+      override val none: OptBigReal = OptBigReal.none
+      override val zero: BigReal = BigReal.zero
+      override val unit: BigReal = BigReal.one
+    }
+
 }
 
 

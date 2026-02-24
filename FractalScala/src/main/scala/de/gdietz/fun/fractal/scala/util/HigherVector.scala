@@ -39,6 +39,9 @@ trait HigherVector[V <: HigherVector[V, O, X], O <: OptHigherNumber[O, X], X <: 
 
   def get(i: Int): HigherNumberOption[X]
 
+  @inline final def getOpt(i: Int)(implicit summonable: HigherTupleNoneSummonable[O]): O =
+    get(i).getOptValue
+
 }
 
 

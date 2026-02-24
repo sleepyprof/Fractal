@@ -45,3 +45,9 @@ trait HigherTuple[V <: HigherTuple[V]]
   @inline def **(n: Int): V = pow(n)
 
 }
+
+trait HigherTupleNoneSummonable[V] {
+
+  def none: V
+
+}

@@ -263,6 +263,13 @@ object Complex {
   implicit def coordinateToComplex(c: Coordinate): Complex =
     Complex(c.getX, c.getY)
 
+  implicit val optComplexSummonable: OptHigherNumberSummonable[OptComplex, Complex] =
+    new OptHigherNumberSummonable[OptComplex, Complex] with Serializable {
+      override val none: OptComplex = OptComplex.none
+      override val zero: Complex = Complex.zero
+      override val unit: Complex = Complex.one
+    }
+
 }
 
 case object NoComplex

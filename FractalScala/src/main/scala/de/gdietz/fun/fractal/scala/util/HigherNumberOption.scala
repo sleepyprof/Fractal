@@ -10,6 +10,9 @@ sealed trait HigherNumberOption[X <: HigherNumber[X]]
   def getValue: X
   def toOption: Option[X]
 
+  final def getOptValue[O <: OptHigherNumber[O, Y], Y >: X <: O with HigherNumber[Y]](implicit summonable: HigherTupleNoneSummonable[O]): O =
+    if (isNumber) getValue: Y else summonable.none
+
   def foldValue[Y](ifIsDefinedValue: X => Y)(ifIsEmptyValue: => Y): Y
 
   def mapValue[Y <: HigherNumber[Y]](f: X => Y): HigherNumberOption[Y]
@@ -24,13 +27,37 @@ sealed trait HigherNumberOption[X <: HigherNumber[X]]
 
 }
 
+object HigherNumberOption extends HigherNumberOptionInstances
+
+private[util] sealed abstract class HigherNumberOptionInstances extends HigherNumberOptionInstances0 {
+
+  implicit def higherNumberOptionSummonable[X <: HigherNumber[X]]: HigherTupleNoneSummonable[HigherNumberOption[X]] =
+    new HigherTupleNoneSummonable[HigherNumberOption[X]] with Serializable {
+      override val none: HigherNumberOption[X] = HigherNumberNone()
+    }
+
+}
+
+private[util] sealed abstract class HigherNumberOptionInstances0 {
+
+  implicit def higherNumberOptionSummonable[X <: HigherNumber[X]](implicit summonable: HigherNumberSummonable[X]): OptHigherNumberSummonable[HigherNumberOption[X], HigherNumberSome[X]] =
+    new OptHigherNumberSummonable[HigherNumberOption[X], HigherNumberSome[X]] with Serializable {
+      override val none: HigherNumberOption[X] = HigherNumberNone()
+      override val zero: HigherNumberSome[X] = HigherNumberSome(summonable.zero)
+      override val unit: HigherNumberSome[X] = HigherNumberSome(summonable.unit)
+    }
+
+}
+
 final case class HigherNumberSome[X <: HigherNumber[X]](value: X)
   extends HigherNumberOption[X] with SomeHigherNumber[HigherNumberOption[X], HigherNumberSome[X]] {
 
   override def isEmptyValue: Boolean = false
+
   override def isDefinedValue: Boolean = true
 
   override def getValue: X = value
+
   override def toOption: Option[X] = Some(value)
 
   override def foldValue[Y](ifIsDefinedValue: X => Y)(ifIsEmptyValue: => Y): Y =
@@ -43,6 +70,7 @@ final case class HigherNumberSome[X <: HigherNumber[X]](value: X)
     y.mapValue(yValue => f(value, yValue))
 
   override def forallValue(cond: X => Boolean): Boolean = cond(value)
+
   override def existsValue(cond: X => Boolean): Boolean = cond(value)
 
   override def filterValue(cond: X => Boolean): HigherNumberOption[X] =
@@ -117,6 +145,7 @@ final case class HigherNumberNone[X <: HigherNumber[X]]()
   extends HigherNumberOption[X] with NoHigherNumber[HigherNumberOption[X], HigherNumberSome[X]] {
 
   override def isEmptyValue: Boolean = true
+
   override def isDefinedValue: Boolean = false
 
   override def getValue: X =
@@ -134,11 +163,13 @@ final case class HigherNumberNone[X <: HigherNumber[X]]()
     HigherNumberNone()
 
   override def forallValue(cond: X => Boolean): Boolean = true
+
   override def existsValue(cond: X => Boolean): Boolean = false
 
   override def filterValue(cond: X => Boolean): HigherNumberOption[X] = this
 
   override def zero: HigherNumberOption[X] = this
+
   override def unit: HigherNumberOption[X] = this
 
 }

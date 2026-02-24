@@ -56,6 +56,13 @@ object OptBigComplex {
   implicit def coordinateToOptBigComplex(c: Coordinate): OptBigComplex =
     BigComplex(c.getX, c.getY)
 
+  implicit val optBigComplexSummonable: OptHigherNumberSummonable[OptBigComplex, BigComplex] =
+    new OptHigherNumberSummonable[OptBigComplex, BigComplex] with Serializable {
+      override val none: OptBigComplex = OptBigComplex.none
+      override val zero: BigComplex = BigComplex.zero
+      override val unit: BigComplex = BigComplex.one
+    }
+
 }
 
 

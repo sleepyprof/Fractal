@@ -31,6 +31,13 @@ object OptReal {
   implicit def doubleToOptReal(x: Double): OptReal =
     Real(x)
 
+  implicit val optRealSummonable: OptHigherNumberSummonable[OptReal, Real] =
+    new OptHigherNumberSummonable[OptReal, Real] with Serializable {
+      override val none: OptReal = OptReal.none
+      override val zero: Real = Real.zero
+      override val unit: Real = Real.one
+    }
+
 }
 
 

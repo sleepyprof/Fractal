@@ -35,3 +35,10 @@ trait HigherNumber[X <: HigherNumber[X]]
   @inline def **(n: Int): X = pow(n)
 
 }
+
+trait HigherNumberSummonable[X] {
+
+  def zero: X
+  def unit: X
+
+}

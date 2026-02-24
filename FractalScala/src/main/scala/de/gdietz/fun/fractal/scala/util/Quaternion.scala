@@ -44,6 +44,13 @@ object OptQuaternion {
   implicit def coordinateToOptQuaternion(c: Coordinate4D): OptQuaternion =
     Quaternion(c.getX, c.getY, c.getZ, c.getW)
 
+  implicit val optQuaternionSummonable: OptHigherNumberSummonable[OptQuaternion, Quaternion] =
+    new OptHigherNumberSummonable[OptQuaternion, Quaternion] with Serializable {
+      override val none: OptQuaternion = OptQuaternion.none
+      override val zero: Quaternion = Quaternion.zero
+      override val unit: Quaternion = Quaternion.one
+    }
+
 }
 
 

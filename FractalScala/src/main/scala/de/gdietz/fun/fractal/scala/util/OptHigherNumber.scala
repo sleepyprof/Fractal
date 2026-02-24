@@ -52,3 +52,6 @@ trait SummonableOptHigherNumber[O <: OptHigherNumber[O, X], X <: O with HigherNu
   override def unit: X
 
 }
+
+trait OptHigherNumberSummonable[O, X]
+  extends HigherTupleNoneSummonable[O] with HigherNumberSummonable[X]
